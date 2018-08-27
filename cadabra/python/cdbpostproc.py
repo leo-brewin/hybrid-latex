@@ -34,9 +34,6 @@ def get_text (this_line):
       print ("> Error reading tag text on: " + this_line)
       sys.exit (1)
 
-def get_tag (this_line):
-   return tag_text [get_index (this_line)]
-
 def has_tag (this_line):
    return re.search (r"(tag[0-9]+=)",this_line)
 
@@ -111,7 +108,7 @@ the_file_name = parser.parse_args().input
 sty_file_name = parser.parse_args().sty
 
 # ----------------------------------------------------------------------------
-# include the Cadabra macos in the .cdbtex file?
+# include the Cadabra macros in the .cdbtex file?
 
 if sty_file_name:
     include_macros_header = True
@@ -212,8 +209,8 @@ else:
       if include_macros_header:
          tex.write(r'% ====================================================================='+'\n')
          tex.write(r'% Define Cadabra macros so that this file may be used by other LaTeX sources.'+'\n')
-         tex.write(r'% To include this file in some other LaTeX be sure to add the following lines'+'\n')
-         tex.write(r'% in the LaTeX preamble.'+'\n')
+         tex.write(r'% To include this file in some other LaTeX source be sure to add the following'+'\n')
+         tex.write(r'% lines in the LaTeX preamble.'+'\n')
          tex.write(r'% \usepackage{amsmath,amssyb}'+'\n')
          tex.write(r'% \input{foo.cdbtex}% change foo to match the name of this file.'+'\n')
          tex.write(r'% ---------------------------------------------------------------------'+'\n')
