@@ -1,0 +1,131 @@
+\def\fileversion{v.0.1}
+\def\filedate{2018/06/04}% 4 Jun 2018
+\ProvidesPackage{matlatex}[\filedate\space\fileversion\space Matlab-Latex (LCB)]
+%-------------------------------------------------------------------------------
+\usepackage{comment}
+\usepackage{listings}
+\usepackage{keyval}
+\usepackage{etoolbox}
+\usepackage{xcolor}
+%-------------------------------------------------------------------------------
+\usepackage{matmacros}
+%-------------------------------------------------------------------------------
+\def\matverb#1{{\color{blue}\texttt{\detokenize{#1}}}}% for inline Matlab verbatim, fails with # in arg.
+%-------------------------------------------------------------------------------
+\def\ProcessCutFile{}% part of the comment.sty package
+%-------------------------------------------------------------------------------
+% define and process key/value pairs in MatSetup
+%
+\define@key{mymat}{action}{\def\mat@action{#1}}% hide, show, verbatim
+%
+\def\@SetLstShow{\def\@MatEnv{\let\matlab\undefined\let\matlab@\undefined\lstnewenvironment{matlab}{\begingroup\@matstyle}{\endgroup}}}%
+\def\@SetLstHide{\def\@MatEnv{\let\endmatlab\undefined\specialcomment{matlab}{\begingroup}{\endgroup}}}%
+\def\@SetLstVerbatim{\@SetLstShow}%
+%
+\providecommand{\MatSetup}[1]{%
+%
+\setkeys{mymat}{#1}% Set new keys
+%
+\ifdefstring{\mat@action}{show}{\@SetLstShow}{\relax}
+\ifdefstring{\mat@action}{hide}{\@SetLstHide}{\relax}
+\ifdefstring{\mat@action}{verbatim}{\@SetLstVerbatim}{\relax}
+%
+\@MatEnv}
+%
+\MatSetup{action=show}% defaults/initial setup
+%
+%-------------------------------------------------------------------------------
+% silently read the mattex file (if it exists)
+\AfterEndPreamble{\IfFileExists{./\jobname.mattex}{\input{./\jobname.mattex}}{\relax}}
+%===============================================================================
+% Listings style for Matlab
+%===============================================================================
+\lstdefinelanguage{Matlab}{%
+alsoletter={...},%
+morekeywords={%
+   break,case,catch,classdef,continue,else,
+   elseif,end,for,function,global,if,
+   otherwise,parfor,persistent,
+   return,spmd,switch,try,while,...},    % Use the matlab "iskeyword" command to get those
+comment=[l]\%,                           % comments
+morecomment=[l]...,                      % comments
+morecomment=[s]{\%\{}{\%\}},             % block comments
+morestring=[m]'                          % strings
+sensitive=true,%
+}[keywords,comments,strings]%
+%
+\lstset{%
+language=matlab,
+showtabs=true,
+showstringspaces=false,
+tab=,
+tabsize=2,
+basicstyle=\ttfamily\small,
+basewidth={0.5em}}
+%
+\def\@matstyle{%
+\colorlet{commentcolour}{green!50!black}% \color[rgb]{0.133,0.545,0.133} = green
+\colorlet{stringcolour}{red!60!black}% \color[rgb]{0.627,0.126,0.941} = purple
+\colorlet{keywordcolour}{blue}
+\colorlet{mathscolour}{blue!60!green}
+\colorlet{genopscolour}{magenta!90!black}
+\colorlet{othercolour}{green!50!black}
+\colorlet{booleancolour}{violet}
+\colorlet{iocolour}{green!50!black}
+\colorlet{graphicscolour}{blue}
+\lstset{%
+language=matlab,
+stringstyle=\color{stringcolour},
+keywordstyle=\color{keywordcolour}\bfseries,
+commentstyle=\color{commentcolour}\slshape,
+%
+% other keywords
+otherkeywords={->,:=,::},
+emph={[1]->,:=,::},
+emphstyle=[1]\color{othercolour},
+%
+% boolean
+emph={[3]true, false},
+emphstyle={[3]\color{booleancolour}},
+%
+% io operations
+emph={[4]open,close,fopen,fclose,read,write},
+emphstyle=[4]\color{iocolour},
+%
+% maths functions
+emph={[5]sin,cos,tan,sec,csc,cot,sinh,cosh,tanh,sech,csch,coth,%
+      arcsin,arccos,arctan,arcsec,arccsc,arccot,arcsinh,arccosh,arctanh,arcsech,arccsch,arccoth,%
+      abs,argument,binomial,ceil,conjugate,csgn,exp,factorial,floor,frac,Im,ln,log,log10,%
+      max,min,polar,Re,round,signum,sqrt,trunc},
+emphstyle=[5]\color{mathscolour},
+%
+% maths operations
+emph={[6]simatify,collect,convert,normal,factor,ifactor,expand,lhs,rhs,solve,fsolve,%
+      sum,taylor,mtaylor,coeff,series,limit,diff,Diff,imaticitdiff,int,Int,dsolve,DEplot,%
+      Matrix,Array,Vector,CrossProduct,DotProduct,Determinant,Norm,Basis,
+      Eigenvalues,Eigenvectors,MatrixInverse,Transpose},
+emphstyle=[6]\color{mathscolour},
+%
+% generic operations
+emph={[7]with,unassign,unapply,eval,evalf,value,subs,assume,map,map2},
+emphstyle=[7]\color{genopscolour},
+%
+% prdefined maths symbols
+emph={[8]Pi,I,infinity,gamat},
+emphstyle=[8]\color{mathscolour},
+%
+% graphics
+emph={[9]plot,imaticitplot,plot3d,imaticitplot3d,contourplot,contourplot3d,spacecurve,polarplot,animate},
+emphstyle=[9]\color{graphicscolour},
+}}
+%-------------------------------------------------------------------------------
+% set listings defaults for Matlab
+%-------------------------------------------------------------------------------
+\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\lstset{%
+language=matlab,
+numberstyle=\tiny,numbersep=15pt,
+aboveskip=10pt,belowskip=0pt,
+frame=single,framesep=5pt,framerule=0pt,
+xleftmargin=5pt,xrightmargin=5pt,
+backgroundcolor=\color{grey95}}

@@ -1,0 +1,18 @@
+\pytag{lhs.01}{%
+\int_{0}^{4}\int_{0}^{3}\int_{0}^{2} f(x,y,z)\, dx\, dy\, dz%
+}
+\pytag{rhs.01}{%
+\int_{0}^{4}\int_{0}^{3}\int_{0}^{2} \left(x y + y \sin{\left (z \right )} + \cos{\left (x + y \right )}\right)\, dx\, dy\, dz%
+}
+\pytag{rhs.02}{%
+\int_{0}^{4}\int_{0}^{3} \left(2 y \sin{\left (z \right )} + 2 y - \sin{\left (y \right )} + \sin{\left (y + 2 \right )}\right)\, dy\, dz%
+}
+\pytag{rhs.03}{%
+\int_{0}^{4} \left(9 \sin{\left (z \right )} + \cos{\left (3 \right )} + \cos{\left (2 \right )} - \cos{\left (5 \right )} + 8\right)\, dz%
+}
+\pytag{rhs.04}{%
+4 \cos{\left (3 \right )} + 4 \cos{\left (2 \right )} - 4 \cos{\left (5 \right )} - 9 \cos{\left (4 \right )} + 41%
+}
+\pytag{rhs.05}{%
+40.1235865133293%
+}

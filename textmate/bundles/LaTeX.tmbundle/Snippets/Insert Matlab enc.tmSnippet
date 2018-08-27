@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>\begin{matlab}
+	$0
+\end{matlab}
+</string>
+	<key>name</key>
+	<string>Insert Matlab env</string>
+	<key>scope</key>
+	<string>text.tex.latex</string>
+	<key>tabTrigger</key>
+	<string>mlab</string>
+	<key>uuid</key>
+	<string>AEE5F73E-F278-4808-B4CC-C3B938D69AC9</string>
+</dict>
+</plist>

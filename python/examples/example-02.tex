@@ -1,0 +1,53 @@
+% based on example 7 in pythontex_gallery
+% https://github.com/gpoore/pythontex/
+
+\documentclass[12pt]{pylatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{A table of derivatives and anti-derivatives}
+
+This example is based upon a nice example in the Pythontex gallery, see
+\ \url{https://github.com/gpoore/pythontex/}.
+It uses a tagged block to capture the {\tt\small Sympy} output for later use
+in the body of the LaTeX table.
+
+\lstset{numbers=left}
+
+\begin{minipage}[t]{0.72\textwidth}
+\begin{python}
+   from sympy import *
+
+   var('x')
+
+   # Create a list of functions to include in the table
+   funcs = [['sin(x)',r'\\'],       ['cos(x)',r'\\'],       ['tan(x)',r'\\'],
+            ['asin(x)',r'\\[5pt]'], ['acos(x)',r'\\[5pt]'], ['atan(x)',r'\\[5pt]'],
+            ['sinh(x)',r'\\'],      ['cosh(x)',r'\\'],      ['tanh(x)',r' ']]
+
+   # pyBeg (CalculusTable)
+   for func, eol in funcs:
+       myddx = 'Derivative(' + func + ', x)'
+       myint = 'Integral(' + func + ', x)'
+       print(latex(eval(myddx)) + '&=' + latex(eval(myddx + '.doit()')) + r'\quad & \quad')
+       print(latex(eval(myint)) + '&=' + latex(eval(myint + '.doit()')) + eol)
+   # pyEnd (CalculusTable)
+\end{python}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.28\textwidth}
+\begin{latex}
+   \begin{align*}
+      \py {CalculusTable}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\clearpage
+
+\begin{align*}
+   \py {CalculusTable}
+\end{align*}
+
+\end{document}

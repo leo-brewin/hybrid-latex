@@ -1,0 +1,78 @@
+\pytag{ans.101}{%
+- \frac{1}{6}%
+}
+\pytag{ans.102}{%
+1 + \frac{x^{2}}{2} + \frac{5 x^{4}}{24} + O\left(x^{6}\right)%
+}
+\pytag{ans.103}{%
+- \frac{4 x \sin{\left (x^{2} \right )} \cos{\left (x^{2} \right )}}{x + 1} - \frac{\cos^{2}{\left (x^{2} \right )}}{\left(x + 1\right)^{2}}%
+}
+\pytag{ans.104}{%
+x^{2} \sin{\left (x \right )} + 2 x \cos{\left (x \right )} - 2 \sin{\left (x \right )}%
+}
+\pytag{ans.105}{%
+-2 + \frac{\pi^{2}}{4}%
+}
+\pytag{ans.106}{%
+9 f{\left (x \right )} + \frac{d^{2}}{d x^{2}} f{\left (x \right )} = 1%
+}
+\pytag{ans.107}{%
+f{\left (x \right )} = C_{1} \sin{\left (3 x \right )} + C_{2} \cos{\left (3 x \right )} + \frac{1}{9}%
+}
+\pytag{ans.108}{%
+9 f{\left (x \right )} + \frac{d^{2}}{d x^{2}} f{\left (x \right )} = 1%
+}
+\pytag{ans.109}{%
+f{\left (x \right )} = C_{1} \sin{\left (3 x \right )} + C_{2} \cos{\left (3 x \right )} + \frac{1}{9}%
+}
+\pytag{ans.110}{%
+\int_{0}^{2} \cos{\left (x \right )}\, dx%
+}
+\pytag{ans.111}{%
+\sin{\left (2 \right )}%
+}
+\pytag{ans.201}{%
+- \frac{1}{6}%
+}
+\pytag{ans.202}{%
+1 + \frac{x^{2}}{2} + \frac{5 x^{4}}{24} + O\left(x^{6}\right)%
+}
+\pytag{ans.203}{%
+- \frac{4 x \sin{\left (x^{2} \right )} \cos{\left (x^{2} \right )}}{x + 1} - \frac{\cos^{2}{\left (x^{2} \right )}}{\left(x + 1\right)^{2}}%
+}
+\pytag{ans.204}{%
+x^{2} \sin{\left (x \right )} + 2 x \cos{\left (x \right )} - 2 \sin{\left (x \right )}%
+}
+\pytag{ans.205}{%
+-2 + \frac{\pi^{2}}{4}%
+}
+\pytag{ans.206}{%
+9 f{\left (x \right )} + \frac{d^{2}}{d x^{2}} f{\left (x \right )} = 1%
+}
+\pytag{ans.207}{%
+f{\left (x \right )} = C_{1} \sin{\left (3 x \right )} + C_{2} \cos{\left (3 x \right )} + \frac{1}{9}%
+}
+\pytag{ans.208}{%
+9 f{\left (x \right )} + \frac{d^{2}}{d x^{2}} f{\left (x \right )} = 1%
+}
+\pytag{ans.209}{%
+f{\left (x \right )} = C_{1} \sin{\left (3 x \right )} + C_{2} \cos{\left (3 x \right )} + \frac{1}{9}%
+}
+\pytag{ans.210}{%
+\int_{0}^{2} \cos{\left (x \right )}\, dx%
+}
+\pytag{ans.211}{%
+\sin{\left (2 \right )}%
+}
+\pytag{ans.301}{%
+- 2 \sin{\left (x \right )} \cos{\left (x \right )}%
+}
+\pytag{ans.302}{%
+- e^{- x} \sin{\left (x \right )} - e^{- x} \cos{\left (x \right )}%
+}
+\pytag{ans.401}{%
+- 2 \sin{\left (x \right )} \cos{\left (x \right )}%
+}
+\pytag{ans.402}{%
+- e^{- x} \sin{\left (x \right )} - e^{- x} \cos{\left (x \right )}%
+}

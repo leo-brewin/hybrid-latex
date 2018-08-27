@@ -1,0 +1,76 @@
+\documentclass[12pt]{cdblatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{The metric connection}
+
+This is a very standard computation that shows if
+\begin{align}
+   \Gamma^{a}_{b c} = \frac{}{2} g^{a d} (  \partial_{b}{g_{d c}}
+                                          + \partial_{c}{g_{b d}}
+                                          - \partial_{d}{g_{b c}} )
+\end{align}
+then
+\begin{align}
+   g_{ab;c} = 0.
+\end{align}
+
+This example might well be regarded as the Cadabra counterpart to the familiar \emph{Hello World} program of undergraduate programming classes.
+
+\vspace{15pt}
+
+\begin{cadabra}
+   {a,b,c,d,e,f,h,i,j,k,l,m,n,o,p,q,r,s,t,u#}::Indices.
+
+   g_{a b}::Metric.
+   g_{a}^{b}::KroneckerDelta.
+
+   \partial_{#}::PartialDerivative.
+
+   cderiv:=\partial_{c}{g_{a b}} - g_{a d}\Gamma^{d}_{b c}
+                                 - g_{d b}\Gamma^{d}_{a c}.             # cdb (term31,cderiv)
+
+   Gamma:=\Gamma^{a}_{b c} -> (1/2) g^{a d} (  \partial_{b}{g_{d c}}
+                                             + \partial_{c}{g_{b d}}
+                                             - \partial_{d}{g_{b c}} ). # cdb (term32,Gamma)
+
+   substitute          (cderiv,Gamma);     # cdb (term33,cderiv)
+   distribute          (cderiv)            # cdb (term34,cderiv)
+   eliminate_metric    (cderiv)            # cdb (term35,cderiv)
+   eliminate_kronecker (cderiv)            # cdb (term36,cderiv)
+   canonicalise        (cderiv)            # cdb (term37,cderiv)
+\end{cadabra}
+
+\subsection*{The metric connection}
+
+\vspace{-15pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{align*}
+   &\cdb*{term31}\\
+   &\cdb*{term32}\\
+   &\cdb*{term33}\\
+   &\cdb*{term34}\\
+   &\cdb*{term35}\\
+   &\cdb*{term36}\\
+   &\cdb*{term37}
+\end{align*}
+\end{minipage}
+\hskip 1cm
+\lower16pt\hbox{%
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\cdb*{term31}\\
+      &\cdb*{term32}\\
+      &\cdb*{term33}\\
+      &\cdb*{term34}\\
+      &\cdb*{term35}\\
+      &\cdb*{term36}\\
+      &\cdb*{term37}
+   \end{align*}
+\end{latex}
+\end{minipage}}
+
+\end{document}

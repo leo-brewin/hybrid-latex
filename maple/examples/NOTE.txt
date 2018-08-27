@@ -1,0 +1,8 @@
+-- 10 Aug 2018 ------------------------------------------------------
+Maple doesn't always produce the same ordering of terms. Thus diff.sh
+may report changes that differ only in the order of some terms.
+This is mostly not a problem but it can be an issue when Maple introduces
+atribtrary constants -- it can be difficult to target a particular
+constant. See the differential equations example in example-01.
+Successive runs of Maple can see the C1 swapped with C2 and thus the
+final answer ans.606 will see the coeffcients 2 and 3 swapped.

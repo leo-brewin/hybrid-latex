@@ -1,0 +1,255 @@
+\documentclass[12pt]{matlatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Elementary maths}
+
+\vspace{-10pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{matlab}
+   syms a b c x y z
+   foo = expand((a+b)^3);                                   % mat (ans.101,foo)
+   foo = factor(-2*x+2*x+a*x-x^2+a*x^2-x^3);                % mat (ans.102,foo)
+   foo = solve(x^2==4, x);                                  % mat (ans.103,foo)
+   foo = solve([2*a-b == 3, a+b+c == 1,-b+c == 6],[a,b,c]);
+   tmp = [foo.a, foo.b, foo.c];                             % mat (ans.104,tmp)
+   foo = vpa(pi,50);                                        % mat (ans.105,foo)
+   foo = partfrac(1/((1 + x)*(5 + x)));                     % mat (ans.106,foo)
+   foo = simplifyFraction((1/(1 + x) - 1/(5 + x))/4);       % mat (ans.107,foo)
+   foo = simplify(tanh(log(x)));                            % mat (ans.108,foo)
+   foo = simplify(tanh(i*x));                               % mat (ans.109,foo)
+   foo = simplify(sinh(3*x) - 3*sinh(x) - 4*(sinh(x))^3);   % mat (ans.110,foo)
+   foo = tanh(log(x));                                      % mat (lhs.108,foo)
+   foo = tanh(i*x);                                         % mat (lhs.109,foo)
+   foo = sinh(3*x) - 3*sinh(x) - 4*(sinh(x))^3 ;            % mat (lhs.110,foo)
+\end{matlab}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mat*{ans.101}\\
+      &\mat*{ans.102}\\
+      &\mat*{ans.103}\\
+      &\mat*{ans.104}\\
+      &\mat*{ans.105}\\
+      &\mat*{ans.106}\\
+      &\mat*{ans.107}\\
+      \mat{lhs.108} &= \Mat{ans.108}\\
+      \mat{lhs.109} &= \Mat{ans.109}\\
+      \mat{lhs.110} &= \Mat{ans.110}\\
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mat*{ans.101}\\
+   &\mat*{ans.102}\\
+   &\mat*{ans.103}\\
+   &\mat*{ans.104}\\
+   &\mat*{ans.105}\\
+   &\mat*{ans.106}\\
+   &\mat*{ans.107}\\
+   \mat{lhs.108} &= \Mat{ans.108}\\
+   \mat{lhs.109} &= \Mat{ans.109}\\
+   \mat{lhs.110} &= \Mat{ans.110}\\
+\end{align*}
+
+\clearpage
+
+\section*{Linear Algebra}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{matlab}
+   syms mat lambda
+   mat  = sym([[2,3]; [5,4]]);               % mat (ans.201,mat)
+   [vec,lam] = eig(mat);                     % eigenvalues
+   eig1 = lam(1,1);                          % 1st eigenvalue
+   eig2 = lam(2,2);                          % 2nd eigenvalue
+   v1   = vec(:,1);                          % 1st eigenvector
+   v2   = vec(:,2);                          % 2nd eigenvector
+   eigennums = sym([eig1,eig2]);             % mat (ans.202,eigennums)
+   eigenvecs = vec;                          % mat (ans.203,eigenvecs)
+   charpol   = charpoly(mat,lambda);         % mat (ans.204,charpol)
+   myrhs = sym([3;7]);                       % mat (ans.205,myrhs)
+   mysol = mat\myrhs;                        % mat (ans.206,mysol)
+\end{matlab}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mat*{ans.201}\\
+      &\mat*{ans.202}\\
+      &\mat*{ans.203}\\
+      &\mat*{ans.204}\\
+      &\mat*{ans.205}\\
+      &\mat*{ans.206}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mat*{ans.201}\\
+   &\mat*{ans.202}\\
+   &\mat*{ans.203}\\
+   &\mat*{ans.204}\\
+   &\mat*{ans.205}\\
+   &\mat*{ans.206}
+\end{align*}
+
+\clearpage
+
+\section*{Limits}
+
+\vspace{-5pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{matlab}
+   syms a n x dx
+   foo = limit(sin(4*x)/x,x,0);                 % mat (ans.301,foo)
+   foo = limit(2^x/x,x,Inf);                    % mat (ans.302,foo)
+   foo = limit(((x+dx)^2 - x^2)/dx, dx,0);      % mat (ans.303,foo)
+   foo = limit((4*n + 1)/(3*n - 1),n,Inf);      % mat (ans.304,foo)
+   foo = limit((1+(a/n))^n,n,Inf);              % mat (ans.305,foo)
+\end{matlab}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mat*{ans.301}\\
+      &\mat*{ans.302}\\
+      &\mat*{ans.303}\\
+      &\mat*{ans.304}\\
+      &\mat*{ans.305}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mat*{ans.301}\\
+   &\mat*{ans.302}\\
+   &\mat*{ans.303}\\
+   &\mat*{ans.304}\\
+   &\mat*{ans.305}
+\end{align*}
+
+\vspace{-10pt}
+
+\section*{Series}
+
+\vspace{-5pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{matlab}
+   syms n x
+   foo = taylor((1 + x)^(-2), x, 1, 'Order', 6);   % mat (ans.401,foo)
+   foo = taylor(exp(x), x, 0, 'Order', 6);         % mat (ans.402,foo)
+   foo = symsum(1/n^2, n,1,50);                    % mat (ans.403,foo)
+   foo = symsum(1/n^4, n,1,Inf);                   % mat (ans.404,foo)
+\end{matlab}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mat*{ans.401}\\
+      &\mat*{ans.402}\\
+      &\mat*{ans.403}\\
+      &\mat*{ans.404}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mat*{ans.401}\\
+   &\mat*{ans.402}\\
+   &\mat*{ans.403}\\
+   &\mat*{ans.404}
+\end{align*}
+
+\clearpage
+
+\section*{Calculus}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{matlab}
+   syms a b x y
+   foo = diff(x*sin(x),x);                        % mat (ans.501,foo)
+   foo = subs(foo,x,pi/4);                        % mat (ans.502,foo)
+   foo = int(2*sin(x)^2, x,a,b);                  % mat (ans.503,foo)
+   foo = int(2*exp(-x^2),x,0,Inf);                % mat (ans.504,foo)
+   foo = int(int(x^2 + y^2, y,0,x), x,0,1);       % mat (ans.505,foo)
+\end{matlab}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mat*{ans.501}\\
+      &\mat*{ans.502}\\
+      &\mat*{ans.503}\\
+      &\mat*{ans.504}\\
+      &\mat*{ans.505}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mat*{ans.501}\\
+   &\mat*{ans.502}\\
+   &\mat*{ans.503}\\
+   &\mat*{ans.504}\\
+   &\mat*{ans.505}
+\end{align*}
+
+\clearpage
+
+\section*{Differential equations}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{matlab}
+   syms a x y(x)
+
+   ode = diff(y,x) + y(x) == 2*a*sin(x);
+   sol = dsolve(ode)                               % mat (ans.601,sol)
+   sol = dsolve(ode,y(0) == 0)                     % mat (ans.602,sol)
+
+   ode = diff(y,x,x) + y(x) == 0;
+   ddx = diff(y,x)
+   bcs = [y(0)==0,ddx(0)==1]
+   sol = dsolve(ode)                               % mat (ans.602,sol)
+   sol = dsolve(ode,bcs)                           % mat (ans.603,sol)
+
+   ode = diff(y,x,x) + 5*diff(y,x) - 6*y(x) == 0;
+   sol = dsolve(ode)                               % mat (ans.604,sol)
+
+   syms C10 C11
+   sol = subs(subs(sol,C10,2),C11,3)                % mat (ans.605,sol)
+\end{matlab}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mat*{ans.601}\\
+      &\mat*{ans.602}\\
+      &\mat*{ans.603}\\
+      &\mat*{ans.604}\\
+      &\mat*{ans.605}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mat*{ans.601}\\
+   &\mat*{ans.602}\\
+   &\mat*{ans.603}\\
+   &\mat*{ans.604}\\
+   &\mat*{ans.605}
+\end{align*}
+
+\end{document}

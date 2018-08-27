@@ -1,0 +1,268 @@
+\documentclass[12pt]{cdblatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Elementary maths}
+
+\vspace{-5pt}
+
+This example is based on a similar example in the \href{../../python/examples/example-01.pdf}{Python collection}. Its purpose is to show that Cadabra is fluent in Python -- which is not surprisng since the Cadabra language is based on Python (and a subset of LaTeX).
+
+\vspace{-8pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{cadabra}
+   from sympy import *
+   x, y, z = symbols('x y z')
+   a, b, c = symbols('a b c')
+   ans = expand((a+b)**3)                                  # cdb (ans.101,ans)
+   ans = factor(-2*x+2*x+a*x-x**2+a*x**2-x**3)             # cdb (ans.102,ans)
+   ans = solve(x**2-4, x)                                  # cdb (ans.103,ans)
+   ans = solve([2*a-b - 3, a+b+c - 1,-b+c - 6],[a,b,c])    # cdb (ans.104,ans)
+   ans = N(pi,50)                                          # cdb (ans.105,ans)
+   ans = apart(1/((1 + x)*(5 + x)))                        # cdb (ans.106,ans)
+   ans = together((1/(1 + x) - 1/(5 + x))/4)               # cdb (ans.107,ans)
+   ans = simplify(tanh(log(x)))                            # cdb (rhs.108,ans)
+   ans = simplify(tanh(I*x))                               # cdb (rhs.109,ans)
+   ans = simplify(sinh(3*x) - 3*sinh(x) - 4*(sinh(x))**3)  # cdb (rhs.110,ans)
+   ans = tanh(log(x))                                      # cdb (lhs.108,ans)
+   ans = tanh(UnevaluatedExpr(I*x))                        # cdb (lhs.109,ans)
+   ans = sinh(3*x) - 3*sinh(x) - 4*(sinh(x))**3            # cdb (lhs.110,ans)
+\end{cadabra}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\cdb*{ans.101}\\
+      &\cdb*{ans.102}\\
+      &\cdb*{ans.103}\\
+      &\cdb*{ans.104}\\
+      &\cdb*{ans.105}\\
+      &\cdb*{ans.106}\\
+      &\cdb*{ans.107}\\
+      \cdb{lhs.108} &= \Cdb{rhs.108}\\
+      \cdb{lhs.109} &= \Cdb{rhs.109}\\
+      \cdb{lhs.110} &= \Cdb{rhs.110}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\vspace{-8pt}
+
+\begin{align*}
+   &\cdb*{ans.101}\\
+   &\cdb*{ans.102}\\
+   &\cdb*{ans.103}\\
+   &\cdb*{ans.104}\\
+   &\cdb*{ans.105}\\
+   &\cdb*{ans.106}\\
+   &\cdb*{ans.107}\\
+   \cdb{lhs.108} &= \Cdb{rhs.108}\\
+   \cdb{lhs.109} &= \Cdb{rhs.109}\\
+   \cdb{lhs.110} &= \Cdb{rhs.110}
+\end{align*}
+
+\clearpage
+
+\section*{Linear Algebra}
+
+\vspace{-10pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{cadabra}
+   from sympy import linsolve
+   lamda = Symbol('lamda')
+   mat  = Matrix([[2,3], [5,4]])                   # cdb (ans.201,mat)
+   eig1 = mat.eigenvects()[0][0]                   # 1st eigenvalue
+   eig2 = mat.eigenvects()[1][0]                   # 2nd eigenvalue
+   v1   = mat.eigenvects()[0][2][0]                # 1st eigenvector
+   v2   = mat.eigenvects()[1][2][0]                # 2nd eigenvector
+   eig  = simplify(Matrix([eig1,eig2]))            # cdb (ans.202,eig)
+   vec  = simplify(5*Matrix([]).col_insert(0,v1)
+                               .col_insert(1,v2))  # cdb (ans.203,vec)
+   det  = expand((mat - lamda * eye(2)).det())     # cdb (ans.204,det)
+   rhs  = Matrix([[3],[7]])                        # cdb (ans.205,rhs)
+   ans  = list(linsolve((mat,rhs),x,y))[0]         # cdb (ans.206,ans)
+\end{cadabra}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\cdb*{ans.201}\\
+      &\cdb*{ans.202}\\
+      &\cdb*{ans.203}\\
+      &\cdb*{ans.204}\\
+      &\cdb*{ans.205}\\
+      &\cdb*{ans.206}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\cdb*{ans.201}\\
+   &\cdb*{ans.202}\\
+   &\cdb*{ans.203}\\
+   &\cdb*{ans.204}\\
+   &\cdb*{ans.205}\\
+   &\cdb*{ans.206}
+\end{align*}
+
+\clearpage
+
+\section*{Limits}
+
+\vspace{-10pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{cadabra}
+   n, dx = symbols('n dx')
+   ans = limit(sin(4*x)/x,x,0)                  # cdb (ans.301,ans)
+   ans = limit(2**x/x,x,oo)                     # cdb (ans.302,ans)
+   ans = limit(((x+dx)**2 - x**2)/dx, dx,0)     # cdb (ans.303,ans)
+   ans = limit((4*n + 1)/(3*n - 1),n,oo)        # cdb (ans.304,ans)
+   ans = limit((1+(a/n))**n,n,oo)               # cdb (ans.305,ans)
+\end{cadabra}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\cdb*{ans.301}\\
+      &\cdb*{ans.302}\\
+      &\cdb*{ans.303}\\
+      &\cdb*{ans.304}\\
+      &\cdb*{ans.305}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\cdb*{ans.301}\\
+   &\cdb*{ans.302}\\
+   &\cdb*{ans.303}\\
+   &\cdb*{ans.304}\\
+   &\cdb*{ans.305}
+\end{align*}
+
+\section*{Series}
+
+\vspace{-10pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{cadabra}
+   ans = series((1 + x)**(-2), x, 1, 6)         # cdb (ans.401,ans)
+   ans = series(exp(x), x, 0, 6)                # cdb (ans.402,ans)
+   ans = Sum(1/n**2, (n,1,50)).doit()           # cdb (ans.403,ans)
+   ans = Sum(1/n**4, (n,1,oo)).doit()           # cdb (ans.404,ans)
+\end{cadabra}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\cdb*{ans.401}\\
+      &\cdb*{ans.402}\\
+      &\cdb*{ans.403}\\
+      &\cdb*{ans.404}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\cdb*{ans.401}\\
+   &\cdb*{ans.402}\\
+   &\cdb*{ans.403}\\
+   &\cdb*{ans.404}
+\end{align*}
+
+\clearpage
+
+\section*{Calculus}
+
+This example shows how {\tt\small\verb|\Cdb|} can be used to set the equation tag on the far right hand side.
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{cadabra}
+   ans = diff(x*sin(x),x)                                    # cdb (ans.501,ans)
+   ans = diff(x*sin(x),x).subs(x,pi/4)                       # cdb (ans.502,ans)
+   ans = integrate(2*sin(x)**2, (x,a,b))                     # cdb (ans.503,ans)
+   ans = Integral(2*exp(-x**2), (x,0,oo))                    # cdb (lhs.504,ans)
+   ans = ans.doit()                                          # cdb (ans.504,ans)
+   ans = Integral(Integral(x**2 + y**2, (y,0,x)), (x,0,1))   # cdb (lhs.505,ans)
+   ans = ans.doit()                                          # cdb (ans.505,ans)
+\end{cadabra}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\cdb*{ans.501}\\
+      &\cdb*{ans.502}\\
+      &\cdb*{ans.503}\\
+       \cdb{lhs.504}&=\Cdb{ans.504}\\
+       \cdb{lhs.505}&=\Cdb{ans.505}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\cdb*{ans.501}\\
+   &\cdb*{ans.502}\\
+   &\cdb*{ans.503}\\
+    \cdb{lhs.504}&=\Cdb{ans.504}\\
+    \cdb{lhs.505}&=\Cdb{ans.505}
+\end{align*}
+
+\clearpage
+
+\section*{Differential equations}
+
+\vspace{-10pt}
+
+\begin{minipage}[t]{0.70\textwidth}
+\begin{cadabra}
+   y = Function('y')
+   C1, C2 = symbols('C1 C2')
+
+   ode = Eq(y(x).diff(x) + y(x), 2*a*sin(x))
+   sol = expand(dsolve(ode,y(x)).rhs)                              # cdb (ans.601,sol)
+   cst = solve([sol.subs(x,0)],dict=True)
+   sol = sol.subs(cst[0])                                          # cdb (ans.602,sol)
+
+   ode = Eq(y(x).diff(x,2) + y(x), 0)
+   sol = expand(dsolve(ode,y(x)).rhs)                              # cdb (ans.603,sol)
+   cst = solve([sol.subs(x,0),sol.diff(x).subs(x,0)-1],dict=True)
+   sol = sol.subs(cst[0])                                          # cdb (ans.604,sol)
+
+   ode = Eq(y(x).diff(x,2) + 5*y(x).diff(x) - 6*y(x), 0)
+   sol = expand(dsolve(ode,y(x)).rhs)                              # cdb (ans.605,sol)
+   sol = sol.subs({C1:2,C2:3})                                     # cdb (ans.606,sol)
+\end{cadabra}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.30\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\cdb*{ans.601}\\
+      &\cdb*{ans.602}\\
+      &\cdb*{ans.603}\\
+      &\cdb*{ans.604}\\
+      &\cdb*{ans.605}\\
+      &\cdb*{ans.606}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\cdb*{ans.601}\\
+   &\cdb*{ans.602}\\
+   &\cdb*{ans.603}\\
+   &\cdb*{ans.604}\\
+   &\cdb*{ans.605}\\
+   &\cdb*{ans.606}
+\end{align*}
+
+\end{document}

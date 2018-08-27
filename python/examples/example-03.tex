@@ -1,0 +1,73 @@
+% based on example 8 in pythontex_gallery
+% https://github.com/gpoore/pythontex/
+
+\documentclass[12pt]{pylatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Step-by-step integration}
+
+This is another nice example drawn from the Pythontex gallery, see
+\ \url{https://github.com/gpoore/pythontex}.
+
+It shows the step-by-step computations of a simple triple integral.
+
+\begin{python}
+   from sympy import *
+
+   x, y, z = symbols('x,y,z')
+   f = Symbol('f(x,y,z)')
+
+   # Define limits of integration
+   x_max = 2;   y_max = 3;   z_max = 4;
+   x_min = 0;   y_min = 0;   z_min = 0;
+
+   lhs = Integral(f, (x, x_min, x_max),
+                     (y, y_min, y_max),
+                     (z, z_min, z_max))                   # py(lhs.01,lhs)
+
+   f = x*y + y*sin(z) + cos(x+y)
+
+   rhs = Integral(f, (x, x_min, x_max),
+                     (y, y_min, y_max),
+                     (z, z_min, z_max))                   # py(rhs.01,rhs)
+   rhs = Integral(Integral(f, (x, x_min, x_max)).doit(),
+                              (y, y_min, y_max),
+                              (z, z_min, z_max))          # py(rhs.02,rhs)
+   rhs = Integral(Integral(f, (x, x_min, x_max),
+                              (y, y_min, y_max)).doit(),
+                              (z, z_min, z_max))          # py(rhs.03,rhs)
+   rhs = Integral(f, (x, x_min, x_max),
+                     (y, y_min, y_max),
+                     (z, z_min, z_max)).doit()            # py(rhs.04,rhs)
+
+   # And now, a numerical approximation
+   rhs = N(rhs)                                           # py(rhs.05,rhs)
+
+\end{python}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{align*}
+   \py{lhs.01} &= \py{rhs.01}\\
+               &= \py{rhs.02}\\
+               &= \py{rhs.03}\\
+               &= \py{rhs.04}\\[8pt]
+               &\approx \py{rhs.05}
+\end{align*}
+\end{minipage}
+\hskip 1cm
+\lower16pt\hbox{%
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      \py{lhs.01} &= \py{rhs.01}\\
+                  &= \py{rhs.02}\\
+                  &= \py{rhs.03}\\
+                  &= \py{rhs.04}\\[8pt]
+                  &\approx \py{rhs.05}
+   \end{align*}
+\end{latex}
+\end{minipage}}
+
+\end{document}

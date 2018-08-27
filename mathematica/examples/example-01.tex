@@ -1,0 +1,236 @@
+\documentclass[12pt]{mmalatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Elementary maths}
+
+\begin{minipage}[t]{0.70\textwidth}
+\begin{mathematica}
+   ans = Expand[(a+b)^3]                         (* mma (ans.101,ans) *)
+   ans = Factor[-2*x+2*x+a*x-x^2+a*x^2-x^3]      (* mma (ans.102,ans) *)
+   ans = Solve[x^2-4 == 0,x]                     (* mma (ans.103,ans) *)
+   ans = Solve[{2*a-b == 3, a+b+c == 1,-b+c == 6},{a,b,c}][[1]] (* mma (ans.104,ans) *)
+   ans = N[Pi,50]                                (* mma (ans.105,ans) *)
+   ans = Apart[1/((1 + x) (5 + x))]              (* mma (ans.106,ans) *)
+   ans = Together[(1/(1 + x) - 1/(5 + x))/4]     (* mma (ans.107,ans) *)
+   ans = Simplify[Tanh[Log[x]]]                  (* mma (ans.108,ans) *)
+   ans = Simplify[Tanh[I x]]                     (* mma (ans.109,ans) *)
+   ans = Simplify[Sinh[3 x] - 3 Sinh[x] - 4 (Sinh[x])^3] (* mma (ans.110,ans) *)
+   ans = HoldForm[Tanh[Log[x]]]                  (* mma (lhs.108,ans) *)
+   ans = HoldForm[Tanh[I x]]                     (* mma (lhs.109,ans) *)
+   ans = HoldForm[Sinh[3 x] - 3 Sinh[x] - 4 (Sinh[x])^3] (* mma (lhs.110,ans) *)
+\end{mathematica}
+\end{minipage}
+\hskip 0.5cm
+\begin{minipage}[t]{0.30\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mma*{ans.101}\\
+      &\mma*{ans.102}\\
+      &\mma*{ans.103}\\
+      &\mma*{ans.104}\\
+      &\mma*{ans.105}\\
+      &\mma*{ans.106}\\
+      &\mma*{ans.107}\\
+      \mma{lhs.108} &= \Mma{ans.108}\\
+      \mma{lhs.109} &= \Mma{ans.109}\\
+      \mma{lhs.110} &= \Mma{ans.110}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mma*{ans.101}\\
+   &\mma*{ans.102}\\
+   &\mma*{ans.103}\\
+   &\mma*{ans.104}\\
+   &\mma*{ans.105}\\
+   &\mma*{ans.106}\\
+   &\mma*{ans.107}\\
+   \mma{lhs.108} &= \Mma{ans.108}\\
+   \mma{lhs.109} &= \Mma{ans.109}\\
+   \mma{lhs.110} &= \Mma{ans.110}
+\end{align*}
+
+\clearpage
+
+\section*{Linear Algebra}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{mathematica}
+   mat = {{2, 3}, {5, 4}}                     (* mma (ans.201,mat) *)
+   ans = Eigenvalues[mat]                     (* mma (ans.202,ans) *)
+   ans = Eigenvectors[mat]                    (* mma (ans.203,ans) *)
+   ans = CharacteristicPolynomial[mat, x]     (* mma (ans.204,ans) *)
+   rhs = {3, 7}
+   foo = rhs//MatrixForm                      (* mma (ans.205,foo) *)
+   sol = LinearSolve[mat,rhs]                 (* mma (ans.206,sol) *)
+\end{mathematica}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mma*{ans.201}\\
+      &\mma*{ans.202}\\
+      &\mma*{ans.203}\\
+      &\mma*{ans.204}\\
+      &\mma*{ans.205}\\
+      &\mma*{ans.206}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mma*{ans.201}\\
+   &\mma*{ans.202}\\
+   &\mma*{ans.203}\\
+   &\mma*{ans.204}\\
+   &\mma*{ans.205}\\
+   &\mma*{ans.206}
+\end{align*}
+
+\clearpage
+
+\section*{Limits}
+
+\vspace{-5pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{mathematica}
+   ans = Limit[Sin[4 x]/x,x->0]                  (* mma (ans.301,ans) *)
+   ans = Limit[2^x/x,x->Infinity]                (* mma (ans.302,ans) *)
+   ans = Limit[((x+dx)^2 - x^2)/dx, dx -> 0]     (* mma (ans.303,ans) *)
+   ans = Limit[(4 n + 1)/(3 n - 1),n->Infinity]  (* mma (ans.304,ans) *)
+   ans = Limit[(1+(a/n))^n,n->Infinity]          (* mma (ans.305,ans) *)
+\end{mathematica}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mma*{ans.301}\\
+      &\mma*{ans.302}\\
+      &\mma*{ans.303}\\
+      &\mma*{ans.304}\\
+      &\mma*{ans.305}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mma*{ans.301}\\
+   &\mma*{ans.302}\\
+   &\mma*{ans.303}\\
+   &\mma*{ans.304}\\
+   &\mma*{ans.305}
+\end{align*}
+
+\vspace{-15pt}
+
+\section*{Series}
+
+\vspace{-5pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{mathematica}
+   ans = Series[(1 + x)^(-2), {x, 1, 5}]          (* mma (ans.401,ans) *)
+   ans = Series[Exp[x], {x, 0, 5}]                (* mma (ans.402,ans) *)
+   ans = Sum[1/i^2, {i, 1, 50}]                   (* mma (ans.403,ans) *)
+   ans = Sum[1/i^4, {i, 1, Infinity}]             (* mma (ans.404,ans) *)
+\end{mathematica}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mma*{ans.401}\\
+      &\mma*{ans.402}\\
+      &\mma*{ans.403}\\
+      &\mma*{ans.404}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mma*{ans.401}\\
+   &\mma*{ans.402}\\
+   &\mma*{ans.403}\\
+   &\mma*{ans.404}
+\end{align*}
+
+\clearpage
+
+\section*{Calculus}
+
+\begin{minipage}[t]{0.70\textwidth}
+\begin{mathematica}
+   ans = D[x Sin[x],x]                                         (* mma (ans.501,ans) *)
+   ans = D[x Sin[x],x]/.x -> Pi/4                              (* mma (ans.502,ans) *)
+   ans = Integrate[2 Sin[x]^2, {x, a, b}]                      (* mma (ans.503,ans) *)
+   ans = Integrate[2 Exp[-x^2],{x, 0, Infinity}]               (* mma (ans.504,ans) *)
+   ans = HoldForm[Integrate[2 Exp[-x^2], {x, 0, Infinity}]]    (* mma (lhs.504,ans) *)
+   ans = Integrate[x^2 + y^2,  {x, 0, 1}, {y, 0, x}]           (* mma (ans.505,ans) *)
+   ans = HoldForm[Integrate[x^2 + y^2,  {x, 0, 1}, {y, 0, x}]] (* mma (lhs.505,ans) *)
+\end{mathematica}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.30\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mma*{ans.501}\\
+      &\mma*{ans.502}\\
+      &\mma*{ans.503}\\
+      \mma{lhs.504}&=\Mma{ans.504}\\
+      \mma{lhs.505}&=\Mma{ans.505}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mma*{ans.501}\\
+   &\mma*{ans.502}\\
+   &\mma*{ans.503}\\
+   \mma{lhs.504}&=\Mma{ans.504}\\
+   \mma{lhs.505}&=\Mma{ans.505}
+\end{align*}
+
+\clearpage
+
+\section*{Differential equations}
+
+\begin{minipage}[t]{0.78\textwidth}
+\begin{mathematica}
+   sol = DSolveValue[y'[x] + y[x] == 2 a Sin[x], y[x], x]                  (* mma (ans.601,sol) *)
+   sol = DSolveValue[{y'[x] + y[x] == 2 a Sin[x], y[0] == 0}, y[x], x]     (* mma (ans.602,sol) *)
+   sol = DSolveValue[{y''[x] + y[x] == 0}, y[x], x]                        (* mma (ans.603,sol) *)
+   sol = DSolveValue[{y''[x] + y[x] == 0, y[0] == 0, y'[0] == 1}, y[x], x] (* mma (ans.604,sol) *)
+   ans = DSolveValue[y''[x] + 5 y'[x] - 6 y[x] == 0, y[x], x]              (* mma (ans.605,ans) *)
+   foo = ans /. {C[1] -> 2, C[2] -> 3}                                     (* mma (ans.606,foo) *)
+\end{mathematica}
+\end{minipage}
+\hskip 0.5cm
+\begin{minipage}[t]{0.22\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mma*{ans.601}\\
+      &\mma*{ans.602}\\
+      &\mma*{ans.603}\\
+      &\mma*{ans.604}\\
+      &\mma*{ans.605}\\
+      &\mma*{ans.606}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mma*{ans.601}\\
+   &\mma*{ans.602}\\
+   &\mma*{ans.603}\\
+   &\mma*{ans.604}\\
+   &\mma*{ans.605}\\
+   &\mma*{ans.606}
+\end{align*}
+
+\end{document}

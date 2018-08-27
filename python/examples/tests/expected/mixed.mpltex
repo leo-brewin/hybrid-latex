@@ -1,0 +1,15 @@
+\mpltag{ans.101}{%
+{\frac {{\rm d}^{2}}{{\rm d}{x}^{2}}}y \left( x \right) +2\,{\frac {\rm d}{{\rm d}x}}y \left( x \right) +10\,y \left( x \right) =0%
+}
+\mpltag{ans.102}{%
+y \left( x \right) ={C_{1}}\,{{\rm e}^{-x}}\sin \left( 3\,x \right) +{C_{2}}\,{{\rm e}^{-x}}\cos \left( 3\,x \right) %
+}
+\mpltag{ans.103}{%
+ \left\{ y \left( 0 \right) =3,\mbox {D} \left( y \right)  \left( 0 \right) =0 \right\} %
+}
+\mpltag{ans.104}{%
+{{\rm e}^{-x}}\sin \left( 3\,x \right) +3\,{{\rm e}^{-x}}\cos \left( 3\,x \right) %
+}
+\mpltag{ans.105}{%
+-10\,{{\rm e}^{-x}}\sin \left( 3\,x \right) %
+}

@@ -1,0 +1,116 @@
+\documentclass[12pt]{article}
+\usepackage{pylatex}
+\usepackage{mmalatex}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{pgf}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{examples}
+
+% portrait
+\geometry{papersize={210mm,297mm},hmargin=2cm,tmargin=1.0cm,bmargin=1.5cm}
+\parskip=8pt plus 4pt minus 2pt
+
+% landscape
+% \geometry{papersize={297mm,210mm},hmargin=2cm,tmargin=1.0cm,bmargin=1.5cm}
+% \parskip=6pt plus 3pt minus 2pt
+
+\begin{document}
+
+\section*{A mixed Mathematica-Python example}
+
+This example demonstrates a cooperative effort where Mathematica is used to do the analytic computations while Python is used to plot the data.
+
+The example chosen here is to find and plot the solution to the boundary value problem defined by
+\begin{align*}
+   \frac{d^2y}{dx^2} + 2 \frac{dy}{dx} + 10 y = 0\quad\quad\text{with }y(0)=3,\> y'(0)=0
+\end{align*}
+
+This example requires two passes, once for Mathematica and once for Python (and in that order). This example can be run using
+
+\vspace{5pt}
+
+\begin{lstlisting}
+   mmalatex.sh -x -i mixed
+   pylatex.sh  -x -i mixed
+   pdflatex          mixed
+\end{lstlisting}
+
+\vspace{5pt}
+
+Note that the last pair of commands could also be combined as {\small\tt pylatex.sh -i mixed}.
+
+\subsection*{The Mathematica code}
+
+Here Mathematica is used to first find the general solution of th differential equation.
+The boundary conitions are then imposed and finally a uniform sampling of the solution
+is written to a file for later use by Python and Matplotlib.
+
+\vspace{10pt}
+
+\begin{mathematica}
+   sol = DSolve[y''[x] + 2 y'[x] + 10 y[x] == 0, y, x]
+   ans = y[x]/.sol[[1]]                  (* mma(ans.101,ans)*)
+
+   sol = DSolve[{y''[x] + 2 y'[x] + 10 y[x] == 0, y[0]==3, y'[0]==0}, y, x]
+   foo = y[x]/.sol[[1]]                  (* mma(ans.102,foo)*)
+   bah = Simplify[y'[x]/.sol[[1]]]       (* mma(ans.103,bah)*)
+
+   (* now sample y and dy at selected points *)
+   myData = Table[{x, foo, bah}, {x, 0, 2 Pi, 0.02}];
+   Export["mixed.txt", myData, "Table",  "FieldSeparators" -> " "];
+\end{mathematica}
+
+\vspace{10pt}
+
+The general solution of the differential equation is
+\begin{equation*}
+  y(x) = \mma{ans.101}
+\end{equation*}
+while the particular solution satifying the boundary conditions is given by
+\vspace{5pt}
+\begin{align*}
+    y(x) &= \mma{ans.102}
+\end{align*}
+
+\clearpage
+
+\subsection*{The Python code}
+
+This is a straighforward use of Matplotlib to plot two functions. The code reads the datafile created previously by Mathematica and then calls Matplotlib to plot that data.
+
+\begin{python}
+   import numpy as np
+   import matplotlib.pyplot as plt
+
+   plt.matplotlib.rc('text', usetex = True)
+   plt.matplotlib.rc('grid', linestyle = 'dotted')
+   plt.matplotlib.rc('figure', figsize = (5.5,4.1)) # (width,height) inches
+
+   x, y, dy = np.loadtxt ('mixed.txt', unpack=True)
+
+   plt.plot (x,y)
+   plt.plot (x,dy)
+
+   plt.xlim (0.0,4.0)
+
+   plt.legend(('$y(x)$', '$dy(x)/dx$'), loc = 0)
+   plt.xlabel('$x$')
+   plt.ylabel('$y(x),\> dy/dx$')
+   plt.grid(True)
+   plt.tight_layout(0.5)
+
+   plt.savefig('mixed-fig.pdf')
+\end{python}
+
+\vspace{10pt}
+
+\begin{minipage}{\textwidth}
+   \centering
+   \IfFileExists{mixed-fig.pdf}%
+   {\includegraphics[width=0.75\textwidth]{mixed-fig.pdf}}{Failed to create pdf plot.}
+   \captionof{figure}{The function and its derivative.}
+\end{minipage}
+
+\end{document}

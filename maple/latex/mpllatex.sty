@@ -1,0 +1,129 @@
+\def\fileversion{v.0.1}
+\def\filedate{2018/06/04}% 4 Jun 2018
+\ProvidesPackage{mpllatex}[\filedate\space\fileversion\space Maple-Latex (LCB)]
+%-------------------------------------------------------------------------------
+\usepackage{comment}
+\usepackage{listings}
+\usepackage{keyval}
+\usepackage{etoolbox}
+\usepackage{xcolor}
+%-------------------------------------------------------------------------------
+\usepackage{mplmacros}
+%-------------------------------------------------------------------------------
+\def\mplverb#1{{\color{blue}\texttt{\detokenize{#1}}}}% for inline Maple verbatim, fails with # in arg.
+%-------------------------------------------------------------------------------
+\def\ProcessCutFile{}% part of the comment.sty package
+%-------------------------------------------------------------------------------
+% define and process key/value pairs in MplSetup
+%
+\define@key{mympl}{action}{\def\mpl@action{#1}}% hide, show, verbatim
+%
+\def\@SetLstShow{\def\@MplEnv{\let\maple\undefined\let\maple@\undefined\lstnewenvironment{maple}{\begingroup\@mplstyle}{\endgroup}}}%
+\def\@SetLstHide{\def\@MplEnv{\let\endmaple\undefined\specialcomment{maple}{\begingroup}{\endgroup}}}%
+\def\@SetLstVerbatim{\@SetLstShow}%
+%
+\providecommand{\MplSetup}[1]{%
+%
+\setkeys{mympl}{#1}% Set new keys
+%
+\ifdefstring{\mpl@action}{show}{\@SetLstShow}{\relax}
+\ifdefstring{\mpl@action}{hide}{\@SetLstHide}{\relax}
+\ifdefstring{\mpl@action}{verbatim}{\@SetLstVerbatim}{\relax}
+%
+\@MplEnv}
+%
+\MplSetup{action=show}% defaults/initial setup
+%
+%-------------------------------------------------------------------------------
+% silently read the mpltex file (if it exists)
+\AfterEndPreamble{\IfFileExists{./\jobname.mpltex}{\input{./\jobname.mpltex}}{\relax}}
+%===============================================================================
+% Listings style for Maple
+%===============================================================================
+\lstdefinelanguage{Maple}%
+% maple reserved words
+{morekeywords={and,assume,assuming,break,by,catch,description,do,done,elif,else,%
+               end do,end if,end module,end proc,error,export,finally,for,from,global,if,implies,%
+               in,intersect,local,minus,mod,module,next,not,option,options,or,proc,quit,read,%
+               return,save,stop,subset,then,to,try,union,use,while,xor},%
+sensitive=true,%
+morecomment=[l]\#,%
+morestring=[b]",%
+morestring=[d]"%
+}[keywords,comments,strings]%
+%
+\lstset{%
+language=maple,
+showtabs=true,
+showstringspaces=false,
+tab=,
+tabsize=2,
+basicstyle=\ttfamily\small,
+basewidth={0.5em}}
+%
+\def\@mplstyle{%
+\colorlet{commentcolour}{green!50!black}
+\colorlet{stringcolour}{red!60!black}
+\colorlet{keywordcolour}{magenta!90!black}
+\colorlet{mathscolour}{blue!60!green}
+\colorlet{genopscolour}{magenta!90!black}
+\colorlet{othercolour}{green!50!black}
+\colorlet{booleancolour}{violet}
+\colorlet{iocolour}{green!50!black}
+\colorlet{graphicscolour}{green!50!black}
+\lstset{%
+language=maple,
+stringstyle=\color{stringcolour},
+keywordstyle=\color{keywordcolour}\bfseries,
+commentstyle=\color{commentcolour}\slshape,
+%
+% other keywords
+otherkeywords={->,:=,::},
+emph={[1]->,:=,::},
+emphstyle=[1]\color{othercolour},
+%
+% boolean
+emph={[3]true, false},
+emphstyle={[3]\color{booleancolour}},
+%
+% io operations
+emph={[4]open,close,fopen,fclose,read,write},
+emphstyle=[4]\color{iocolour},
+%
+% maths functions
+emph={[5]sin,cos,tan,sec,csc,cot,sinh,cosh,tanh,sech,csch,coth,%
+      arcsin,arccos,arctan,arcsec,arccsc,arccot,arcsinh,arccosh,arctanh,arcsech,arccsch,arccoth,%
+      abs,argument,binomial,ceil,conjugate,csgn,exp,factorial,floor,frac,Im,ln,log,log10,%
+      max,min,polar,Re,round,signum,sqrt,trunc},
+emphstyle=[5]\color{mathscolour},
+%
+% maths operations
+emph={[6]simplify,collect,convert,normal,factor,ifactor,expand,lhs,rhs,solve,fsolve,%
+      sum,taylor,mtaylor,coeff,series,limit,diff,Diff,implicitdiff,int,Int,dsolve,DEplot,%
+      Matrix,Array,Vector,CrossProduct,DotProduct,Determinant,Norm,Basis,
+      Eigenvalues,Eigenvectors,MatrixInverse,Transpose},
+emphstyle=[6]\color{mathscolour},
+%
+% generic operations
+emph={[7]with,unassign,unapply,eval,evalf,value,subs,assume,map,map2},
+emphstyle=[7]\color{genopscolour},
+%
+% prdefined maths symbols
+emph={[8]Pi,I,infinity,gamma},
+emphstyle=[8]\color{mathscolour},
+%
+% graphics
+emph={[9]plot,implicitplot,plot3d,implicitplot3d,contourplot,contourplot3d,spacecurve,polarplot,animate},
+emphstyle=[9]\color{graphicscolour},
+}}
+%-------------------------------------------------------------------------------
+% set listings defaults for Maple
+%-------------------------------------------------------------------------------
+\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\lstset{%
+language=maple,
+numberstyle=\tiny,numbersep=15pt,
+aboveskip=10pt,belowskip=0pt,
+frame=single,framesep=5pt,framerule=0pt,
+xleftmargin=5pt,xrightmargin=5pt,
+backgroundcolor=\color{grey95}}

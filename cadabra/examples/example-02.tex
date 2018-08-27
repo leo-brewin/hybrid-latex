@@ -1,0 +1,72 @@
+\documentclass[12pt]{cdblatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Curvature of a 2-sphere}
+
+This examples uses standard methods to compute the scalar curvature of a 2-sphere.
+
+\begin{cadabra}
+   {\theta, \varphi}::Coordinate.
+   {\alpha, \beta, \gamma, \delta, \rho, \sigma, \mu, \nu, \lambda}::Indices(values={\varphi, \theta}, position=independent).
+
+   \partial{#}::PartialDerivative.
+
+   g_{\alpha\beta}::Metric.
+   g^{\alpha\beta}::InverseMetric.
+
+   Chr := \Gamma^{\alpha}_{\mu\nu} -> 1/2 g^{\alpha\beta} (  \partial_{\nu}{g_{\beta\mu}}
+                                                           + \partial_{\mu}{g_{\beta\nu}}
+                                                           - \partial_{\beta}{g_{\mu\nu}} ).
+
+   Rabcd := R^{\rho}_{\sigma\mu\nu} ->   \partial_{\mu}{\Gamma^{\rho}_{\sigma\nu}}
+                                       - \partial_{\nu}{\Gamma^{\rho}_{\sigma\mu}}
+                                       + \Gamma^{\rho}_{\beta\mu} \Gamma^{\beta}_{\sigma\nu}
+                                       - \Gamma^{\rho}_{\beta\nu} \Gamma^{\beta}_{\sigma\mu}.
+
+   Rab := R_{\sigma\nu} -> R^{\rho}_{\sigma\rho\nu}.
+
+   R := R -> R_{\sigma\nu} g^{\sigma\nu}.
+
+   gab:={ g_{\theta\theta}   = r**2,
+          g_{\varphi\varphi} = r**2 \sin(\theta)**2 }.   # cdb(gab,gab)
+
+   complete   (gab, $g^{\alpha\beta}$)                   # cdb(iab,gab)
+
+   evaluate   (Chr, gab, rhsonly=True)                   # cdb(Chr,Chr)
+
+   substitute (Rabcd, Chr)
+   evaluate   (Rabcd, gab, rhsonly=True)                 # cdb(Rabcd,Rabcd)
+
+   substitute (Rab, Rabcd)
+   evaluate   (Rab, gab, rhsonly=True)                   # cdb(Rab,Rab)
+
+   substitute (R, Rab)
+   evaluate   (R, gab, rhsonly=True)                     # cdb(R,R)
+\end{cadabra}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{align*}
+   &\cdb{iab}\\[10pt]
+   &\cdb{Chr}\\[10pt]
+   &\cdb{Rabcd}\\[10pt]
+   &\cdb{Rab}\\[10pt]
+   &\cdb{R}
+\end{align*}
+\end{minipage}
+\hskip 1cm
+\lower16pt\hbox{%
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\cdb{iab}\\[10pt]
+      &\cdb{Chr}\\[10pt]
+      &\cdb{Rabcd}\\[10pt]
+      &\cdb{Rab}\\[10pt]
+      &\cdb{R}
+   \end{align*}
+\end{latex}
+\end{minipage}}
+
+\end{document}

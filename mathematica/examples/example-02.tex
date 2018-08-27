@@ -1,0 +1,61 @@
+% based on example 7 in pythontex_gallery
+% https://github.com/gpoore/pythontex/
+
+\documentclass[12pt]{mmalatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{A table of derivatives and anti-derivatives}
+
+This example is based upon a nice example in the Pythontex gallery, see
+\ \url{https://github.com/gpoore/pythontex/}.
+It uses a tagged block to capture the Mathematica output for later use
+in the body of the LaTeX table.
+
+\lstset{numbers=left}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{mathematica}
+   (* Create a list of functions to include in the table *)
+   fun = {Sin[x],      Cos[x],      Tan[x],
+          ArcSin[x],   ArcCos[x],   ArcTan[x],
+          Sinh[x],     Cosh[x],     Tanh[x]};
+
+   eol = {"\\\\" ,     "\\\\",      "\\\\",
+          "\\\\[5pt]", "\\\\[5pt]", "\\\\[5pt]",
+          "\\\\",      "\\\\",      " "};
+
+   ddxfun = D[#, x] & /@ fun;
+   intfun = Integrate[#, x] & /@ fun;
+
+   ddxfunHold = HoldForm[D[#, x]] & /@ fun;
+   intfunHold = HoldForm[Integrate[#, x]] & /@ fun;
+
+   (* mmaBeg (CalculusTable) *)
+   Do[Print[OutputForm[
+      ToString[TeXForm[ddxfunHold[[i]]]] <> "&=" <>
+      ToString[TeXForm[ddxfun[[i]]]]     <> "\\quad & \\quad"
+      ToString[TeXForm[intfunHold[[i]]]] <> "&=" <>
+      ToString[TeXForm[intfun[[i]]]]     <>
+      eol[[i]]
+      ]], {i,1,9}]
+   (* mmaEnd (CalculusTable) *)
+\end{mathematica}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      \mma {CalculusTable}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\clearpage
+
+\begin{align*}
+   \mma {CalculusTable}
+\end{align*}
+
+\end{document}

@@ -1,0 +1,11 @@
+\mmatag{CalculusTable}{%
+\frac{\partial \sin (x)}{\partial x}&=\cos (x)\quad & \quad \int \sin (x) \, dx&=-\cos (x)\\%
+\frac{\partial \cos (x)}{\partial x}&=-\sin (x)\quad & \quad \int \cos (x) \, dx&=\sin (x)\\%
+\frac{\partial \tan (x)}{\partial x}&=\sec ^2(x)\quad & \quad \int \tan (x) \, dx&=-\log (\cos (x))\\%
+\frac{\partial \sin ^{-1}(x)}{\partial x}&=\frac{1}{\sqrt{1-x^2}}\quad & \quad \int \sin ^{-1}(x) \, dx&=\sqrt{1-x^2}+x \sin ^{-1}(x)\\[5pt]%
+\frac{\partial \cos ^{-1}(x)}{\partial x}&=-\frac{1}{\sqrt{1-x^2}}\quad & \quad \int \cos ^{-1}(x) \, dx&=x \cos ^{-1}(x)-\sqrt{1-x^2}\\[5pt]%
+\frac{\partial \tan ^{-1}(x)}{\partial x}&=\frac{1}{x^2+1}\quad & \quad \int \tan ^{-1}(x) \, dx&=x \tan ^{-1}(x)-\frac{1}{2} \log \left(x^2+1\right)\\[5pt]%
+\frac{\partial \sinh (x)}{\partial x}&=\cosh (x)\quad & \quad \int \sinh (x) \, dx&=\cosh (x)\\%
+\frac{\partial \cosh (x)}{\partial x}&=\sinh (x)\quad & \quad \int \cosh (x) \, dx&=\sinh (x)\\%
+\frac{\partial \tanh (x)}{\partial x}&=\text{sech}^2(x)\quad & \quad \int \tanh (x) \, dx&=\log (\cosh (x)) %
+}

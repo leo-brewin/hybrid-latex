@@ -1,0 +1,18 @@
+\section*{Integration}
+
+\vspace{-10pt}
+
+\begin{python}
+   a, b, x, y = symbols('a b x y')
+   ans = integrate(2*sin(x)**2, (x,a,b))                     # py (ans.503,ans)
+   ans = Integral(2*exp(-x**2), (x,0,oo))                    # py (lhs.504,ans)
+   ans = ans.doit()                                          # py (ans.504,ans)
+   ans = Integral(Integral(x**2 + y**2, (y,0,x)), (x,0,1))   # py (lhs.505,ans)
+   ans = ans.doit()                                          # py (ans.505,ans)
+\end{python}
+
+\begin{align*}
+   &\py*{ans.503}\\
+    \py{lhs.504}&=\Py{ans.504}\\
+    \py{lhs.505}&=\Py{ans.505}
+\end{align*}

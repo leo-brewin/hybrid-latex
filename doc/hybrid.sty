@@ -1,0 +1,77 @@
+\usepackage{pylatex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[toc]{multitoc}
+\usepackage{hyperref}
+\usepackage{breqn}
+\usepackage{longtable}
+
+\renewcommand*{\multicolumntoc}{2}
+\setlength{\columnseprule}{0pt}
+\setlength{\columnsep}{25pt}
+
+\hypersetup{colorlinks=true,filecolor=magenta}
+% \geometry{papersize={210mm,297mm},hmargin=2cm,tmargin=1.0cm,bmargin=1.5cm}
+% \geometry{papersize={210mm,297mm},hmargin=2cm,tmargin=1.0cm,bmargin=2.0cm}
+\geometry{papersize={210mm,297mm},hmargin=2cm,tmargin=1.5cm,bmargin=2.0cm}
+% \geometry{papersize={210mm,297mm},hmargin=2.5cm,tmargin=1.5cm,bmargin=2.5cm}
+
+\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+
+\parindent=0pt
+\parskip=8pt plus 2pt minus 1pt
+
+\def\tts{\tt\small}
+
+\def\MYn{\vrule height  0pt depth  5pt width 0pt}
+\def\MYN{\vrule height 15pt depth  0pt width 0pt}
+
+\def\MyPar#1#2{\parbox[t]{#1\textwidth}{\sloppy \MYN#2\MYn}}
+
+\newbox\SlashPy
+\setbox\SlashPy=\hbox{\tts\verb|\Py|}
+
+\newbox\SlashPyStar
+\setbox\SlashPyStar=\hbox{\tts\verb|\Py*|}
+
+\def\PythonTeX{{\tts PythonTeX}}
+\def\SymPyTeX{{\tts SymPyTeX}}
+\def\SageTeX{{\tts SageTeX}}
+
+\def\pyLaTeX{{\tts pyLaTeX}}
+\def\matLaTeX{{\tts matLaTeX}}
+\def\mmaLaTeX{{\tts mmaLaTeX}}
+\def\mplLaTeX{{\tts mplLaTeX}}
+\def\cdbLaTeX{{\tts cdbLaTeX}}
+
+\def\bgcolour#1{\lstset{backgroundcolor=\color{#1}}}
+
+\def\pythonstyle{\lstset{%
+language=python,
+gobble=2,
+basicstyle={\tts},basewidth={0.50em},
+numbers=none,numberstyle=\tiny,numbersep=10pt,
+aboveskip=0pt,belowskip=0pt,
+frame=none,framesep=0pt,framerule=0pt,
+}}
+
+\def\latexstyle{\lstset{%
+language={[LaTeX]TeX},
+gobble=2,
+basicstyle={\tts},basewidth={0.50em},
+numbers=none,numberstyle=\tiny,numbersep=10pt,
+aboveskip=0pt,belowskip=0pt,
+frame=none,framesep=0pt,framerule=0pt,
+texcsstyle=*\bfseries\color{blue},
+stringstyle=\color{green},
+commentstyle=\color{blue}\slshape,
+}}
+
+\def\lstlatex#1{\def\latexmore{\lstset{#1}}}
+\lstlatex{}
+
+\lstnewenvironment{latex}{\begingroup\latexstyle\latexmore}{\endgroup}

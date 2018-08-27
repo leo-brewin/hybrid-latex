@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/ruby
+
+# -- Imports -------------------------------------------------------------------
+
+require ENV['TM_BUNDLE_SUPPORT'] + '/lib/Ruby/command.rb'
+
+# -- Main ----------------------------------------------------------------------
+
+open_included_item</string>
+	<key>fallbackInput</key>
+	<string>line</string>
+	<key>input</key>
+	<string>selection</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string></string>
+	<key>name</key>
+	<string>Open Included Item</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>discard</string>
+	<key>requiredCommands</key>
+	<array>
+		<dict>
+			<key>command</key>
+			<string>kpsewhich</string>
+			<key>locations</key>
+			<array>
+				<string>/usr/texbin/kpsewhich</string>
+				<string>/Library/TeX/texbin/kpsewhich</string>
+				<string>/opt/local/bin/kpsewhich</string>
+			</array>
+		</dict>
+	</array>
+	<key>scope</key>
+	<string>text.tex.latex meta.include, text.tex.latex meta.function.environment.general.latex meta.group.braces.tex</string>
+	<key>uuid</key>
+	<string>B3E6DCF7-6323-4229-94D7-59996BDF07EC</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

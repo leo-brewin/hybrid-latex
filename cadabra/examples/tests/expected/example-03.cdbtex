@@ -1,0 +1,18 @@
+\cdbtag{dgab}{%
+\partial_{c}{g^{a b}} \rightarrow -g^{a e} g^{b f} \partial_{c}{g_{e f}}%
+}
+\cdbtag{Chr}{%
+\Gamma^{a}\,_{b c} \rightarrow \frac{1}{2}g^{a e} \left(\partial_{b}{g_{e c}}+\partial_{c}{g_{b e}}-\partial_{e}{g_{b c}}\right)%
+}
+\cdbtag{Rabcd}{%
+R^{a}\,_{b c d} \rightarrow \partial_{c}{\Gamma^{a}\,_{b d}}+\Gamma^{a}\,_{e c} \Gamma^{e}\,_{b d}-\partial_{d}{\Gamma^{a}\,_{b c}}-\Gamma^{a}\,_{e d} \Gamma^{e}\,_{b c}%
+}
+\cdbtag{Rab}{%
+R_{a b} \rightarrow R^{c}\,_{a c b}%
+}
+\cdbtag{final1}{%
+-\partial_{b}{g^{c e}} \partial_{a}{g_{c e}}+\partial_{a}{g^{c e}} \partial_{b}{g_{c e}}%
+}
+\cdbtag{final2}{%
+0%
+}

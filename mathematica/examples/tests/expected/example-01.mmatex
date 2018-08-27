@@ -1,0 +1,138 @@
+\mmatag{ans.101}{%
+a^3+3 a^2 b+3 a b^2+b^3%
+}
+\mmatag{ans.102}{%
+x (x+1) (a-x)%
+}
+\mmatag{ans.103}{%
+\{\{x\to -2\},\{x\to 2\}\}%
+}
+\mmatag{ans.104}{%
+\left\{a\to \frac{1}{5},b\to -\frac{13}{5},c\to \frac{17}{5}\right\}%
+}
+\mmatag{ans.105}{%
+3.1415926535897932384626433832795028841971693993751%
+}
+\mmatag{ans.106}{%
+\frac{1}{4 (x+1)}-\frac{1}{4 (x+5)}%
+}
+\mmatag{ans.107}{%
+\frac{1}{(x+1) (x+5)}%
+}
+\mmatag{ans.108}{%
+\frac{x^2-1}{x^2+1}%
+}
+\mmatag{ans.109}{%
+i \tan (x)%
+}
+\mmatag{ans.110}{%
+0%
+}
+\mmatag{lhs.108}{%
+\tanh (\log (x))%
+}
+\mmatag{lhs.109}{%
+\tanh (i x)%
+}
+\mmatag{lhs.110}{%
+\sinh (3 x)-3 \sinh (x)-4 \sinh ^3(x)%
+}
+\mmatag{ans.201}{%
+\left(%
+\begin{array}{cc}%
+ 2 & 3 \\%
+ 5 & 4 \\%
+\end{array}%
+\right)%
+}
+\mmatag{ans.202}{%
+\{7,-1\}%
+}
+\mmatag{ans.203}{%
+\left(%
+\begin{array}{cc}%
+ 3 & 5 \\%
+ -1 & 1 \\%
+\end{array}%
+\right)%
+}
+\mmatag{ans.204}{%
+x^2-6 x-7%
+}
+\mmatag{ans.205}{%
+\left(%
+\begin{array}{c}%
+ 3 \\%
+ 7 \\%
+\end{array}%
+\right)%
+}
+\mmatag{ans.206}{%
+\left\{\frac{9}{7},\frac{1}{7}\right\}%
+}
+\mmatag{ans.301}{%
+4%
+}
+\mmatag{ans.302}{%
+\infty%
+}
+\mmatag{ans.303}{%
+2 x%
+}
+\mmatag{ans.304}{%
+\frac{4}{3}%
+}
+\mmatag{ans.305}{%
+e^a%
+}
+\mmatag{ans.401}{%
+\frac{1}{4}-\frac{x-1}{4}+\frac{3}{16} (x-1)^2-\frac{1}{8} (x-1)^3+\frac{5}{64} (x-1)^4-\frac{3}{64} (x-1)^5+O\left((x-1)^6\right)%
+}
+\mmatag{ans.402}{%
+1+x+\frac{x^2}{2}+\frac{x^3}{6}+\frac{x^4}{24}+\frac{x^5}{120}+O\left(x^6\right)%
+}
+\mmatag{ans.403}{%
+\frac{3121579929551692678469635660835626209661709}{1920815367859463099600511526151929560192000}%
+}
+\mmatag{ans.404}{%
+\frac{\pi ^4}{90}%
+}
+\mmatag{ans.501}{%
+\sin (x)+x \cos (x)%
+}
+\mmatag{ans.502}{%
+\frac{1}{\sqrt{2}}+\frac{\pi }{4 \sqrt{2}}%
+}
+\mmatag{ans.503}{%
+-a+\sin (a) \cos (a)+b-\sin (b) \cos (b)%
+}
+\mmatag{ans.504}{%
+\sqrt{\pi }%
+}
+\mmatag{lhs.504}{%
+\int_0^{\infty } 2 \exp \left(-x^2\right) \, dx%
+}
+\mmatag{ans.505}{%
+\frac{1}{3}%
+}
+\mmatag{lhs.505}{%
+\int _0^1\int _0^x\left(x^2+y^2\right)dydx%
+}
+\mmatag{ans.601}{%
+a (\sin (x)-\cos (x))+c_1 e^{-x}%
+}
+\mmatag{ans.602}{%
+-a e^{-x} \left(-e^x \sin (x)+e^x \cos (x)-1\right)%
+}
+\mmatag{ans.603}{%
+c_2 \sin (x)+c_1 \cos (x)%
+}
+\mmatag{ans.604}{%
+\sin (x)%
+}
+\mmatag{ans.605}{%
+c_1 e^{-6 x}+c_2 e^x%
+}
+\mmatag{ans.606}{%
+2 e^{-6 x}+3 e^x%
+}

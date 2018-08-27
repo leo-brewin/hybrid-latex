@@ -1,0 +1,86 @@
+\documentclass[12pt]{mmalatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Quadratic convergence of Newton-Raphson iterations}
+
+This is a simple example that uses Mathematica to demonstrate the quadratic converegnce of Newton-Raphson iterations to the exact root of a non-linear equation.
+
+\vspace{10pt}
+
+\begin{mathematica}
+   f[x_] = N[x - Exp[-x] , 200];                                (* work to 200 decimal digits *)
+   a = NestList[(# - f[#]/f'[#]) &, SetPrecision[1/2,200], 6];  (* list of x values *)
+   b = f /@ a;                                                  (* list of f values *)
+   c = #^2 & /@ b;                                              (* list of f^2 values *)
+   (* mmaBeg(table) *)
+   Print[OutputForm[
+         ToString[0] <> "&" <>
+         ToString[NumberForm[a[[1]], 25]] <> "&" <>
+         ToString[ScientificForm[b[[1]], 11, NumberFormat -> (SequenceForm[#1, "e", #3] &)]] <>
+         "\\\\"
+         ]]
+   Do[Print[OutputForm[
+            ToString[i-1] <> "&" <>
+            ToString[NumberForm[a[[i]], 25]] <> "&" <>
+            ToString[ScientificForm[b[[i]], 11, NumberFormat -> (SequenceForm[#1, "e", #3] &)]] <> "&" <>
+            ToString[NumberForm[b[[i]]/c[[i - 1]], 5]] <>
+            "\\\\"
+            ]], {i, 2, 7}]
+   (* mmaEnd(table) *)
+\end{mathematica}
+
+\clearpage
+
+Note the clear quadratic convergence in the iterations -- the last column settles to approximately $-0.11546$ independent of the number of iterations. This behaviour would not be seen using normal floating point computations as they are normally limited to no more than 18 decimal digits. This computation used 200 decimal digits.
+
+\def\eps{\epsilon}
+\def\RuleA{\vrule depth0pt  width0pt height14pt}
+\def\RuleB{\vrule depth8pt  width0pt height14pt}
+\def\RuleC{\vrule depth10pt width0pt height16pt}
+
+\setlength{\tabcolsep}{0.025\textwidth}%
+
+\begin{center}
+\begin{tabular}{cccc}%
+   \noalign{\hrule height 1pt}
+   \multicolumn{4}{c}{\RuleC\rmfamily\bfseries%
+   Newton-Raphson iterations \quad%
+   $x_{n+1} = x_n - f_n/f'_n\ ,\quad f(x) = x-e^{-x}$}\\
+   \noalign{\hrule height 1pt}
+   \RuleB$n$&$x_n$&$ \eps_{n} =  x_{n} - e^{-x_{n}}$&$\eps_{n}/\eps_{n-1}^2$\\
+   \noalign{\hrule height 0.5pt}
+   \mma{table}
+   \noalign{\hrule height 1pt}
+\end{tabular}
+\end{center}
+
+\vspace{20pt}
+
+\begin{minipage}[t]{0.75\textwidth}
+\begin{latex}
+   \def\eps{\epsilon}
+   \def\RuleA{\vrule depth0pt  width0pt height14pt}
+   \def\RuleB{\vrule depth8pt  width0pt height14pt}
+   \def\RuleC{\vrule depth10pt width0pt height16pt}
+
+   \setlength{\tabcolsep}{0.025\textwidth}%
+
+   \begin{center}
+   \begin{tabular}{cccc}%
+      \noalign{\hrule height 1pt}
+      \multicolumn{4}{c}{\RuleC\rmfamily\bfseries%
+      Newton-Raphson iterations \quad%
+      $x_{n+1} = x_n - f_n/f'_n\ ,\quad f(x) = x-e^{-x}$}\\
+      \noalign{\hrule height 1pt}
+      \RuleB$n$&$ x_n$&$\eps_{n} =  x_{n} - e^{-x_{n}}$&$\eps_{n}/\eps_{n-1}^2$\\
+      \noalign{\hrule height 0.5pt}
+      \mma{table}
+      \noalign{\hrule height 1pt}
+   \end{tabular}
+   \end{center}
+\end{latex}
+\end{minipage}
+
+\end{document}

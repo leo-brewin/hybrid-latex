@@ -1,0 +1,16 @@
+.DS_Store
+.tm_properties
+*.log
+*.toc
+*.out
+*.aux
+*.cut
+*.synctex.gz
+*.hide.txt
+.example*
+.gallery*
+.mixed*
+.hybrid*
+private
+sync.sh
+diff.sh

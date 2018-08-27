@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>saveActiveFile</string>
+	<key>command</key>
+	<string>#!/usr/bin/env bash
+[[ -f "${TM_SUPPORT_PATH}/lib/bash_init.sh" ]] &amp;&amp; \
+    . "${TM_SUPPORT_PATH}/lib/bash_init.sh"
+
+# We use “LaTeX Tidy” as default tex formatting tool. If you want to use
+# `latexindent` instead just set `TM_LATEX_FORMATTER` to the value `latexindent`
+if [[ "${TM_LATEX_FORMATTER}" != "latexindent" ]]; then
+    latextidy.pl
+else
+    # Include `YAML::Tiny` required by `latexindent`
+    export PERL5LIB=$PERL5LIB:"${TM_BUNDLE_SUPPORT}"/lib/Perl
+    PATH=$PATH:/Library/TeX/texbin
+
+    DIRECTORY=$(dirname "${TM_FILEPATH}")
+    cd "${DIRECTORY}"
+
+    latexindent -c=/tmp "${TM_FILENAME}"
+fi
+
+</string>
+	<key>input</key>
+	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>^H</string>
+	<key>name</key>
+	<string>Tidy</string>
+	<key>outputCaret</key>
+	<string>interpolateByLine</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>replaceDocument</string>
+	<key>scope</key>
+	<string>text.tex.latex</string>
+	<key>uuid</key>
+	<string>DF9F9DF7-5F85-11D9-97D0-000D9332809C</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

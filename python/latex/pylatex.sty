@@ -1,0 +1,127 @@
+\def\fileversion{v.0.1}
+\def\filedate{2018/06/04}% 4 Jun 2018
+\ProvidesPackage{pylatex}[\filedate\space\fileversion\space Python-Latex (LCB)]
+%-------------------------------------------------------------------------------
+\usepackage{comment}
+\usepackage{listings}
+\usepackage{keyval}
+\usepackage{etoolbox}
+\usepackage{xcolor}
+%-------------------------------------------------------------------------------
+\usepackage{pymacros}
+%-------------------------------------------------------------------------------
+\def\pyverb#1{{\color{blue}\texttt{\detokenize{#1}}}}% for inline Python verbatim, fails with # in arg.
+%-------------------------------------------------------------------------------
+\def\ProcessCutFile{}% part of the comment.sty package
+%-------------------------------------------------------------------------------
+% define and process key/value pairs in PySetup
+%
+\define@key{mypy}{action}{\def\py@action{#1}}% hide, show, verbatim
+%
+\def\@SetLstShow{\def\@PyEnv{\let\python\undefined\let\python@\undefined\lstnewenvironment{python}{\begingroup\@pystyle}{\endgroup}}}%
+\def\@SetLstVerbatim{\@SetLstShow}%
+\def\@SetLstHide{\def\@PyEnv{\let\endpython\undefined\specialcomment{python}{\begingroup}{\endgroup}}}%
+%
+\providecommand{\PySetup}[1]{%
+%
+\setkeys{mypy}{#1}% Set new keys
+%
+\ifdefstring{\py@action}{show}{\@SetLstShow}{\relax}
+\ifdefstring{\py@action}{hide}{\@SetLstHide}{\relax}
+\ifdefstring{\py@action}{verbatim}{\@SetLstVerbatim}{\relax}
+%
+\@PyEnv}
+%
+\PySetup{action=show}% defaults/initial setup
+%
+%-------------------------------------------------------------------------------
+% silently read the pytex file (if it exists)
+\AfterEndPreamble{\IfFileExists{./\jobname.pytex}{\input{./\jobname.pytex}}{\relax}}
+%===============================================================================
+% Listings style for Python
+%===============================================================================
+\lstset{%
+language=python,
+showtabs=true,
+showstringspaces=false,
+tab=,
+tabsize=2,
+basicstyle=\ttfamily\small,
+basewidth={0.5em}}
+%
+\def\@pystyle{
+\colorlet{commentcolour}{green!50!black}
+\colorlet{stringcolour}{red!60!black}
+\colorlet{keywordcolour}{magenta!90!black}
+\colorlet{exceptioncolour}{yellow!50!red}
+\colorlet{numpycolour}{blue!60!green}
+\colorlet{reservedcolour}{blue}
+\colorlet{magiccolour}{violet}
+\colorlet{booleancolour}{magenta}
+\colorlet{builtincolour}{violet}
+\lstset{%
+language=python,
+stringstyle=\color{stringcolour},
+keywordstyle=\color{keywordcolour}\bfseries,
+commentstyle=\color{commentcolour}\slshape,
+alsoletter={1234567890},
+morekeywords={\%, \}, \{, \&, \|},
+%
+% Reserved words
+emph={assert, break, continue, del, elif, else, except,%
+      exec, finally, for, global, if, lambda, pass,%
+      print, raise, return, try, while, yield,
+      yield from, as, with},%
+emphstyle=\color{blue}\bfseries,
+emphstyle=\color{reservedcolour}\bfseries,
+%
+% Builtins
+emph={[2]abs, all, any, apply, basestring, bin,%
+      bool, buffer, bytearray, bytes, callable, chr, classmethod,%
+      cmp, coerce, compile, complex, delattr, dict, dir, divmod,%
+      enumerate, eval, execfile, exit, file, filter, float,%
+      frozenset, getattr, globals, hasattr, hash, hex, id,%
+      input, int, intern, isinstance, issubclass, iter, len,%
+      list, locals, long, map, max, min, next, object,%
+      oct, open, ord, pow, property, range, raw_input, reduce,%
+      reload, repr, reversed, round, set, setattr, slice,%
+      sorted, staticmethod, str, sum, super, tuple, type,%
+      unichr, unicode, vars, xrange, zip},
+emphstyle=[2]\color{builtincolour},
+%
+% Boolean constants
+emph={[3]True, False, None},
+emphstyle=[3]\color{booleancolour},
+%
+% Exceptions
+emph={[4]Exception,NameError,FloatingPointError,IOError,EOFError,IndexError,RuntimeError,%
+      SyntaxError,TypeError,ValueError,OverflowError,ZeroDivisionError},
+emphstyle=[4]\color{exceptioncolour}\bfseries,
+%
+% numpy functions
+emph={[5]ode,fsolve,sqrt,exp,sin,cos,arctan,arctan2,arccos,pi,array,norm,solve,dot,
+      arange,isscalar,max,sum,flatten,shape,reshape,find,any,all,abs,plot,linspace,legend,
+      quad,polyval,polyfit,hstack,concatenate,vstack,column_stack,empty,zeros,ones,rand,vander,
+      grid,pcolor,eig,eigs,eigvals,svd,qr,tan,det,logspace,roll,min,mean,cumsum,cumprod,diff,
+      vectorize,lstsq,cla,eye,xlabel,ylabel,squeeze},
+emphstyle=[5]\color{numpycolour},
+%
+% python magic
+emph={[6]__init__,__add__,__mul__,__div__,__sub__,__call__,__getitem__,__setitem__,__eq__,__ne__,
+      __nonzero__,__rmul__,__radd__,__repr__,__str__,__get__,__truediv__,__pow__,__name__,__future__,__all__},
+emphstyle=[6]\color{magiccolour},
+%
+% Comments
+morecomment=[s]{"""}{"""},
+}}
+%-------------------------------------------------------------------------------
+% set listings defaults for Python
+%-------------------------------------------------------------------------------
+\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\lstset{%
+language=python,
+numberstyle=\tiny,numbersep=15pt,
+aboveskip=10pt,belowskip=0pt,
+frame=single,framesep=5pt,framerule=0pt,
+xleftmargin=5pt,xrightmargin=5pt,
+backgroundcolor=\color{grey95}}

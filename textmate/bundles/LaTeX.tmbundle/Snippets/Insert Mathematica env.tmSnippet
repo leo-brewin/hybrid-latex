@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>\begin{mathematica}
+	$0
+\end{mathematica}
+</string>
+	<key>name</key>
+	<string>Insert Mathematica env</string>
+	<key>scope</key>
+	<string>text.tex.latex</string>
+	<key>tabTrigger</key>
+	<string>mma</string>
+	<key>uuid</key>
+	<string>D6DC978F-A6D8-4FBB-892E-326587F1E7AF</string>
+</dict>
+</plist>

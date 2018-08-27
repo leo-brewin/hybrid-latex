@@ -1,0 +1,24 @@
+\font\@displayfont=pzdr at 10pt
+% \providecommand*{\@None}{\hbox{\@displayfont\char'067}}% 067 = light cross, 070 = bold cross
+\providecommand*{\@None}{\hbox{(??)}}
+% ---------------------------------------------------------------------
+\providecommand*{\colonEq}{\mathrel{\vcenter{\baselineskip0.5ex\lineskiplimit0pt\hbox{.}\hbox{.}}}=}% centred colon
+\providecommand*{\mmatag}[2]{\expandafter\def\csname mma@#1\endcsname{#2}}
+% ---------------------------------------------------------------------
+\providecommand*{\mma}{\@ifstar\@mma\@@mma}
+\providecommand*{\@mma}[1]{\ttTag{#1}\colonEq\mma{#1}}% places tag immediately to the left
+\providecommand*{\@@mma}[1]{\@ifundefined{mma@#1}{\@None}{\csname mma@#1\endcsname}}% shows just the value, nothing else
+% ---------------------------------------------------------------------
+\providecommand*{\Mma}{\@ifstar\@Mma\@@Mma}
+\providecommand*{\@Mma}[2][\hfill]{\mma{#2}\def\@currentlabel{#2}#1\llap{(\ttTag{#2})}}% for use in dmath* etc.
+\providecommand*{\@@Mma}[1]{\mma{#1}\tag{\ttTag{#1}}}% for use in align* etc.
+% ---------------------------------------------------------------------
+\providecommand*{\Dmath}{\@ifstar\@Dmath\@@Dmath}
+\providecommand*{\@Dmath}[2][]{\begin{dmath*}[#1]#2\end{dmath*}}%
+\providecommand*{\@@Dmath}[2][]{\begin{dmath}[#1]#2\end{dmath}}%
+% ---------------------------------------------------------------------
+\providecommand*{\ttTag}[1]{\hbox{\small\tt\detokenize{#1}}}
+\providecommand*{\pglabel}[1]{\phantomsection\label{#1}}% fixes a problem with hyperref and label
+% see https://tex.stackexchange.com/questions/193380/hyperref-pageref-links-point-to-first-page
+% ---------------------------------------------------------------------
+\let\Input=\input

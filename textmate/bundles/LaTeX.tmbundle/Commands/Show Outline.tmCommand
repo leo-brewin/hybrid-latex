@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/ruby
+
+# -- Imports -------------------------------------------------------------------
+
+require ENV['TM_BUNDLE_SUPPORT'] + '/lib/Ruby/project_management/outline'
+
+# -- Main ----------------------------------------------------------------------
+
+show_outline</string>
+	<key>fallbackInput</key>
+	<string>word</string>
+	<key>input</key>
+	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>~@o</string>
+	<key>name</key>
+	<string>Show Outline</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>html</string>
+	<key>outputLocation</key>
+	<string>newWindow</string>
+	<key>scope</key>
+	<string>text.tex.latex</string>
+	<key>uuid</key>
+	<string>5AED5DFA-F084-4F12-8A06-D51C78E91D05</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

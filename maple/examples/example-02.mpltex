@@ -1,0 +1,20 @@
+\mpltag{CalculusTable}{%
+{\frac {\rm d}{{\rm d}x}}\sin \left( x \right) &=\cos \left( x \right) \quad & \quad%
+\int \!\sin \left( x \right) \,{\rm d}x&=-\cos \left( x \right) \\%
+{\frac {\rm d}{{\rm d}x}}\cos \left( x \right) &=-\sin \left( x \right) \quad & \quad%
+\int \!\cos \left( x \right) \,{\rm d}x&=\sin \left( x \right) \\%
+{\frac {\rm d}{{\rm d}x}}\tan \left( x \right) &=1+ \left( \tan \left( x \right)  \right) ^{2}\quad & \quad%
+\int \!\tan \left( x \right) \,{\rm d}x&=-\ln  \left( \cos \left( x \right)  \right) \\%
+{\frac {\rm d}{{\rm d}x}}\arcsin \left( x \right) &={\frac {1}{\sqrt {-{x}^{2}+1}}}\quad & \quad%
+\int \!\arcsin \left( x \right) \,{\rm d}x&=x\arcsin \left( x \right) +\sqrt {-{x}^{2}+1}\\[5pt]%
+{\frac {\rm d}{{\rm d}x}}\arccos \left( x \right) &=-{\frac {1}{\sqrt {-{x}^{2}+1}}}\quad & \quad%
+\int \!\arccos \left( x \right) \,{\rm d}x&=x\arccos \left( x \right) -\sqrt {-{x}^{2}+1}\\[5pt]%
+{\frac {\rm d}{{\rm d}x}}\arctan \left( x \right) &= \left( {x}^{2}+1 \right) ^{-1}\quad & \quad%
+\int \!\arctan \left( x \right) \,{\rm d}x&=x\arctan \left( x \right) -\frac {1}{2}\,\ln  \left( {x}^{2}+1 \right) \\[5pt]%
+{\frac {\rm d}{{\rm d}x}}\sinh \left( x \right) &=\cosh \left( x \right) \quad & \quad%
+\int \!\sinh \left( x \right) \,{\rm d}x&=\cosh \left( x \right) \\%
+{\frac {\rm d}{{\rm d}x}}\cosh \left( x \right) &=\sinh \left( x \right) \quad & \quad%
+\int \!\cosh \left( x \right) \,{\rm d}x&=\sinh \left( x \right) \\%
+{\frac {\rm d}{{\rm d}x}}\tanh \left( x \right) &=1- \left( \tanh \left( x \right)  \right) ^{2}\quad & \quad%
+\int \!\tanh \left( x \right) \,{\rm d}x&=\ln  \left( \cosh \left( x \right)  \right)  %
+}

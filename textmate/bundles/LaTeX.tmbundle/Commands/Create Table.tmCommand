@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/ruby
+
+# -- Imports -------------------------------------------------------------------
+
+require ENV['TM_BUNDLE_SUPPORT'] + '/lib/Ruby/table.rb'
+
+# -- Main ----------------------------------------------------------------------
+
+puts Table.new</string>
+	<key>input</key>
+	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>^@T</string>
+	<key>name</key>
+	<string>Create Table</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>snippet</string>
+	<key>outputLocation</key>
+	<string>replaceSelection</string>
+	<key>scope</key>
+	<string>text.tex.latex</string>
+	<key>uuid</key>
+	<string>7190DABA-FE8B-4DC7-9D31-3A727A8647CD</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,70 @@
+% https://www.mathworks.com/examples/symbolic/mw/symbolic-ex98670373-computational-mathematics-in-symbolic-math-toolbox
+
+% see also
+% https://www.mathworks.com/examples/symbolic/mw/symbolic-ex98670382-analytical-plotting-with-symbolic-math-toolbox
+
+\PassOptionsToPackage{hyphens}{url}% allow line breaks at hyphens in urls
+\documentclass[12pt]{matlatex}
+\usepackage{examples}
+\usepackage{graphicx}
+\usepackage{caption}
+
+\begin{document}
+
+\section*{Surface plot}
+
+This and the following exampes were lifted from the collection at%
+\ \url{https://www.mathworks.com/examples/symbolic/mw/symbolic-ex98670373-computational-mathematics-in-symbolic-math-toolbox}.
+Other nice examples can also be found here%
+\ \url{https://www.mathworks.com/examples/symbolic/mw/symbolic-ex98670382-analytical-plotting-with-symbolic-math-toolbox}.
+
+\begin{matlab}
+   syms x y
+   fsurf(sin(x)+cos(y));
+   print(gcf,'example_03_fig1.png','-dpng');
+\end{matlab}
+
+\begin{minipage}{\textwidth}
+   \centering
+   \IfFileExists{example_03_fig1.png}%
+   {\includegraphics[width=0.65\textwidth]{example_03_fig1.png}}{Failed to create png plot.}
+   \captionof{figure}{A 2d surface plot.}
+\end{minipage}
+
+\clearpage
+
+\section*{Contour plot}
+
+\begin{matlab}
+   syms x y
+   fcontour(sin(x)+cos(y));
+   print(gcf,'example_03_fig2.png','-dpng');
+\end{matlab}
+
+\begin{minipage}{\textwidth}
+   \centering
+   \IfFileExists{example_03_fig2.png}%
+   {\includegraphics[width=0.75\textwidth]{example_03_fig2.png}}{Failed to create png plot.}
+   \captionof{figure}{A contour plot}
+\end{minipage}
+
+\section*{Parameteric plot}
+
+\begin{matlab}
+   syms t
+   xt = exp(abs(t)/10).*sin(5*abs(t));
+   yt = exp(abs(t)/10).*cos(5*abs(t));
+   zt = t;
+   h = fplot3(xt,yt,zt,[-10,10],'r');
+   view([-45,20]);
+   print(gcf,'example_03_fig3.png','-dpng');
+\end{matlab}
+
+\begin{minipage}{\textwidth}
+   \centering
+   \IfFileExists{example_03_fig3.png}%
+   {\includegraphics[width=0.65\textwidth]{example_03_fig3.png}}{Failed to create png plot.}
+   \captionof{figure}{A 3d parametric plot.}
+\end{minipage}
+
+\end{document}

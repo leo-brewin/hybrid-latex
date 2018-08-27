@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>saveActiveFile</string>
+	<key>command</key>
+	<string>#!/bin/bash
+
+if [ -f "${TM_SUPPORT_PATH}/lib/bash_init.sh" ]; then
+ source "${TM_SUPPORT_PATH}/lib/bash_init.sh"
+fi;
+
+export PYTHONWARNINGS="ignore"
+export CADABRA_NO_UNICODE=1
+
+# --------------------------------------------------
+TM_cdb2py=/usr/local/bin/cadabra2python
+TM_cdb2=/usr/local/bin/cadabra2
+# --------------------------------------------------
+
+file=`basename -s ".cdb" "$TM_FILEPATH"`
+
+$TM_cdb2py "$file".cdb /tmp/"$file".py
+$TM_cdb2   /tmp/"$file".py
+</string>
+	<key>input</key>
+	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>@r</string>
+	<key>name</key>
+	<string>Run Cadabra2</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>html</string>
+	<key>outputLocation</key>
+	<string>newWindow</string>
+	<key>scope</key>
+	<string>source.cadabra</string>
+	<key>uuid</key>
+	<string>962F8D87-3BC4-4C42-9EA7-7C495143FD6B</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

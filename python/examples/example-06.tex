@@ -1,0 +1,89 @@
+\documentclass[12pt]{pylatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Quadratic convergence of Newton-Raphson iterations}
+
+This is a simple example that uses Python and {\tt\small sympy} to demonstrate the quadratic converegnce of Newton-Raphson iterations to the exact root of a non-linear equation.
+
+\vspace{10pt}
+
+\begin{python}
+   from sympy import *
+
+   x = Symbol('x')
+
+   f    = Lambda (x,x-exp(-x))
+   df   = Lambda (x,diff(f(x),x))
+   Step = Lambda (x,x-f(x)/df(x))
+
+   Digits = 200  # use 200 decimal digits for all numerical computations
+
+   x_new = Float('0.5',Digits)
+   f_new = N (f(x_new),Digits)
+
+   # pyBeg (table)
+
+   print ('\RuleA {:2d} & {: .25f} & {: .10e} &\\\\'.format(0,x_new,f_new))
+
+   for n in range (1,7):
+      x_old = x_new
+      x_new = N (Step(x_new),Digits)
+      f_old = N (f(x_old),Digits)
+      f_new = N (f(x_new),Digits)
+      ratio = N (f_new / f_old**2,Digits)
+      print ('\RuleA {:2d} & {: .25f} & {: .10e} & {: .5f}\\\\'.format(n,x_new,f_new,ratio))
+
+   # pyEnd (table)
+\end{python}
+
+\clearpage
+
+Note the clear quadratic convergence in the iterations -- the last column settles to approximately $-0.11546$ independent of the number of iterations. This behaviour would not be seen using normal floating point computations as they are normally limited to no more than 18 decimal digits. This computation used 200 decimal digits.
+
+\def\RuleA{\vrule depth0pt  width0pt height14pt}
+\def\RuleB{\vrule depth8pt  width0pt height14pt}
+\def\RuleC{\vrule depth10pt width0pt height16pt}
+
+\setlength{\tabcolsep}{0.025\textwidth}%
+
+\begin{center}
+   \begin{tabular}{cccc}%
+      \noalign{\hrule height 1pt}
+      \multicolumn{4}{c}{\RuleC\rmfamily\bfseries%
+      Newton-Raphson iterations \quad%
+      $x_{n+1} = x_n - f_n/f'_n\ ,\quad f(x) = x-e^{-x}$}\\
+      \noalign{\hrule height 1pt}
+      \RuleB$ n$&$ x_n$&$ \epsilon_{n} =  x_{n} - e^{-x_{n}}$&$\epsilon_{n}/\epsilon_{n-1}^2$\\
+      \noalign{\hrule height 0.5pt}
+      \py{table}
+      \noalign{\hrule height 1pt}
+   \end{tabular}
+\end{center}
+
+\vspace{20pt}
+
+\begin{latex}
+   \def\RuleA{\vrule depth0pt  width0pt height14pt}
+   \def\RuleB{\vrule depth8pt  width0pt height14pt}
+   \def\RuleC{\vrule depth10pt width0pt height16pt}
+
+   \setlength{\tabcolsep}{0.025\textwidth}%
+
+   \begin{center}
+      \begin{tabular}{cccc}%
+         \noalign{\hrule height 1pt}
+         \multicolumn{4}{c}{\RuleC\rmfamily\bfseries%
+         Newton-Raphson iterations \quad%
+         $x_{n+1} = x_n - f_n/f'_n\ ,\quad f(x) = x-e^{-x}$}\\
+         \noalign{\hrule height 1pt}
+         \RuleB$ n$&$ x_n$&$ \epsilon_{n} =  x_{n} - e^{-x_{n}}$&$\epsilon_{n}/\epsilon_{n-1}^2$\\
+         \noalign{\hrule height 0.5pt}
+         \py{table}
+         \noalign{\hrule height 1pt}
+      \end{tabular}
+   \end{center}
+\end{latex}
+
+\end{document}

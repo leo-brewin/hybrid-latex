@@ -1,0 +1,86 @@
+\documentclass[12pt]{matlatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Quadratic convergence of Newton-Raphson iterations}
+
+This is a simple example that uses the Matlab Symbolic Toolbox to demonstrate the quadratic converegnce of Newton-Raphson iterations to the exact root of a non-linear equation.
+
+\begin{matlab}
+   syms x f(x) df(x) Step(x)
+
+   f(x)    = x-exp(-x);
+   df(x)   = diff(f,x);
+   Step(x) = x- f(x)/df(x);
+
+   digits(200);
+
+   x_new = vpa (1/2);
+   f_new = vpa (f(x_new));
+
+   % matBeg (table)
+
+   fprintf ('\\RuleA %2d & % .25f & % .10e &\\\\\n',[0,x_new,f_new]);
+
+   for n = 1:6
+      x_old = x_new;
+      x_new = vpa (Step(x_new));
+      f_old = vpa (f(x_old));
+      f_new = vpa (f(x_new));
+      ratio = vpa (f_new / f_old^2);
+      fprintf ('\\RuleA %2d & % .25f & % .10e & % .5f\\\\\n',[n,x_new,f_new,ratio]);
+   end
+
+   % matEnd (table)
+\end{matlab}
+
+\clearpage
+
+Note the clear quadratic convergence in the iterations -- the last column settles to approximately $-0.11546$ independent of the number of iterations. This behaviour would not be seen using normal floating point computations as they are normally limited to no more than 18 decimal digits. This computation used 200 decimal digits.
+
+\def\RuleA{\vrule depth0pt  width0pt height14pt}
+\def\RuleB{\vrule depth8pt  width0pt height14pt}
+\def\RuleC{\vrule depth10pt width0pt height16pt}
+
+\setlength{\tabcolsep}{0.025\textwidth}%
+
+\begin{center}
+   \begin{tabular}{cccc}%
+      \noalign{\hrule height 1pt}
+      \multicolumn{4}{c}{\RuleC\rmfamily\bfseries%
+      Newton-Raphson iterations \quad%
+      $x_{n+1} = x_n - f_n/f'_n\ ,\quad f(x) = x-e^{-x}$}\\
+      \noalign{\hrule height 1pt}
+      \RuleB$n$&$x_n$&$\epsilon_{n} = x_{n} - e^{-x_{n}}$&$\epsilon_{n}/\epsilon_{n-1}^2$\\
+      \noalign{\hrule height 0.5pt}
+      \mat{table}
+      \noalign{\hrule height 1pt}
+   \end{tabular}
+\end{center}
+
+\vspace{20pt}
+
+\begin{latex}
+   \def\RuleA{\vrule depth0pt  width0pt height14pt}
+   \def\RuleB{\vrule depth8pt  width0pt height14pt}
+   \def\RuleC{\vrule depth10pt width0pt height16pt}
+
+   \setlength{\tabcolsep}{0.025\textwidth}%
+
+   \begin{center}
+      \begin{tabular}{cccc}%
+         \noalign{\hrule height 1pt}
+         \multicolumn{4}{c}{\RuleC\rmfamily\bfseries%
+         Newton-Raphson iterations \quad%
+         $x_{n+1} = x_n - f_n/f'_n\ ,\quad f(x) = x-e^{-x}$}\\
+         \noalign{\hrule height 1pt}
+         \RuleB$n$&$x_n$&$\epsilon_{n} = x_{n} - e^{-x_{n}}$&$\epsilon_{n}/\epsilon_{n-1}^2$\\
+         \noalign{\hrule height 0.5pt}
+         \mat{table}
+         \noalign{\hrule height 1pt}
+      \end{tabular}
+   \end{center}
+\end{latex}
+
+\end{document}

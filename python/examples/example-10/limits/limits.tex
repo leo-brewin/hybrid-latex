@@ -1,0 +1,21 @@
+\section*{Limits}
+
+\vspace{-10pt}
+
+\begin{python}
+   from sympy import *
+   a, n, x, dx = symbols('a n x dx')
+   ans = limit(sin(4*x)/x,x,0)                  # py (ans.301,ans)
+   ans = limit(2**x/x,x,oo)                     # py (ans.302,ans)
+   ans = limit(((x+dx)**2 - x**2)/dx, dx,0)     # py (ans.303,ans)
+   ans = limit((4*n + 1)/(3*n - 1),n,oo)        # py (ans.304,ans)
+   ans = limit((1+(a/n))**n,n,oo)               # py (ans.305,ans)
+\end{python}
+
+\begin{align*}
+   &\py*{ans.301}\\
+   &\py*{ans.302}\\
+   &\py*{ans.303}\\
+   &\py*{ans.304}\\
+   &\py*{ans.305}
+\end{align*}

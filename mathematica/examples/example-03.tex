@@ -1,0 +1,70 @@
+% based on example 7 in pythontex_gallery
+% https://github.com/gpoore/pythontex/
+
+\documentclass[12pt]{mmalatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Step-by-step integration}
+
+This is another nice example drawn from the Pythontex gallery, see
+\ \url{https://github.com/gpoore/pythontex}.
+
+It shows the step-by-step computations of a simple triple integral.
+
+\vspace{12pt}
+
+\lstset{numbers=left}
+\begin{mathematica}
+   xmax = 2;  ymax = 3;  zmax = 4;
+   xmin = 0;  ymin = 0;  zmin = 0;
+
+   fun = f[x,y,z];
+
+   mytmp = HoldForm[Integrate[#1, {z, #6, #7},
+                                  {y, #4, #5},
+                                  {x, #2, #3}]] & @@ {fun, xmin, xmax, ymin, ymax, zmin, zmax};   (* mma(lhs.01,mytmp) *)
+
+   fun = x y + y Sin[z] + Cos[x+y];
+
+   myint = HoldForm[Integrate[#1, {z, #6, #7},
+                                  {y, #4, #5},
+                                  {x, #2, #3}]] & @@ {fun, xmin, xmax, ymin, ymax, zmin, zmax};   (* mma(rhs.01,myint) *)
+
+   myansx =          Integrate[#1, {x, #2, #3}] & @@ {fun, xmin, xmax};
+   myintx = HoldForm[Integrate[#1, {z, #4, #5},
+                                   {y, #2, #3}]] & @@ {myansx, ymin, ymax, zmin, zmax};           (* mma(rhs.02,myintx) *)
+
+   myansxy =          Integrate[#1, {y, #2, #3}]  & @@ {myansx, ymin, ymax};
+   myintxy = HoldForm[Integrate[#1, {z, #2, #3}]] & @@ {myansxy, zmin, zmax};                     (* mma(rhs.03,myintxy) *)
+
+   myansxyz = Integrate[#1, {z, #2, #3}] & @@ {myansxy, zmin, zmax};                              (* mma(rhs.04,myansxyz) *)
+
+   myapprox = N[myansxyz,15];                                                                     (* mma(rhs.05,myapprox) *)
+\end{mathematica}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{align*}
+   \mma{lhs.01} &= \mma{rhs.01}\\
+                &= \mma{rhs.02}\\
+                &= \mma{rhs.03}\\
+                &= \mma{rhs.04}\\[8pt]
+                &\approx \mma{rhs.05}
+\end{align*}
+\end{minipage}
+\hskip 1cm
+\lower16pt\hbox{%
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      \mma{lhs.01} &= \mma{rhs.01}\\
+                   &= \mma{rhs.02}\\
+                   &= \mma{rhs.03}\\
+                   &= \mma{rhs.04}\\[8pt]
+                   &\approx \mma{rhs.05}
+   \end{align*}
+\end{latex}
+\end{minipage}}
+
+\end{document}

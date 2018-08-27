@@ -1,0 +1,60 @@
+% based on example 8 in pythontex_gallery
+% https://github.com/gpoore/pythontex/
+
+\documentclass[12pt]{mpllatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Step-by-step integration}
+
+This is another nice example drawn from the Pythontex gallery, see
+\ \url{https://github.com/gpoore/pythontex}.
+
+It shows the step-by-step computations of a simple triple integral.
+
+\vspace{12pt}
+
+\begin{maple}
+   # Define limits of integration
+   x_max := 2:   y_max := 3:   z_max := 4:
+   x_min := 0:   y_min := 0:   z_min := 0:
+
+   ans := int(f(x,y,z), [x=x_min..x_max, y=y_min..y_max, z=z_min..z_max]):            # mpl(lhs.01,ans)
+
+   f := (x,y,z) -> x*y + y*sin(z) + cos(x+y):
+
+   ans := ''int''(''int''(''int''(f(x,y,z), x=x_min..x_max), y=y_min..y_max), z=z_min..z_max):    # mpl(rhs.01,ans)
+   ans := ''int''(''int''(int(f(x,y,z), x=x_min..x_max), y=y_min..y_max), z=z_min..z_max):        # mpl(rhs.02,ans)
+   ans := ''int''(int(int(f(x,y,z), x=x_min..x_max), y=y_min..y_max), z=z_min..z_max):            # mpl(rhs.03,ans)
+   ans := int(int(int(f(x,y,z), x=x_min..x_max), y=y_min..y_max), z=z_min..z_max):                # mpl(rhs.04,ans)
+
+   # And now, a numerical approximation
+   ans := evalf[15](ans):                                                             # mpl(rhs.05,ans)
+
+\end{maple}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{align*}
+   \mpl{lhs.01} &= \mpl{rhs.01}\\
+                &= \mpl{rhs.02}\\
+                &= \mpl{rhs.03}\\
+                &= \mpl{rhs.04}\\
+                &\approx \mpl{rhs.05}
+\end{align*}
+\end{minipage}
+\hskip 1cm
+\lower16pt\hbox{%
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      \mpl{lhs.01} &= \mpl{rhs.01}\\
+                   &= \mpl{rhs.02}\\
+                   &= \mpl{rhs.03}\\
+                   &= \mpl{rhs.04}\\
+                   &\approx \mpl{rhs.05}
+   \end{align*}
+\end{latex}
+\end{minipage}}
+
+\end{document}

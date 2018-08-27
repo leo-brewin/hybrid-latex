@@ -1,0 +1,68 @@
+\documentclass[12pt]{article}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{hyperref}
+
+\hypersetup{colorlinks=true,filecolor=magenta}
+% \geometry{papersize={210mm,297mm},hmargin=2cm,tmargin=1.0cm,bmargin=1.5cm}
+\geometry{papersize={297mm,210mm},hmargin=2cm,tmargin=2.0cm,bmargin=2.0cm}
+% \geometry{papersize={210mm,297mm},hmargin=2cm,tmargin=1.5cm,bmargin=2.0cm}
+% \geometry{papersize={210mm,297mm},hmargin=2.5cm,tmargin=1.5cm,bmargin=2.5cm}
+
+\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+
+\def\bgcolour#1{\lstset{backgroundcolor=\color{#1}}}
+
+\lstset{%
+basicstyle={\small\tt},basewidth={0.50em},
+numbers=none,numberstyle=\tiny,numbersep=10pt,
+aboveskip=10pt,belowskip=0pt,
+frame=single,framesep=2pt,framerule=0pt}
+
+\bgcolour{grey95}
+
+\parindent=0pt
+\parskip=6pt plus 3pt minus 2pt
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\section*{TextMate}
+
+TextMate \href{https://github.com/textmate/textmate}{https://github.com/textmate/textmate} is an exceptional editor available exclusively on macOS. It is simple to use, has an elegant interface and is very easily customised.
+
+If you are using TextMate on macOS then you can use a modified LaTeX bundle (and friends) to provide syntax highlighting as well as shortcuts for compilation and inserting the language specific environment blocks.
+
+To install these bundles, first install TextMate's own bundles for LaTeX, Mathematica and Matlab (open Textmate/Preferences/Bundles, then click the appropriate check boxes). Next quit TextMate, then copy the following bundles to the TextMate bundles directory.
+
+\begin{lstlisting}
+   cp -rf bundles/LaTeX.tmbundle   $HOME/Library/Application\ Support/TextMate/Bundles/
+   cp -rf bundles/Cadabra.tmbundle $HOME/Library/Application\ Support/TextMate/Bundles/
+   cp -rf bundles/Maple.tmbundle   $HOME/Library/Application\ Support/TextMate/Bundles/
+\end{lstlisting}
+
+Upon re-staring TextMate you should now have extra entries in the LaTeX menu (shortcuts and tab triggers) as well as syntax highlighting. Note that you only need to install the bundles for the languages that you intend to use (with the LaTeX bundle being the obvious bare minimum).
+
+To compile a Python-LaTeX file you can press {\tt\small control-apple-p}. This will run the {\tt\small pylatex.sh} script on the given file. This script will call Python so you may also need to adjust TextMate's version of {\tt\small PATH} to include the appropriate directory (use Textmate/Preferences/Variables and edit the {\tt\small PATH}). This same issue applies to the other languages. You might also need to tell TextMate where to find your  Python scripts. You can do so by setting {\tt\small PYTHONPATH} in Textmate/Preferences/Variables.
+
+To revert to the original TextMate bundles, simply delete the each of the above bundles by first quitting TextMate then running
+
+\begin{lstlisting}
+   rm -rf $HOME/Library/Application\ Support/TextMate/Bundles/LaTeX.tmbundle
+   rm -rf $HOME/Library/Application\ Support/TextMate/Bundles/Cadabra.tmbundle
+   rm -rf $HOME/Library/Application\ Support/TextMate/Bundles/Maple.tmbundle
+\end{lstlisting}
+
+and finish by restarting TextMate.
+
+If the new bundles fail to appear (or remains after deletion) then you will also need to delete the {\tt\small BundlesIndex.binary}. First quit TextMate then
+
+\begin{lstlisting}
+   rm $HOME/Library/Caches/com.macromates.TextMate/BundlesIndex.binary
+\end{lstlisting}
+
+and once again finish by restarting TextMate.
+
+\end{document}

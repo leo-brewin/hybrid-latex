@@ -1,0 +1,6 @@
+macOS 10.13.3 High Sierra
+
+python:     3.6.5 (Ananconda3)
+python:     2.7   (Apple)
+latex:      TeXLive2018
+matlab:     R2018a (06-Feb-2018)

@@ -1,0 +1,78 @@
+\documentclass[12pt]{cdblatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Symmetry of the Ricci tensor}
+
+This simple example shows that, for the metric connection, the Ricci tensor is symmetric, that is $R_{ab} = R_{ba}$.
+
+\vspace{15pt}
+
+\begin{cadabra}
+   {a,b,c,d,e,f,i,j,k,l,m,n,o,p,q,r,s,t,u#}::Indices(position=independent).
+
+   \partial{#}::PartialDerivative;
+
+   g_{a b}::Symmetric;
+   g^{a b}::Symmetric;
+
+   g_{a b}::Depends(\partial{#});
+   g^{a b}::Depends(\partial{#});
+
+   dgab := \partial_{c}{g^{a b}} -> - g^{a e} g^{b f} \partial_{c}{g_{e f}}. # cdb (dgab,dgab)
+
+   Gamma := \Gamma^{a}_{b c} ->
+            (1/2) g^{a e} (   \partial_{b}{g_{e c}}
+                            + \partial_{c}{g_{b e}}
+                            - \partial_{e}{g_{b c}}).     # cdb (Chr,Gamma)
+
+   Rabcd := R^{a}_{b c d} ->
+           \partial_{c}{\Gamma^{a}_{b d}} + \Gamma^{a}_{e c} \Gamma^{e}_{b d}
+         - \partial_{d}{\Gamma^{a}_{b c}} - \Gamma^{a}_{e d} \Gamma^{e}_{b c}.
+                                                          # cdb (Rabcd,Rabcd)
+
+   Rab := R_{a b} -> R^{c}_{a c b}.                       # cdb (Rab,Rab)
+
+   eqn := 2 (R_{a b} - R_{b a}).
+
+   substitute (eqn, Rab)
+   substitute (eqn, Rabcd)
+   substitute (eqn, Gamma)
+
+   distribute   (eqn)
+   product_rule (eqn)
+   canonicalise (eqn)                                     # cdb (final1,eqn)
+
+   substitute   (eqn,dgab)
+   canonicalise (eqn)                                     # cdb (final2,eqn)
+\end{cadabra}
+
+\subsection*{Symmetry of the Ricci tensor}
+
+\begin{minipage}[t]{0.60\textwidth}
+\begin{align*}
+   g^{a b}{}_{,c}   &:=\cdb{dgab}\\
+   \Gamma^{a}_{bc}  &:=\cdb{Chr}\\
+   R^a{}_{bcd}      &:=\cdb{Rabcd}\\
+   R_{ab}           &:=\cdb{Rab}\\[10pt]
+   2(R_{ab}-R_{ba}) &= \cdb{final1}\\
+                    &= \cdb{final2}
+\end{align*}
+\end{minipage}
+\hskip 1cm
+\lower16pt\hbox{%
+\begin{minipage}[t]{0.40\textwidth}
+\begin{latex}
+   \begin{align*}
+      g^{a b}{}_{,c}   &:=\cdb{dgab}\\
+      \Gamma^{a}_{bc}  &:=\cdb{Chr}\\
+      R^a{}_{bcd}      &:=\cdb{Rabcd}\\
+      R_{ab}           &:=\cdb{Rab}\\[10pt]
+      2(R_{ab}-R_{ba}) &= \cdb{final1}\\
+                       &= \cdb{final2}
+   \end{align*}
+\end{latex}
+\end{minipage}}
+
+\end{document}

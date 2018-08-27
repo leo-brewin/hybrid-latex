@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List: LaTeX</string>
+	<key>scope</key>
+	<string>text.tex.latex meta.function.section.*.latex</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+    # Transform part-, chapter-, section- and paragraph-headings   
+		s/^\\part\*?(?:\[[^]]*\]){0,2}\{(.+)\}/$1/;               
+		s/^\\chapter\*?(?:\[[^]]*\]){0,2}\{(.+)\}/ $1/;           
+		s/^\\section\*?(?:\[[^]]*\]){0,2}\{(.+)\}/  $1/;          
+		s/^\\subsection\*?(?:\[[^]]*\]){0,2}\{(.+)\}/   $1/;      
+		s/^\\subsubsection\*?(?:\[[^]]*\]){0,2}\{(.+)\}/    $1/;  
+		s/^\\paragraph\*?(?:\[[^]]*\]){0,2}\{(.+)\}/     $1/;     
+		s/^\\subparagraph\*?(?:\[[^]]*\]){0,2}\{(.+)\}/      $1/; 
+		# Take care of everything else
+    s/^\\.*\{(.+)\}/$1/;  
+	</string>
+	</dict>
+	<key>uuid</key>
+	<string>AF20835B-CB64-46F3-9E91-F3330378C4AE</string>
+</dict>
+</plist>

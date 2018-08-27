@@ -1,0 +1,43 @@
+\documentclass[12pt]{matlatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Using tagged blocks}
+
+The following Matlab code block contains a matched {\tt\small\verb|matBeg/matEnd|} pair, with the tag name {\tt\small info}, to capture the output from the formatted Python {\tt\small print} statements.
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{matlab}
+   % matBeg(info)
+   prodinfo=ver('matlab');
+   fprintf('Date :         &%s\\\\\n',datestr(now));
+   fprintf('Name :         &%s\\\\\n',prodinfo.Name);
+   fprintf('Version :      &%s\\\\\n',prodinfo.Version);
+   fprintf('Release :      &%s\\\\\n',prodinfo.Release);
+   fprintf('Release date : &%s\n',    prodinfo.Date);
+   % matEnd(info)
+\end{matlab}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \bgroup\tt
+   \begin{tabular}{rl}
+      \mat{info}
+   \end{tabular}
+   \egroup
+\end{latex}
+\end{minipage}
+
+\vspace{12pt}
+
+Here is the output caught from the above block.
+
+\bgroup\tt
+\begin{tabular}{rl}
+   \mat{info}
+\end{tabular}
+\egroup
+
+\end{document}

@@ -1,0 +1,215 @@
+% based on
+% https://github.com/sympy/sympy/wiki/Quick-examples
+
+\documentclass[12pt]{pylatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Visible Python code}
+
+This is the first of two-part example. In this first part the Python code and tags are made visible using {\tt\small\verb|\PySetup{action=show}|} (this is the default). In the second part the Python code will be hidden using {\tt\small\verb|\PySetup{action=hide}|}. In both cases the Python output is identical (apart from the different tag names).
+
+\vspace{12pt}
+
+\PySetup{action=show}
+
+\begin{python}
+   from sympy import *
+
+   x, y = symbols('x y')
+
+   ans = limit((sin(x)-x)/x**3, x, 0)               # py(ans.101,ans)
+   ans = (1/cos(x)).series(x, 0, 6)                 # py(ans.102,ans)
+   ans = diff(cos(x**2)**2 / (1+x), x)              # py(ans.103,ans)
+   ans = integrate(x**2 * cos(x), x)                # py(ans.104,ans)
+   ans = integrate(x**2 * cos(x), (x, 0, pi/2))     # py(ans.105,ans)
+
+   f = Function('f')
+
+   eqn = Eq(Derivative(f(x),x,x) + 9*f(x), 1)       # py(ans.106,eqn)
+   sol = dsolve(eqn, f(x))                          # py(ans.107,sol)
+
+   eqn = Eq(f(x).diff(x, x) + 9*f(x), 1)            # py(ans.108,eqn)
+   sol = dsolve(eqn, f(x))                          # py(ans.109,sol)
+
+   my_int = Integral(cos(x),(x,0,2))                # py(ans.110,my_int)
+   my_ans = my_int.doit()                           # py(ans.111,my_ans)
+\end{python}
+
+\clearpage
+
+\section*{Visible Python code output}
+
+Here is the output from the above Python code. This line of text is here for no other reason than to fill out the line so that we have two lines of text before the Python output. This makes it easier to compare the vertical spacing between this and the next example.
+%
+\begin{align*}
+   &\py*{ans.101}\\
+   &\py*{ans.102}\\
+   &\py*{ans.103}\\
+   &\py*{ans.104}\\
+   &\py*{ans.105}\\
+   &\py*{ans.106}\\
+   &\py*{ans.107}\\
+   &\py*{ans.108}\\
+   &\py*{ans.109}\\
+   &\py*{ans.110}\\
+   &\py*{ans.111}
+\end{align*}
+
+\clearpage
+
+\section*{Hidden Python code and output}
+
+\PySetup{action=hide}
+
+In this example the Python code is hidden and consumes no vertical space on the page. Compare the gap between this pair of lines and the following output text against that seen on the previous page.
+%
+\begin{python}
+   from sympy import *
+
+   x, y = symbols('x y')
+
+   ans = limit((sin(x)-x)/x**3, x, 0)               # py(ans.201,ans)
+   ans = (1/cos(x)).series(x, 0, 6)                 # py(ans.202,ans)
+   ans = diff(cos(x**2)**2 / (1+x), x)              # py(ans.203,ans)
+   ans = integrate(x**2 * cos(x), x)                # py(ans.204,ans)
+   ans = integrate(x**2 * cos(x), (x, 0, pi/2))     # py(ans.205,ans)
+
+   f = Function('f')
+
+   eqn = Eq(Derivative(f(x),x,x) + 9*f(x), 1)       # py(ans.206,eqn)
+   sol = dsolve(eqn, f(x))                          # py(ans.207,sol)
+
+   eqn = Eq(f(x).diff(x, x) + 9*f(x), 1)            # py(ans.208,eqn)
+   sol = dsolve(eqn, f(x))                          # py(ans.209,sol)
+
+   my_int = Integral(cos(x),(x,0,2))                # py(ans.210,my_int)
+   my_ans = my_int.doit()                           # py(ans.211,my_ans)
+\end{python}
+%
+\begin{align*}
+   &\py*{ans.201}\\
+   &\py*{ans.202}\\
+   &\py*{ans.203}\\
+   &\py*{ans.204}\\
+   &\py*{ans.205}\\
+   &\py*{ans.206}\\
+   &\py*{ans.207}\\
+   &\py*{ans.208}\\
+   &\py*{ans.209}\\
+   &\py*{ans.210}\\
+   &\py*{ans.211}
+\end{align*}
+
+\clearpage
+
+\section*{Visible Python markup}
+
+There is nothing special in this particular example. Its purpose is to provide a constart with the following example where the tags have been hidden from view.
+
+\vspace{5pt}
+
+\PySetup{action=show}
+
+\begin{python}
+   from sympy import *
+
+   x = Symbol('x')
+
+   ans = diff(cos(x)**2, x)                         # py(ans.301,ans)
+   ans = integrate(2*sin(x)*exp(-x), x)             # py(ans.302,ans)
+\end{python}
+
+\begin{align*}
+   &\py*{ans.301}\\
+   &\py*{ans.302}
+\end{align*}
+
+\section*{Hidden Python markup}
+This example creates the impression that there are no tags in the following block. But looks can be deceptive, the truth is revealed on the following page.
+
+\vspace{5pt}
+
+\PySetup{action=hide}
+
+\begin{python}
+   from sympy import *
+
+   x = Symbol('x')
+
+   ans = diff(cos(x)**2, x)                         # py(ans.401,ans)
+   ans = integrate(2*sin(x)*exp(-x), x)             # py(ans.402,ans)
+\end{python}
+
+\PySetup{action=verbatim}
+
+\begin{python}
+   from sympy import *
+
+   x = Symbol('x')
+
+   ans = diff(cos(x)**2, x)
+   ans = integrate(sin(x)*exp(-x), x)
+\end{python}
+
+\begin{align*}
+   &\py*{ans.401}\\
+   &\py*{ans.402}
+\end{align*}
+
+\clearpage
+
+\section*{How to hide the tags}
+The easiest way to hide the tags from view is to include two blocks, one containing the tags but hidden from view using {\tt\small\verb|\PySetup{action=hide}|}, the other block is a copy of the first but with all tags stripped out. That second block is made visible using {\tt\small\verb|\PySetup{action=verbatim}|}. This is a bit cumbersome and prone to errors (the second block must be a faithful copy of the first block). Better solutions could be devised but they all appear to require significant changes to the current preprocessors -- so much so that the this cloning trick was deemed a reasonable compromise.
+
+Here is the LaTeX code from the previous example.
+
+\vspace{-5pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\bgcolour{white}
+\latexstyle
+\begin{latex}
+*  \PySetup{action=hide}
+*
+*  \begin{python}
+\end{latex}
+\pythonstyle
+\begin{python}
+*     from sympy import *
+*
+*     x = Symbol('x')
+*
+*     ans = diff(cos(x)**2, x)                         # py(ans.401,ans)
+*     ans = integrate(2*sin(x)*exp(-x), x)             # py(ans.402,ans)
+\end{python}
+\latexstyle
+\begin{latex}
+*  \end{python}
+*
+*  \PySetup{action=verbatim}
+*
+*  \begin{python}
+\end{latex}
+\pythonstyle
+\begin{python}
+*     from sympy import *
+*
+*     x = Symbol('x')
+*
+*     ans = diff(cos(x)**2, x)
+*     ans = integrate(sin(x)*exp(-x), x)
+\end{python}
+\latexstyle
+\begin{latex}
+*  \end{python}
+*
+*  \begin{align*}
+*     &\py*{ans.401}\\
+*     &\py*{ans.402}
+*  \end{align*}
+\end{latex}
+\end{minipage}
+
+\end{document}

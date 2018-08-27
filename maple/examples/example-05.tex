@@ -1,0 +1,50 @@
+\documentclass[12pt]{mpllatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Displaying long expressions}
+
+This example uses a simple (though contrived) example of a Taylor series expansion of $1/(1+x)$ to demonstrate the problems that can arise when displaying very long expressions.
+
+\vspace{12pt}
+
+\begin{minipage}[t]{0.45\textwidth}
+\begin{maple}
+   f   := x -> 1/(1+x):
+   ans := f(x):                    # mpl (ans.511,ans)
+   ans := series(f(x),x=0, 10):    # mpl (ans.512,ans)
+   ans := series(f(x),x=0, 20):    # mpl (ans.513,ans)
+   ans := series(f(x),x=0, 23):    # mpl (ans.514,ans)
+\end{maple}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.55\textwidth}
+\begin{latex}
+   \begin{dgroup*}[spread={5pt}]
+      \begin{dmath*} f(x) = \Mpl*{ans.511} \end{dmath*}
+      \begin{dmath*}    {}= \Mpl*{ans.512} \end{dmath*}
+      \begin{dmath*}    {}= \Mpl*{ans.513} \end{dmath*}
+      \begin{dmath*}    {}= \Mpl*{ans.514} \end{dmath*}
+      \begin{dmath*}    {}= \Mpl*[\hskip 2cm]{ans.514} \end{dmath*}
+   \end{dgroup*}
+\end{latex}
+\end{minipage}
+
+\vspace{18pt}
+
+The first four lines of the following output were set using {\tt\small\verb|\Mpl*|}
+while the final line used {\tt\small\verb|\Mpl*[\hskip=2cm]|}. The last pair of lines displays
+the output for the same tag {\tt\small ans.514} and clearly the formatting of the second
+last line is not ideal as the text has overlapped the tag. This was corrected in the final
+line by using the option argument {\tt\small\verb|[\hskip=2cm]|} in the call to {\tt\small\verb|\Mpl*|}.
+
+\begin{dgroup*}[spread={5pt}]
+   \begin{dmath*} f(x) = \Mpl*{ans.511} \end{dmath*}
+   \begin{dmath*}    {}= \Mpl*{ans.512} \end{dmath*}
+   \begin{dmath*}    {}= \Mpl*{ans.513} \end{dmath*}
+   \begin{dmath*}    {}= \Mpl*{ans.514} \end{dmath*}
+   \begin{dmath*}    {}= \Mpl*[\hskip 2cm]{ans.514} \end{dmath*}% LCB: do we need extra space for the tag?
+\end{dgroup*}
+
+\end{document}

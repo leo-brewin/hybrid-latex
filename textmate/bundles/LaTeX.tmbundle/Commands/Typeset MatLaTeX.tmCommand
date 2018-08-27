@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>saveActiveFile</string>
+	<key>command</key>
+	<string>#!/bin/bash
+
+# --------------------------------------------------
+TM_matlatex=$HOME/local/sh/matlatex.sh
+TM_latex=/Library/TeX/texbin/pdflatex
+TM_skim=/Applications/Skim.app/Contents/SharedSupport/displayline
+# --------------------------------------------------
+
+# --- look for file.tex ----------------------------
+file=`basename -s ".tex" "$TM_FILEPATH"`
+
+cd "$TM_DIRECTORY"
+
+# if the file.aux does not exist then create it
+# this avoids the problem where Latex reads file.aux from
+# somewhere else in the search path
+# (Exam/questions.tex for two units MTH3051 and ENG1091)
+touch "$file".aux
+
+# echo $file
+
+$TM_matlatex -s -i "$file"
+save=$?
+if ! [ $save = 0 ]; then
+   "$TM_SUPPORT_PATH"/bin/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox \
+   --title "MatLaTeX messages" \
+   --text "Oops, something fell over, exit code: $save" \
+   --informative-text "Try running matlatex.sh -k -i $file on the command line." \
+   --button1 "Okay";
+   exit 0;
+fi
+
+$TM_skim -r "$TM_LINE_NUMBER" "$file".pdf "$file".tex
+
+rm -rf "$file".log
+rm -rf "$file".out
+
+# this returns the keyboard focus to TextMate
+
+open -a /Applications/textmate.app "$TM_FILEPATH"
+</string>
+	<key>input</key>
+	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>^@m</string>
+	<key>name</key>
+	<string>Typeset Matlab</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>html</string>
+	<key>outputLocation</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>text.tex</string>
+	<key>uuid</key>
+	<string>20C83965-0755-43C0-AE5D-51561E81D597</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

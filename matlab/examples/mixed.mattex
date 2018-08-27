@@ -1,0 +1,15 @@
+\mattag{ans.101}{%
+\frac{\partial ^2}{\partial x^2} y\left(x\right)+2\,\frac{\partial }{\partial x} y\left(x\right)+10\,y\left(x\right)=0%
+}
+\mattag{ans.102}{%
+C_{1}\,\cos\left(3\,x\right)\,{\mathrm{e}}^{-x}-C_{2}\,\sin\left(3\,x\right)\,{\mathrm{e}}^{-x}%
+}
+\mattag{ans.103}{%
+\left(\begin{array}{c} \overline{y\left(0\right)=3}\\ \overline{\left(\left.\left(\frac{\partial }{\partial x} y\left(x\right)\right)\right|_{x=0}\right)=0} \end{array}\right)%
+}
+\mattag{ans.104}{%
+3\,\cos\left(3\,x\right)\,{\mathrm{e}}^{-x}+\sin\left(3\,x\right)\,{\mathrm{e}}^{-x}%
+}
+\mattag{ans.105}{%
+-10\,\sin\left(3\,x\right)\,{\mathrm{e}}^{-x}%
+}

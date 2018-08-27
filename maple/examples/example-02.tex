@@ -1,0 +1,52 @@
+% based on example 7 in pythontex_gallery
+% https://github.com/gpoore/pythontex/
+
+\documentclass[12pt]{mpllatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{A table of derivatives and anti-derivatives}
+
+This example is based upon a nice example in the Pythontex gallery, see
+\ \url{https://github.com/gpoore/pythontex/}.
+It uses a tagged block to capture the Maple output for later use
+in the body of the LaTeX table.
+
+\lstset{numbers=left}
+
+\begin{minipage}[t]{0.75\textwidth}
+\begin{maple}
+   # Create a list of functions to include in the table
+   funcs := [[sin(x),"\\\\"],         [cos(x),"\\\\"],         [tan(x),"\\\\"],
+             [arcsin(x),"\\\\[5pt]"], [arccos(x),"\\\\[5pt]"], [arctan(x),"\\\\[5pt]"],
+             [sinh(x),"\\\\"],        [cosh(x),"\\\\"],        [tanh(x)," "]]:
+
+   # mplBeg (CalculusTable)
+   for foo in funcs do
+       func := foo[1]:
+       eol  := foo[2]:
+       myddx := ''diff''(func,x):
+       myint := ''int''(func,x):
+       Print(cat(Latex(myddx),"&=",Latex(diff(func,x)),"\\quad & \\quad")):
+       Print(cat(Latex(myint),"&=",Latex(int(func,x)),eol)):
+   end do:
+   # mplEnd (CalculusTable)
+\end{maple}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.25\textwidth}
+\begin{latex}
+   \begin{align*}
+      \mpl {CalculusTable}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\clearpage
+
+\begin{align*}
+   \mpl {CalculusTable}
+\end{align*}
+
+\end{document}

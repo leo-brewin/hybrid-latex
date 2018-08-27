@@ -1,0 +1,249 @@
+\documentclass[12pt]{mpllatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Elementary maths}
+
+\begin{maple}
+   ans := expand((a+b)^3):                                  # mpl (ans.101,ans)
+   ans := factor(-2*x+2*x+a*x-x^2+a*x^2-x^3):               # mpl (ans.102,ans)
+   ans := {solve(x^2-4 = 0,x)}:                             # mpl (ans.103,ans) {...} avoids maple/latex syntax error
+   sol := solve(x^2-4 = 0,x):                               # multiple roots, can't use mpl(foo,bah) here
+   ans := {x=sol[1],x=sol[2]}:                              # mpl (ans.104,ans) fixes problem of multiple roots
+   ans := solve({2*a-b = 3, a+b+c = 1,-b+c = 6},{a,b,c}):   # mpl (ans.105,ans)
+   ans := evalf[50](Pi):                                    # mpl (ans.106,ans)
+   ans := convert(1/((1 + x)*(5 + x)),parfrac):             # mpl (ans.107,ans)
+   ans := simplify((1/(1 + x) - 1/(5 + x))/4):              # mpl (ans.108,ans)
+   ans := simplify(tanh(ln(x))):                            # mpl (ans.109,ans)
+   ans := simplify(tanh(I*x)):                              # mpl (ans.110,ans)
+   ans := simplify(sinh(3*x) - 3*sinh(x) - 4*(sinh(x))^3):  # mpl (ans.111,ans)
+   ans := ''tanh(ln(x))'':                                  # mpl (lhs.109,ans)
+   ans := ''tanh(I*x)'':                                    # mpl (lhs.110,ans)
+   ans := ''sinh(3*x) - 3*sinh(x) - 4*(sinh(x))^3'':        # mpl (lhs.111,ans)
+\end{maple}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{align*}
+   &\mpl*{ans.101}\\
+   &\mpl*{ans.102}\\
+   &\mpl*{ans.103}\\
+   &\mpl*{ans.104}\\
+   &\mpl*{ans.105}\\
+   &\mpl*{ans.106}\\
+   &\mpl*{ans.107}\\
+   &\mpl*{ans.108}\\
+   \mpl{lhs.109} &= \Mpl{ans.109}\\
+   \mpl{lhs.110} &= \Mpl{ans.110}\\
+   \mpl{ans.111} &= \Mpl{lhs.111}
+\end{align*}
+\end{minipage}
+\hskip 1cm
+\lower16pt\hbox{%
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mpl*{ans.101}\\
+      &\mpl*{ans.102}\\
+      &\mpl*{ans.103}\\
+      &\mpl*{ans.104}\\
+      &\mpl*{ans.105}\\
+      &\mpl*{ans.106}\\
+      &\mpl*{ans.107}\\
+      &\mpl*{ans.108}\\
+      \mpl{lhs.109} &= \Mpl{ans.109}\\
+      \mpl{lhs.110} &= \Mpl{ans.110}\\
+      \mpl{ans.111} &= \Mpl{lhs.111}
+   \end{align*}
+\end{latex}
+\end{minipage}}
+
+\clearpage
+
+\section*{Linear Algebra}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{maple}
+   with(LinearAlgebra):
+   mat  := <<2|3>, <5|4>>:                        # mpl (ans.201,mat)
+   ans  := Eigenvectors(mat,output='list'):
+   eig1 := ans[1][1]:                             # 1st eigenvalue
+   eig2 := ans[2][1]:                             # 2nd eigenvalue
+   v1   := ans[1][3][1]:                          # 1st eigenvector
+   v2   := ans[2][3][1]:                          # 2nd eigenvector
+   eig  := <eig1,eig2>:                           # mpl (ans.202,eig)
+   ans  := <v1|v2>:                               # mpl (ans.203,ans)
+   ans  := CharacteristicPolynomial(mat,lambda):  # mpl (ans.204,ans)
+   vec  := <3,7>:                                 # mpl (ans.205,vec)
+   sol  := LinearSolve(mat,vec):                  # mpl (ans.206,sol)
+\end{maple}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mpl*{ans.201}\\
+      &\mpl*{ans.202}\\
+      &\mpl*{ans.203}\\
+      &\mpl*{ans.204}\\
+      &\mpl*{ans.205}\\
+      &\mpl*{ans.206}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mpl*{ans.201}\\
+   &\mpl*{ans.202}\\
+   &\mpl*{ans.203}\\
+   &\mpl*{ans.204}\\
+   &\mpl*{ans.205}\\
+   &\mpl*{ans.206}
+\end{align*}
+
+\clearpage
+
+\section*{Limits}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{maple}
+   ans := limit(sin(4*x)/x,x=0):                  # mpl (ans.301,ans)
+   ans := limit(2^x/x,x=infinity):                # mpl (ans.302,ans)
+   ans := limit(((x+dx)^2 - x^2)/dx, dx=0):       # mpl (ans.303,ans)
+   ans := limit((4*n + 1)/(3*n - 1),n=infinity):  # mpl (ans.304,ans)
+   ans := limit((1+(a/n))^n,n=infinity):          # mpl (ans.305,ans)
+\end{maple}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mpl*{ans.301}\\
+      &\mpl*{ans.302}\\
+      &\mpl*{ans.303}\\
+      &\mpl*{ans.304}\\
+      &\mpl*{ans.305}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\vspace{-10pt}
+
+\begin{align*}
+   &\mpl*{ans.301}\\
+   &\mpl*{ans.302}\\
+   &\mpl*{ans.303}\\
+   &\mpl*{ans.304}\\
+   &\mpl*{ans.305}
+\end{align*}
+
+\section*{Series}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{maple}
+   ans := series((1 + x)^(-2), x=1, 6):          # mpl (ans.401,ans)
+   ans := series(exp(x), x=0, 6):                # mpl (ans.402,ans)
+   ans := sum(1/n^2, n=1..50):                   # mpl (ans.403,ans)
+   ans := sum(1/n^4, n=1..infinity):             # mpl (ans.404,ans)
+\end{maple}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mpl*{ans.401}\\
+      &\mpl*{ans.402}\\
+      &\mpl*{ans.403}\\
+      &\mpl*{ans.404}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mpl*{ans.401}\\
+   &\mpl*{ans.402}\\
+   &\mpl*{ans.403}\\
+   &\mpl*{ans.404}
+\end{align*}
+
+\clearpage
+
+\section*{Calculus}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{maple}
+   ans := diff(x*sin(x),x):                          # mpl (ans.501,ans)
+   ans := eval(diff(x*sin(x),x),x=Pi/4):             # mpl (ans.502,ans)
+   ans := int(2*sin(x)^2, x=a..b):                   # mpl (ans.503,ans)
+   ans := int(2*exp(-x^2),x=0..infinity):            # mpl (ans.504,ans)
+   ans := ''int(2*exp(-x^2),x=0..infinity)'':        # mpl (lhs.504,ans)
+   ans := int(int(x^2 + y^2,  y=0..x),x=0..1):       # mpl (ans.505,ans)
+   ans := ''int(int(x^2 + y^2,  y=0..x),x=0..1)'':   # mpl (lhs.505,ans)
+\end{maple}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mpl*{ans.501}\\
+      &\mpl*{ans.502}\\
+      &\mpl*{ans.503}\\
+      \mpl{lhs.504}&=\Mpl{ans.504}\\
+      \mpl{lhs.505}&=\Mpl{ans.505}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mpl*{ans.501}\\
+   &\mpl*{ans.502}\\
+   &\mpl*{ans.503}\\
+   \mpl{lhs.504}&=\Mpl{ans.504}\\
+   \mpl{lhs.505}&=\Mpl{ans.505}
+\end{align*}
+
+\clearpage
+
+\section*{Differential equations}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{maple}
+   ode := diff(y(x),x) + y(x) = 2*a*sin(x):
+   ics := y(0) = 0:
+   ans := rhs(dsolve(ode)):                    # mpl (ans.601,ans)
+   ans := rhs(dsolve([ics,ode])):              # mpl (ans.602,ans)
+
+   ode := diff(y(x),x,x) + y(x) = 0:
+   ics := y(0)=0, (D(y))(0) = 1:
+   ans := rhs(dsolve(ode)):                    # mpl (ans.603,ans)
+   ans := rhs(dsolve([ics,ode])):              # mpl (ans.604,ans)
+
+   ode := diff(y(x),x,x) + 5*diff(y(x),x) - 6*y(x) = 0:
+   ans := rhs(dsolve(ode)):                    # mpl (ans.605,ans)
+   sol := eval(ans,[_C1=2,_C2=3]):             # mpl (ans.606,sol)
+\end{maple}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\mpl*{ans.601}\\
+      &\mpl*{ans.602}\\
+      &\mpl*{ans.603}\\
+      &\mpl*{ans.604}\\
+      &\mpl*{ans.605}\\
+      &\mpl*{ans.606}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\mpl*{ans.601}\\
+   &\mpl*{ans.602}\\
+   &\mpl*{ans.603}\\
+   &\mpl*{ans.604}\\
+   &\mpl*{ans.605}\\
+   &\mpl*{ans.606}
+\end{align*}
+
+\end{document}

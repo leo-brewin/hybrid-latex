@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>contactEmailRot13</key>
+	<string>Yrb.Oerjva@zbanfu.rqh</string>
+	<key>contactName</key>
+	<string>Leo Brewin</string>
+	<key>description</key>
+	<string>New shiny bundle for Cadabra. Copied from the Pyhton bundle.
+</string>
+	<key>name</key>
+	<string>Cadabra</string>
+	<key>uuid</key>
+	<string>B0D301FF-F764-40B3-8FF2-A976FFC5CD96</string>
+</dict>
+</plist>

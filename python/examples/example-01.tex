@@ -1,0 +1,267 @@
+\documentclass[12pt]{pylatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Elementary maths}
+
+\vspace{-5pt}
+
+This is a collection of basic mathematical computations using {\tt\small sympy}. The main purpose is to demonstrate the use of {\tt\small\verb|\py|} and {\tt\small\verb|\py*|}. Note that {\tt\small sympy 1.1.1} appears unable to simplify $\tanh(\log(x))$ (compare {\tt\small rhs.108} shown below against {\tt\small ans.108} shown in the \href{../../mathematica/examples/example-01.pdf}{Mathematica} examples). Note also the separate computaions for the left and right hand sides of results 108, 109 and 110.
+
+\vspace{-10pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{python}
+   from sympy import *
+   x, y, z, a, b, c = symbols('x y z a b c')
+   ans = expand((a+b)**3)                                  # py (ans.101,ans)
+   ans = factor(-2*x+2*x+a*x-x**2+a*x**2-x**3)             # py (ans.102,ans)
+   ans = solve(x**2-4, x)                                  # py (ans.103,ans)
+   ans = solve([2*a-b - 3, a+b+c - 1,-b+c - 6],[a,b,c])    # py (ans.104,ans)
+   ans = N(pi,50)                                          # py (ans.105,ans)
+   ans = apart(1/((1 + x)*(5 + x)))                        # py (ans.106,ans)
+   ans = together((1/(1 + x) - 1/(5 + x))/4)               # py (ans.107,ans)
+   ans = simplify(tanh(log(x)))                            # py (rhs.108,ans)
+   ans = simplify(tanh(I*x))                               # py (rhs.109,ans)
+   ans = simplify(sinh(3*x) - 3*sinh(x) - 4*(sinh(x))**3)  # py (rhs.110,ans)
+   ans = tanh(log(x))                                      # py (lhs.108,ans)
+   ans = tanh(UnevaluatedExpr(I*x))                        # py (lhs.109,ans)
+   ans = sinh(3*x) - 3*sinh(x) - 4*(sinh(x))**3            # py (lhs.110,ans)
+\end{python}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\py*{ans.101}\\
+      &\py*{ans.102}\\
+      &\py*{ans.103}\\
+      &\py*{ans.104}\\
+      &\py*{ans.105}\\
+      &\py*{ans.106}\\
+      &\py*{ans.107}\\
+      \py{lhs.108} &= \Py{rhs.108}\\
+      \py{lhs.109} &= \Py{rhs.109}\\
+      \py{lhs.110} &= \Py{rhs.110}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\vspace{-10pt}
+
+\begin{align*}
+   &\py*{ans.101}\\
+   &\py*{ans.102}\\
+   &\py*{ans.103}\\
+   &\py*{ans.104}\\
+   &\py*{ans.105}\\
+   &\py*{ans.106}\\
+   &\py*{ans.107}\\
+   \py{lhs.108} &= \Py{rhs.108}\\
+   \py{lhs.109} &= \Py{rhs.109}\\
+   \py{lhs.110} &= \Py{rhs.110}
+\end{align*}
+
+\clearpage
+
+\section*{Linear Algebra}
+
+\vspace{-10pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{python}
+   from sympy import linsolve
+   lamda = Symbol('lamda')
+   mat  = Matrix([[2,3], [5,4]])                   # py (ans.201,mat)
+   eig1 = mat.eigenvects()[0][0]                   # 1st eigenvalue
+   eig2 = mat.eigenvects()[1][0]                   # 2nd eigenvalue
+   v1   = mat.eigenvects()[0][2][0]                # 1st eigenvector
+   v2   = mat.eigenvects()[1][2][0]                # 2nd eigenvector
+   eig  = simplify(Matrix([eig1,eig2]))            # py (ans.202,eig)
+   vec  = simplify(5*Matrix([]).col_insert(0,v1)
+                               .col_insert(1,v2))  # py (ans.203,vec)
+   det  = expand((mat - lamda * eye(2)).det())     # py (ans.204,det)
+   rhs  = Matrix([[3],[7]])                        # py (ans.205,rhs)
+   ans  = list(linsolve((mat,rhs),x,y))[0]         # py (ans.206,ans)
+\end{python}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\py*{ans.201}\\
+      &\py*{ans.202}\\
+      &\py*{ans.203}\\
+      &\py*{ans.204}\\
+      &\py*{ans.205}\\
+      &\py*{ans.206}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\py*{ans.201}\\
+   &\py*{ans.202}\\
+   &\py*{ans.203}\\
+   &\py*{ans.204}\\
+   &\py*{ans.205}\\
+   &\py*{ans.206}
+\end{align*}
+
+\clearpage
+
+\section*{Limits}
+
+\vspace{-10pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{python}
+   n, dx = symbols('n dx')
+   ans = limit(sin(4*x)/x,x,0)                  # py (ans.301,ans)
+   ans = limit(2**x/x,x,oo)                     # py (ans.302,ans)
+   ans = limit(((x+dx)**2 - x**2)/dx, dx,0)     # py (ans.303,ans)
+   ans = limit((4*n + 1)/(3*n - 1),n,oo)        # py (ans.304,ans)
+   ans = limit((1+(a/n))**n,n,oo)               # py (ans.305,ans)
+\end{python}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\py*{ans.301}\\
+      &\py*{ans.302}\\
+      &\py*{ans.303}\\
+      &\py*{ans.304}\\
+      &\py*{ans.305}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\py*{ans.301}\\
+   &\py*{ans.302}\\
+   &\py*{ans.303}\\
+   &\py*{ans.304}\\
+   &\py*{ans.305}
+\end{align*}
+
+\section*{Series}
+
+\vspace{-10pt}
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{python}
+   ans = series((1 + x)**(-2), x, 1, 6)         # py (ans.401,ans)
+   ans = series(exp(x), x, 0, 6)                # py (ans.402,ans)
+   ans = Sum(1/n**2, (n,1,50)).doit()           # py (ans.403,ans)
+   ans = Sum(1/n**4, (n,1,oo)).doit()           # py (ans.404,ans)
+\end{python}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\py*{ans.401}\\
+      &\py*{ans.402}\\
+      &\py*{ans.403}\\
+      &\py*{ans.404}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\py*{ans.401}\\
+   &\py*{ans.402}\\
+   &\py*{ans.403}\\
+   &\py*{ans.404}
+\end{align*}
+
+\clearpage
+
+\section*{Calculus}
+
+This example shows how {\tt\small\verb|\Py|} can be used to set the equation tag on the far right hand side.
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{python}
+   ans = diff(x*sin(x),x)                                    # py (ans.501,ans)
+   ans = diff(x*sin(x),x).subs(x,pi/4)                       # py (ans.502,ans)
+   ans = integrate(2*sin(x)**2, (x,a,b))                     # py (ans.503,ans)
+   ans = Integral(2*exp(-x**2), (x,0,oo))                    # py (lhs.504,ans)
+   ans = ans.doit()                                          # py (ans.504,ans)
+   ans = Integral(Integral(x**2 + y**2, (y,0,x)), (x,0,1))   # py (lhs.505,ans)
+   ans = ans.doit()                                          # py (ans.505,ans)
+\end{python}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\py*{ans.501}\\
+      &\py*{ans.502}\\
+      &\py*{ans.503}\\
+       \py{lhs.504}&=\Py{ans.504}\\
+       \py{lhs.505}&=\Py{ans.505}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\py*{ans.501}\\
+   &\py*{ans.502}\\
+   &\py*{ans.503}\\
+    \py{lhs.504}&=\Py{ans.504}\\
+    \py{lhs.505}&=\Py{ans.505}
+\end{align*}
+
+\clearpage
+
+\section*{Differential equations}
+
+\vspace{-10pt}
+
+\begin{minipage}[t]{0.70\textwidth}
+\begin{python}
+   y = Function('y')
+   C1, C2 = symbols('C1 C2')
+
+   ode = Eq(y(x).diff(x) + y(x), 2*a*sin(x))
+   sol = expand(dsolve(ode,y(x)).rhs)                              # py (ans.601,sol)
+   cst = solve([sol.subs(x,0)],dict=True)
+   sol = sol.subs(cst[0])                                          # py (ans.602,sol)
+
+   ode = Eq(y(x).diff(x,2) + y(x), 0)
+   sol = expand(dsolve(ode,y(x)).rhs)                              # py (ans.603,sol)
+   cst = solve([sol.subs(x,0),sol.diff(x).subs(x,0)-1],dict=True)
+   sol = sol.subs(cst[0])                                          # py (ans.604,sol)
+
+   ode = Eq(y(x).diff(x,2) + 5*y(x).diff(x) - 6*y(x), 0)
+   sol = expand(dsolve(ode,y(x)).rhs)                              # py (ans.605,sol)
+   sol = sol.subs({C1:2,C2:3})                                     # py (ans.606,sol)
+\end{python}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.30\textwidth}
+\begin{latex}
+   \begin{align*}
+      &\py*{ans.601}\\
+      &\py*{ans.602}\\
+      &\py*{ans.603}\\
+      &\py*{ans.604}\\
+      &\py*{ans.605}\\
+      &\py*{ans.606}
+   \end{align*}
+\end{latex}
+\end{minipage}
+
+\begin{align*}
+   &\py*{ans.601}\\
+   &\py*{ans.602}\\
+   &\py*{ans.603}\\
+   &\py*{ans.604}\\
+   &\py*{ans.605}\\
+   &\py*{ans.606}
+\end{align*}
+
+\end{document}

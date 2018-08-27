@@ -1,0 +1,15 @@
+-- 14 Aug 2018 ------------------------------------------------------
+Cadabra latex output for component expressions always use \square
+and the {aligned} environment. Thus we need both amsmath and amssymb.
+These have been included in the cdblatex.sty file.
+
+Users will also need to add
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+and maybe
+
+\usepackage{breqn}
+
+if they don't use the cdblatex.sty or cdblatex.cls files.

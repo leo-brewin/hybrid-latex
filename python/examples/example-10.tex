@@ -1,0 +1,155 @@
+\documentclass[12pt]{pylatex}
+\usepackage{examples}
+
+\newbox\SlashInput
+\setbox\SlashInput=\hbox{\tt\Large\verb|\Input|}
+
+\begin{document}
+
+\section*{Using {\copy\SlashInput}}
+
+% \vspace{-5pt}
+
+This simple example shows how {\tt\small\verb|\Input|} can be used in include other LaTeX sources within
+the host source. Note the use of nested {\tt\small\verb|\Input|}'s. The merged file can be inspected by running
+
+\begin{lstlisting}
+   merge-tex.py  -i example-10.tex  -o merged.tex
+\end{lstlisting}
+
+from the command line. The merged file will be named {\tt\small merged.tex}.
+
+\PySetup{action=verbatim}
+
+% Note: The * in the 1st column is to ensure the python preprocessor does not respond
+%       to any of the \begin{...} or \end{...} lines. The \end{document} line is the
+%       real problem as it terminates the preprocessing.
+%       The * is hidden from LaTeX by way of the listinings option gobble=2.
+
+\vspace{-5pt}
+
+% ===================================================================
+\section*{Source of example-10.tex}
+
+\bgroup
+\bgcolour{white}
+\latexstyle
+\begin{latex}
+*   \Input{./example-10/limits/limits.tex}
+*   \Input{./example-10/calculus/calculus.tex}
+\end{latex}
+\egroup
+
+\vspace{10pt}
+
+% ===================================================================
+\section*{Source of example-10/limits/limits.tex}
+
+\bgroup
+\bgcolour{white}
+\latexstyle
+\begin{latex}
+*   \section*{Limits}
+*
+*   \begin{python}
+\end{latex}
+\pythonstyle
+\begin{python}
+*      from sympy import *
+*      a, n, x, dx = symbols('a n x dx')
+*      ans = limit(sin(4*x)/x,x,0)                  # py (ans.301,ans)
+*      ans = limit(2**x/x,x,oo)                     # py (ans.302,ans)
+*      ans = limit(((x+dx)**2 - x**2)/dx, dx,0)     # py (ans.303,ans)
+*      ans = limit((4*n + 1)/(3*n - 1),n,oo)        # py (ans.304,ans)
+*      ans = limit((1+(a/n))**n,n,oo)               # py (ans.305,ans)
+\end{python}
+\latexstyle
+\begin{latex}
+*   \end{python}
+*
+*   \begin{align*}
+*      &\py*{ans.301}\\
+*      &\py*{ans.302}\\
+*      &\py*{ans.303}\\
+*      &\py*{ans.304}\\
+*      &\py*{ans.305}
+*   \end{align*}
+\end{latex}
+\egroup
+
+\clearpage
+
+% ===================================================================
+\section*{Source of example-10/calculus/calculus.tex}
+\begin{latex}
+*   \Input{./example-10/calculus/derivs/derivs.tex}
+*   \Input{./example-10/calculus/integrals/integrals.tex}
+\end{latex}
+
+% ===================================================================
+\section*{Source of example-10/calculus/derivs/derivs.tex}
+
+\bgroup
+\bgcolour{white}
+\latexstyle
+\begin{latex}
+*   \section*{Differentiation}
+*
+*   \begin{python}
+\end{latex}
+\pythonstyle
+\begin{python}
+*      ans = diff(x*sin(x),x)                                    # py (ans.501,ans)
+*      ans = diff(x*sin(x),x).subs(x,pi/4)                       # py (ans.502,ans)
+\end{python}
+\latexstyle
+\begin{latex}
+*   \end{python}
+*
+*   \begin{align*}
+*      &\py*{ans.501}\\
+*      &\py*{ans.502}
+*   \end{align*}
+\end{latex}
+\egroup
+
+% ===================================================================
+\section*{Source of example-10/calculus/integrals/integrals.tex}
+
+\bgroup
+\bgcolour{white}
+\latexstyle
+\begin{latex}
+*   \section*{Integration}
+*
+*   \begin{python}
+\end{latex}
+\pythonstyle
+\begin{python}
+*      a, b, x, y = symbols('a b x y')
+*      ans = integrate(2*sin(x)**2, (x,a,b))                     # py (ans.503,ans)
+*      ans = Integral(2*exp(-x**2), (x,0,oo))                    # py (lhs.504,ans)
+*      ans = ans.doit()                                          # py (ans.504,ans)
+*      ans = Integral(Integral(x**2 + y**2, (y,0,x)), (x,0,1))   # py (lhs.505,ans)
+*      ans = ans.doit()                                          # py (ans.505,ans)
+\end{python}
+\latexstyle
+\begin{latex}
+*   \end{python}
+*
+*   \begin{align*}
+*      &\py*{ans.503}\\
+*       \py{lhs.504}&=\Py{ans.504}\\
+*       \py{lhs.505}&=\Py{ans.505}
+*   \end{align*}
+\end{latex}
+\egroup
+
+\clearpage
+
+\PySetup{action=show}
+
+\Input{./example-10/limits/limits.tex}
+\Input{./example-10/calculus/calculus.tex}
+
+\end{document}

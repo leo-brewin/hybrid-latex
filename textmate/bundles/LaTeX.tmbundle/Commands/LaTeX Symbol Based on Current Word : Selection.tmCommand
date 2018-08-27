@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18
+
+require "#{ENV['TM_SUPPORT_PATH']}/lib/exit_codes"
+require "#{ENV['TM_SUPPORT_PATH']}/lib/current_word"
+require "#{ENV['TM_SUPPORT_PATH']}/lib/escape"
+require "#{ENV['TM_BUNDLE_SUPPORT']}/lib/Ruby/configuration.rb"
+
+@plist = Configuration.load
+shortcutHash = @plist['symbols']
+
+match = Word.current_word(/(^\w+)?(.*\n?)/, :hash)
+
+word = match[:left].to_s + match[:right].to_s
+
+if (shortcutHash.has_key?(word)) then
+  # Need to support previously saved latex.config files with leading \
+  result = shortcutHash[word].gsub(/^\\/, '')
+
+  print e_sn(match[:before_match].sub(/\\?$/, '\\')) + e_sn(result) + '${0}' + e_sn(match[:after_match])
+else
+  TextMate.exit_discard
+end</string>
+	<key>fallbackInput</key>
+	<string>word</string>
+	<key>input</key>
+	<string>line</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>@\</string>
+	<key>name</key>
+	<string>LaTeX Symbol Based on Current Word / Selection</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>snippet</string>
+	<key>outputLocation</key>
+	<string>replaceInput</string>
+	<key>scope</key>
+	<string>text.tex.latex, text.bibtex</string>
+	<key>uuid</key>
+	<string>A7D549C1-055E-4181-84F2-BA713EB66341</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

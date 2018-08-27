@@ -1,0 +1,206 @@
+\documentclass[12pt]{article}
+\usepackage{pylatex}
+\usepackage{mpllatex}
+\usepackage{geometry}
+\usepackage{pgf}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{breqn}
+\usepackage{caption}
+\usepackage{examples}
+
+\geometry{papersize={210mm,297mm},hmargin=2cm,tmargin=1.0cm,bmargin=1.5cm}
+
+\def\pyLaTeX{{\tt\small pyLaTeX}}
+\def\mplLaTeX{{\tt\small mplLaTeX}}
+
+\begin{document}
+
+\section*{Using output from other sources}
+
+This document performs no computations (i.e., it has no active code blocks) but instead uses selected parts of the output created by other documents. Thus this document can be compiled using {\tt\small pdflatex summary}. The basic structure of this document is as follows.
+
+\begin{minipage}[t]{0.75\textwidth}
+\begin{latex}
+   \documentclass[12pt]{article}
+   \usepackage{pylatex}    % so that we can use \py{foo}
+   \usepackage{mpllatex}   % so that we can use \mpl{bah}
+   \usepackage{amsmath}
+   ...                     % other packages such as geometry, hyperref, breqn etc.
+   \begin{document}
+      ...
+      \input{example-01.pytex}  % all Python output from example-01.tex
+      ...
+      \begin{align*}
+         &\py*{ans.301}\\   % the Python output
+         &\py*{ans.302}
+      \end{align*}
+      ...
+      \input{mixed.pytex}   % all Python output from mixed.tex
+      \input{mixed.mpltex}  % all Maple output from mixed.tex
+      ...
+      \begin{gather*}
+        \mpl{ans.102}       % the Maple output
+        \py{ans.102}        % the Python output
+      \end{gather*}
+      ...
+   \end{document}
+\end{latex}
+\end{minipage}
+
+\vspace{10pt}
+
+Note that care must be taken to avoid name clashes across tags from different sources. If two or more sources define tags with the same name (e.g., {\tt\small foo.pytex} and {\tt\small bah.pytex} both define {\tt\small\verb|\pytag{ans.101}|}) then the last definition will be used. This problem does not arise when the shared tag name, e.g., {\tt\small rhs.101}, occurs in two different languages, such as one in Python and the other in Maple. This can be seen below where the first and last examples both refer to the name {\tt\small ans.102}.
+
+\vspace{10pt}
+
+Note also that the lines
+
+\vspace{5pt}
+
+\begin{latex}
+   \usepackage{pylatex}    % so that we can use \py{foo}
+   \usepackage{mpllatex}   % so that we can use \mpl{bah}
+\end{latex}
+
+\vspace{5pt}
+
+are not essential -- they can be left out but only if the {\tt\small -I} option was supplied when compiling the source. For example, if the {\tt\small pylatex.sty} and {\tt\small mpllatex.sty} files were located in {\tt\small /users/foo/tex/} then the file {\tt\small bah.tex} (containing both Python and Maple code) could be compiled using
+
+\vspace{5pt}
+
+\begin{lstlisting}
+   pylatex.sh  -xi bah -I/users/foo/tex/pylatex.sty
+   mpllatex.sh -xi bah -I/users/foo/tex/mpllatex.sty
+\end{lstlisting}
+
+\vspace{10pt}
+
+This will produce {\tt\small bah.pytex} and {\tt\small bah.mpltex} each containing not only the selected output from {\tt\small bah.tex} but also the definitions of the \pyLaTeX\ and \mplLaTeX\ macros. The {\tt\small -x} option excludes processing of the output by LaTeX.
+
+\section*{Example 1}
+
+\input{example-01.pytex}
+
+\begin{align*}
+   &\py*{ans.102}\\
+   &\py*{ans.302}\\
+   &\py*{ans.303}\\
+   &\py*{ans.305}\\
+   &\py*{ans.401}\\
+   &\py*{ans.402}\\
+   &\py*{ans.403}\\
+   &\py*{ans.404}
+\end{align*}
+
+\section*{Example 2}
+
+\input{example-02.pytex}
+
+\begin{align*}
+   \py {CalculusTable}
+\end{align*}
+
+\section*{Example 3}
+
+\input{example-03.pytex}
+
+\begin{align*}
+   \py{lhs.01} &= \py{rhs.01}\\
+               &= \py{rhs.02}\\
+               &= \py{rhs.03}\\
+               &= \py{rhs.04}\\
+               &\approx \py{rhs.05}
+\end{align*}
+
+\clearpage
+
+\section*{Example 4}
+
+\begin{minipage}{\textwidth}
+   \centering
+   \IfFileExists{example-04-fig.pdf}%
+   % {\scalebox{0.75}{\input{example-04-fig.pdf}}}{Failed to create plot.}
+   {\includegraphics[width=6.4in]{example-04-fig.pdf}}{Failed to create plot.}
+   \captionof{figure}{The first six Bessel functions.}
+\end{minipage}
+
+\section*{Example 5}
+
+\input{example-05.pytex}
+
+\begin{dgroup*}[spread={5pt}]
+   \begin{dmath*} f(x) = \Py*{ans.511} \end{dmath*}
+   \begin{dmath*}    {}= \Py*{ans.512} \end{dmath*}
+   \begin{dmath*}    {}= \Py*{ans.513} \end{dmath*}
+   \begin{dmath*}    {}= \Py*{ans.514} \end{dmath*}
+   \begin{dmath*}    {}= \Py*{ans.514} \end{dmath*}% LCB: do we need extar space for the tag?
+\end{dgroup*}
+
+\section*{Example 6}
+
+\input{example-06.pytex}
+
+\def\eps{\epsilon}
+\def\RuleA{\vrule depth0pt  width0pt height14pt}
+\def\RuleB{\vrule depth8pt  width0pt height14pt}
+\def\RuleC{\vrule depth10pt width0pt height16pt}
+
+\setlength{\tabcolsep}{0.025\textwidth}%
+
+\vspace{20pt}
+
+\begin{center}
+\begin{tabular}{cccc}%
+   \noalign{\hrule height 1pt}
+   \multicolumn{4}{c}{\RuleC\rmfamily\bfseries%
+   Newton-Raphson iterations \quad%
+   $x_{n+1} = x_n - f_n/f'_n\ ,\quad f(x) = x-e^{-x}$}\\
+   \noalign{\hrule height 1pt}
+   \RuleB$ n$&$ x_n$&$ \eps_{n} =  x_{n} - e^{-x_{n}}$&$\eps_{n}/\eps_{n-1}^2$\\
+   \noalign{\hrule height 0.5pt}
+   \py{table}
+   \noalign{\hrule height 1pt}
+\end{tabular}
+\end{center}
+
+\section*{Example 7}
+
+\input{example-07.pytex}
+
+\bgroup\tt
+\begin{tabular}{rl}
+   \py{info}
+\end{tabular}
+\egroup
+
+\clearpage
+
+\section*{Python and Maple}
+
+\input{mixed.pytex}
+\input{mixed.mpltex}
+
+\subsection*{The Maple output}
+
+The general solution of the differential equation is
+\begin{equation*}
+  \Mpl{ans.102}
+\end{equation*}
+while the particular solution satifying the boundary conditions is given by
+\vspace{5pt}
+\begin{align*}
+    y(x) &= \mpl{ans.104}\\
+\end{align*}
+
+\subsection*{The Python output}
+
+\begin{minipage}{\textwidth}
+   \centering
+   \IfFileExists{mixed-fig.pdf}%
+   {\includegraphics[width=0.75\textwidth]{mixed-fig.pdf}}{Failed to create pdf plot.}
+   \captionof{figure}{The function and its derivative.}
+\end{minipage}
+
+\end{document}

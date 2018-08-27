@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>contactEmailRot13</key>
+	<string>Yrb.Oerjva@zbanfu.rqh</string>
+	<key>contactName</key>
+	<string>Leo Brewin</string>
+	<key>description</key>
+	<string>This bundle exists solely to provide a very basic language grammar for Maple.
+</string>
+	<key>name</key>
+	<string>Maple</string>
+	<key>uuid</key>
+	<string>B83D764B-4960-41B6-A972-B94DA17F0905</string>
+</dict>
+</plist>

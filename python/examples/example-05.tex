@@ -1,0 +1,51 @@
+\documentclass[12pt]{pylatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Displaying long expressions}
+
+This example uses a simple (though contrived) example of a Taylor series expansion of $1/(1+x)$ to demonstrate the problems that can arise when displaying very long expressions.
+
+% \vspace{12pt}
+
+\begin{minipage}[t]{0.50\textwidth}
+\begin{python}
+   from sympy import *
+   x = Symbol('x')
+   ans    = 1/(1+x)                 # py (ans.511,ans)
+   taylor = ans.series(x, 0, 10)    # py (ans.512,taylor)
+   taylor = ans.series(x, 0, 20)    # py (ans.513,taylor)
+   taylor = ans.series(x, 0, 23)    # py (ans.514,taylor)
+\end{python}
+\end{minipage}
+\hskip 0.5cm
+\begin{minipage}[t]{0.50\textwidth}
+\begin{latex}
+   \begin{dgroup*}[spread={5pt}]
+      \begin{dmath*} f(x) = \Py*{ans.511} \end{dmath*}
+      \begin{dmath*}    {}= \Py*{ans.512} \end{dmath*}
+      \begin{dmath*}    {}= \Py*{ans.513} \end{dmath*}
+      \begin{dmath*}    {}= \Py*{ans.514} \end{dmath*}
+      \begin{dmath*}    {}= \Py*[\hskip 2cm]{ans.514} \end{dmath*}
+   \end{dgroup*}
+\end{latex}
+\end{minipage}
+
+\vspace{18pt}
+
+The first four lines of the following output were set using {\tt\small\verb|\Py*|}
+while the final line used {\tt\small\verb|\Py*[\hskip=2cm]|}. The last pair of lines displays
+the output for the same tag {\tt\small ans.514} and clearly the formatting of the second
+last line is not ideal as the text has overlapped the tag. This was corrected in the final
+line by using the optional argument {\tt\small\verb|[\hskip=2cm]|} in the call to {\tt\small\verb|\Py*|}.
+
+\begin{dgroup*}[spread={5pt}]
+   \begin{dmath*} f(x) = \Py*{ans.511} \end{dmath*}
+   \begin{dmath*}    {}= \Py*{ans.512} \end{dmath*}
+   \begin{dmath*}    {}= \Py*{ans.513} \end{dmath*}
+   \begin{dmath*}    {}= \Py*{ans.514} \end{dmath*}
+   \begin{dmath*}    {}= \Py*[\hskip 2cm]{ans.514} \end{dmath*}
+\end{dgroup*}
+
+\end{document}

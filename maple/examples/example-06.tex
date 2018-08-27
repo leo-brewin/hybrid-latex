@@ -1,0 +1,93 @@
+\documentclass[12pt]{mpllatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Quadratic convergence of Newton-Raphson iterations}
+
+This is a simple example that uses Maple to demonstrate the quadratic converegnce of Newton-Raphson iterations to the exact root of a non-linear equation.
+
+\vspace{-5pt}
+
+\begin{minipage}[t]{0.55\textwidth}
+\begin{maple}
+   # mplBeg (table)
+
+      Digits := 200:
+
+       f := x -> x - exp(-x):
+      df := x -> eval (diff (f(u),u), u=x):
+
+      x_new := 0.5:
+      f_new := f (x_new):
+
+      Print (sprintf("\\RuleA % 2d &% .25f &% .10e &\\\\",
+                     0,x_new,f_new)):
+
+      for n from 1 to 6 do
+         x_old := x_new:
+         x_new := x_old - f(x_old)/df(x_old):
+         f_old := evalf (f (x_old)):
+         f_new := evalf (f (x_new)):
+         ratio := evalf (f_new / f_old^2):
+         Print (sprintf("\\RuleA % 2d &% .25f &% .10e &% .5f\\\\",
+                        n,x_new,f_new,ratio)):
+      end do:
+
+   # mplEnd (table)
+\end{maple}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.45\textwidth}
+\begin{latex}
+   \def\eps{\epsilon}
+   \def\RuleA{\vrule depth0pt  width0pt height14pt}
+   \def\RuleB{\vrule depth8pt  width0pt height14pt}
+   \def\RuleC{\vrule depth10pt width0pt height16pt}
+
+   \setlength{\tabcolsep}{0.025\textwidth}%
+
+   \begin{center}
+   \begin{tabular}{cccc}%
+      \noalign{\hrule height 1pt}
+      \multicolumn{4}{c}{\RuleC\rmfamily\bfseries%
+      Newton-Raphson iterations \quad%
+      $x_{n+1} = x_n - f_n/f'_n\ ,\quad f(x) = x-e^{-x}$}\\
+      \noalign{\hrule height 1pt}
+      \RuleB$n$&$x_n$&
+            $\eps_{n} = x_{n} - e^{-x_{n}}$&
+            $\eps_{n}/\eps_{n-1}^2$\\
+      \noalign{\hrule height 0.5pt}
+      \mpl{table}
+      \noalign{\hrule height 1pt}
+   \end{tabular}
+   \end{center}
+\end{latex}
+\end{minipage}
+
+\clearpage
+
+Note the clear quadratic convergence in the iterations -- the last column settles to approximately $-0.11546$ independent of the number of iterations. This behaviour would not be seen using normal floating point computations as they are normally limited to no more than 18 decimal digits. This computation used 200 decimal digits.
+
+\def\eps{\epsilon}
+\def\RuleA{\vrule depth0pt  width0pt height14pt}
+\def\RuleB{\vrule depth8pt  width0pt height14pt}
+\def\RuleC{\vrule depth10pt width0pt height16pt}
+
+\setlength{\tabcolsep}{0.025\textwidth}%
+
+\begin{center}
+\begin{tabular}{cccc}%
+   \noalign{\hrule height 1pt}
+   \multicolumn{4}{c}{\RuleC\rmfamily\bfseries%
+   Newton-Raphson iterations \quad%
+   $x_{n+1} = x_n - f_n/f'_n\ ,\quad f(x) = x-e^{-x}$}\\
+   \noalign{\hrule height 1pt}
+   \RuleB$ n$&$ x_n$&$ \eps_{n} =  x_{n} - e^{-x_{n}}$&$\eps_{n}/\eps_{n-1}^2$\\
+   \noalign{\hrule height 0.5pt}
+   \mpl{table}
+   \noalign{\hrule height 1pt}
+\end{tabular}
+\end{center}
+
+\end{document}

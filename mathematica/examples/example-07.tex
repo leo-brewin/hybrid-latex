@@ -1,0 +1,40 @@
+\documentclass[12pt]{mmalatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Using tagged blocks}
+
+The following Mathematica code block contains a matched {\tt\small\verb|mmaBeg/mmaEnd|} pair, with the tag name {\tt\small info}, to capture the output from the formatted Mathematica {\tt\small Print} statements.
+
+\begin{minipage}[t]{0.65\textwidth}
+\begin{mathematica}
+   (* mmaBeg(info) *)
+   Print[OutputForm["Date : &"    <> ToString[DateString[]]<>"\\\\"]]
+   Print[OutputForm["System : &"  <> ToString[$System]<>"\\\\"]]
+   Print[OutputForm["Version : &" <> ToString[$Version]]]
+   (* mmaEnd(info) *)
+\end{mathematica}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.35\textwidth}
+\begin{latex}
+   \bgroup\tt
+   \begin{tabular}{rl}
+      \mma{info}
+   \end{tabular}
+   \egroup
+\end{latex}
+\end{minipage}
+
+\vspace{12pt}
+
+Here is the output caught from the above block.
+
+\bgroup\tt
+\begin{tabular}{rl}
+   \mma{info}
+\end{tabular}
+\egroup
+
+\end{document}
