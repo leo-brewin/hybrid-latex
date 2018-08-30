@@ -3,74 +3,68 @@
 
 \begin{document}
 
-\section*{Symmetry of the Ricci tensor}
+\section*{Curvature of a 2-sphere}
 
-This simple example shows that, for the metric connection, the Ricci tensor is symmetric, that is $R_{ab} = R_{ba}$.
-
-\vspace{15pt}
+This examples uses standard methods to compute the scalar curvature of a 2-sphere.
 
 \begin{cadabra}
-   {a,b,c,d,e,f,i,j,k,l,m,n,o,p,q,r,s,t,u#}::Indices(position=independent).
+   {\theta, \varphi}::Coordinate.
+   {\alpha, \beta, \gamma, \delta, \rho, \sigma, \mu, \nu, \lambda}::Indices(values={\varphi, \theta}, position=independent).
 
-   \partial{#}::PartialDerivative;
+   \partial{#}::PartialDerivative.
 
-   g_{a b}::Symmetric;
-   g^{a b}::Symmetric;
+   g_{\alpha\beta}::Metric.
+   g^{\alpha\beta}::InverseMetric.
 
-   g_{a b}::Depends(\partial{#});
-   g^{a b}::Depends(\partial{#});
+   Chr := \Gamma^{\alpha}_{\mu\nu} -> 1/2 g^{\alpha\beta} (  \partial_{\nu}{g_{\beta\mu}}
+                                                           + \partial_{\mu}{g_{\beta\nu}}
+                                                           - \partial_{\beta}{g_{\mu\nu}} ).
 
-   dgab := \partial_{c}{g^{a b}} -> - g^{a e} g^{b f} \partial_{c}{g_{e f}}. # cdb (dgab,dgab)
+   Rabcd := R^{\rho}_{\sigma\mu\nu} ->   \partial_{\mu}{\Gamma^{\rho}_{\sigma\nu}}
+                                       - \partial_{\nu}{\Gamma^{\rho}_{\sigma\mu}}
+                                       + \Gamma^{\rho}_{\beta\mu} \Gamma^{\beta}_{\sigma\nu}
+                                       - \Gamma^{\rho}_{\beta\nu} \Gamma^{\beta}_{\sigma\mu}.
 
-   Gamma := \Gamma^{a}_{b c} ->
-            (1/2) g^{a e} (   \partial_{b}{g_{e c}}
-                            + \partial_{c}{g_{b e}}
-                            - \partial_{e}{g_{b c}}).     # cdb (Chr,Gamma)
+   Rab := R_{\sigma\nu} -> R^{\rho}_{\sigma\rho\nu}.
 
-   Rabcd := R^{a}_{b c d} ->
-           \partial_{c}{\Gamma^{a}_{b d}} + \Gamma^{a}_{e c} \Gamma^{e}_{b d}
-         - \partial_{d}{\Gamma^{a}_{b c}} - \Gamma^{a}_{e d} \Gamma^{e}_{b c}.
-                                                          # cdb (Rabcd,Rabcd)
+   R := R -> R_{\sigma\nu} g^{\sigma\nu}.
 
-   Rab := R_{a b} -> R^{c}_{a c b}.                       # cdb (Rab,Rab)
+   gab:={ g_{\theta\theta}   = r**2,
+          g_{\varphi\varphi} = r**2 \sin(\theta)**2 }.   # cdb(gab,gab)
 
-   eqn := 2 (R_{a b} - R_{b a}).
+   complete   (gab, $g^{\alpha\beta}$)                   # cdb(iab,gab)
 
-   substitute (eqn, Rab)
-   substitute (eqn, Rabcd)
-   substitute (eqn, Gamma)
+   evaluate   (Chr, gab, rhsonly=True)                   # cdb(Chr,Chr)
 
-   distribute   (eqn)
-   product_rule (eqn)
-   canonicalise (eqn)                                     # cdb (final1,eqn)
+   substitute (Rabcd, Chr)
+   evaluate   (Rabcd, gab, rhsonly=True)                 # cdb(Rabcd,Rabcd)
 
-   substitute   (eqn,dgab)
-   canonicalise (eqn)                                     # cdb (final2,eqn)
+   substitute (Rab, Rabcd)
+   evaluate   (Rab, gab, rhsonly=True)                   # cdb(Rab,Rab)
+
+   substitute (R, Rab)
+   evaluate   (R, gab, rhsonly=True)                     # cdb(R,R)
 \end{cadabra}
 
-\subsection*{Symmetry of the Ricci tensor}
-
-\begin{minipage}[t]{0.60\textwidth}
+\begin{minipage}[t]{0.65\textwidth}
 \begin{align*}
-   g^{a b}{}_{,c}   &:=\cdb{dgab}\\
-   \Gamma^{a}_{bc}  &:=\cdb{Chr}\\
-   R^a{}_{bcd}      &:=\cdb{Rabcd}\\
-   R_{ab}           &:=\cdb{Rab}\\[10pt]
-   2(R_{ab}-R_{ba}) &= \cdb{final1}\\
-                    &= \cdb{final2}
+   &\cdb{iab}\\[10pt]
+   &\cdb{Chr}\\[10pt]
+   &\cdb{Rabcd}\\[10pt]
+   &\cdb{Rab}\\[10pt]
+   &\cdb{R}
 \end{align*}
 \end{minipage}
 \hskip 1cm
 \lower16pt\hbox{%
-\begin{minipage}[t]{0.40\textwidth}
+\begin{minipage}[t]{0.35\textwidth}
 \begin{latex}
    \begin{align*}
-      g^{a b}{}_{,c}   &:=\cdb{dgab}\\
-      \Gamma^{a}_{bc}  &:=\cdb{Chr}\\
-      R^a{}_{bcd}      &:=\cdb{Rabcd}\\
-      R_{ab}           &:=\cdb{Rab}\\[10pt]
-      2(R_{ab}-R_{ba}) &= \cdb{final1}\\
-                       &= \cdb{final2}
+      &\cdb{iab}\\[10pt]
+      &\cdb{Chr}\\[10pt]
+      &\cdb{Rabcd}\\[10pt]
+      &\cdb{Rab}\\[10pt]
+      &\cdb{R}
    \end{align*}
 \end{latex}
 \end{minipage}}

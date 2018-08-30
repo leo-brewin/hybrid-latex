@@ -1,162 +1,71 @@
 \documentclass[12pt]{cdblatex}
 \usepackage{examples}
 
-\lstset{numbers=left}
-
 \begin{document}
 
-\section*{The metric connection in Riemann normal coordinates}
-
-In local Riemann normal coordinates, the metric components can always be expanded as a power series in the Riemann curvatures and its derivatives (provided the curvatives are finite at the expansion point). In particular
-\begin{align*}
-   g_{ab}(x) &= g_{a b} - \frac{1}{3} x^{c} x^{d} R_{a c b d}
-                        - \frac{1}{6} x^{c} x^{d} x^{e} \nabla_{c}{R_{a d b e}} + \cdots\\
-   g^{ab}(x) &= g^{a b} + \frac{1}{3} x^{c} x^{d} g^{a e} g^{b f} R_{c e d f}
-                        + \frac{1}{6} x^{c} x^{d} x^{e} g^{a f} g^{b g} \nabla_{c}{R_{d f e g}} + \cdots
-\end{align*}
-where $g_{ab}$ and $g^{ab}$ are independent of the coordinates $x^a$ and where $\nabla$ is the metric compatable derivative operator (i.e., $\nabla(g)=0$). In applications in General Relativity the $g_{ab}$ are often chosen to be $g_{ab} = {\rm diag}(-1,1,1,1)$.
-
-Here we will use the standard metric compatible connection
-\begin{align*}
-   \Gamma^{d}_{ab}(x) = \frac{1}{2} g^{dc}\left( g_{cb,a} + g_{ac,b} - g_{ab,c} \right)
-\end{align*}
-to compute $\Gamma^{d}_{ab}(x)$ to terms linear in $R_{abcd}$ and $\nabla_{e} R_{abcd}$.
-
-\vspace{12pt}
+\section*{The Gauss relation for the curvature of a hypersurface}
 
 \begin{cadabra}
-   {a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w#}::Indices(position=independent).
+   {a,b,c,d,e,f,g,i,j,k,l,m,n,o,p,q,r,s,t,u#}::Indices.
 
-   D{#}::PartialDerivative.
-   \nabla{#}::Derivative.
+   \nabla_{#}::Derivative.
 
-   g_{a b}::Metric.
-   g^{a b}::InverseMetric.
+   K_{a b}::Symmetric.
+   g^{a}_{b}::KroneckerDelta.
 
-   \delta{#}::KroneckerDelta.
+   # Define the projection operator
 
-   R_{a b c d}::RiemannTensor.
+   hab:=h^{a}_{b} -> g^{a}_{b} - n^{a} n_{b}.
 
-   x^{a}::Depends(D{#}).
-   x^{a}::Weight(label=num,value=1).
+   # 3-covariant derivative obtained by projection on 4-covariant derivative
 
-   R_{a b c d}::Depends(\nabla{#}).
+   vpq:=v_{p q} -> h^{a}_{p} h^{b}_{q} \nabla_{b}{v_{a}}.
 
-   DxaDxb := D_{a}{x^{b}}->\delta^{b}_{a}.
+   # Compute 3-curvature by commutation of covariant derivatives
 
-   # can chose lower order approximations by truncating the following pair
+   vpqr:= h^{a}_{p} h^{b}_{q} h^{c}_{r} ( \nabla_{c}{v_{a b}} - \nabla_{b}{v_{a c}} ).
 
-   gab := g_{a b} - 1/3 x^{c} x^{d} R_{a c b d}
-                  - 1/6 x^{c} x^{d} x^{e} \nabla_{c}{R_{a d b e}}.                    # cdb(gab.000,gab)
+   substitute (vpq,hab)
+   substitute (vpqr,vpq)
 
-   iab := g^{a b} + 1/3 x^{c} x^{d} g^{a e} g^{b f} R_{c e d f}
-                  + 1/6 x^{c} x^{d} x^{e} g^{a f} g^{b g} \nabla_{c}{R_{d f e g}}.    # cdb(iab.000,iab)
+   distribute   (vpqr)
+   product_rule (vpqr)
+   distribute   (vpqr)
+   eliminate_kronecker(vpqr)
 
-   gab := g_{a b} -> @(gab).
-   iab := g^{a b} -> @(iab).
+   # Standard substitutions
 
-   gam := 1/2 g^{d c} (D_{a}{g_{c b}} + D_{b}{g_{a c}} - D_{c}{g_{a b}}).             # cdb(gam.001,gam)
+   substitute (vpqr,$h^{a}_{b} n^{b} -> 0$)
+   substitute (vpqr,$h^{a}_{b} n_{a} -> 0$)
+   substitute (vpqr,$\nabla_{a}{g^{b}_{c}} -> 0$)
+   substitute (vpqr,$n^{a} \nabla_{b}{v_{a}} -> -v_{a} \nabla_{b}{n^{a}}$)
+   substitute (vpqr,$v_{a} \nabla_{b}{n^{a}} -> v_{p} h^{p}_{a}\nabla_{b}{n^{a}}$)
+   substitute (vpqr,$h^{p}_{a} h^{q}_{b} \nabla_{p}{n_{q}} -> K_{a b}$)
+   substitute (vpqr,$h^{p}_{a} h^{q}_{b} \nabla_{p}{n^{b}} -> K_{a}^{q}$)
 
-   substitute   (gam,gab)
-   substitute   (gam,iab)
-   distribute   (gam)              # cdb(gam.002,gam)
-   unwrap       (gam)              # cdb(gam.003,gam)
-   product_rule (gam)              # cdb(gam.004,gam)
-   distribute   (gam)              # cdb(gam.005,gam)
-   substitute   (gam,DxaDxb)       # cdb(gam.006,gam)
-   eliminate_kronecker (gam)       # cdb(gam.007,gam)
-   sort_product   (gam)            # cdb(gam.008,gam)
-   rename_dummies (gam)            # cdb(gam.009,gam)
-   canonicalise   (gam)            # cdb(gam.010,gam)
+   # Tidy up and display the results
 
-   def truncate (obj,n):
+   {h^{a}_{b},\nabla_{a}{v_{b}}}::SortOrder.
 
-       ans = Ex(0)  # create a Cadabra object with value zero
-
-       for i in range (0,n+1):
-          foo := @(obj).
-          bah  = Ex("num = " + str(i))
-          distribute  (foo)
-          keep_weight (foo, bah)
-          ans = ans + foo
-
-       return ans
-
-   gam = truncate (gam,2)   # cdb (gam.101,gam)  # allow up to 2nd order in x^a
-
-   # ==========================================================================
-   # the remaining code is just for pretty printing
-
-   {x^{a},g^{a b},R_{a b c d},\nabla_{e}{R_{a b c d}}}::SortOrder.
-
-   def get_term (obj,n):
-
-       foo := @(obj).
-       bah  = Ex("num = " + str(n))
-       distribute  (foo)
-       keep_weight (foo, bah)
-
-       return foo
-
-   def reformat (obj,scale):
-
-      foo  = Ex(str(scale))
-      bah := @(foo) @(obj).
-
-      distribute     (bah)
-      sort_product   (bah)
-      rename_dummies (bah)
-      canonicalise   (bah)
-      factor_out     (bah,$x^{a?},g^{b? c?}$)
-      ans := @(bah) / @(foo).
-
-      return ans
-
-   gam1 = get_term (gam,1)       # cdb (gam1.301,gam1)
-   gam2 = get_term (gam,2)       # cdb (gam2.301,gam2)
-
-   gam1 = reformat (gam1,  3)    # cdb (gam1.301,gam1)
-   gam2 = reformat (gam2, 12)    # cdb (gam2.301,gam2)
-
-   Gamma  := @(gam1) + @(gam2).  # cdb (Gamma.301,Gamma)
-   Scaled := 12 @(Gamma).        # cdb (Scaled.301,Scaled)
-
+   sort_product   (vpqr)
+   rename_dummies (vpqr)
+   canonicalise   (vpqr)
+   factor_out     (vpqr,$h^{a?}_{b?}$)
+   factor_out     (vpqr,$v_{a?}$)       # cdb(gauss,vpqr)
 \end{cadabra}
 
-\subsection*{The metric connection in Riemann normal coordinates}
+\subsection*{The Gauss relation for the curvature of a hypersurface}
 
-\begin{dgroup*}
-   \begin{dmath*} \Gamma^{d}_{a b} = \cdb{Gamma.301} \end{dmath*}
-\end{dgroup*}
+\begin{align*}
+   D_{r}(D_{q}v_p) - D_{q}(D_{r}v_p) = \cdb{gauss}
+\end{align*}
 
-\begin{dgroup*}
-   \begin{dmath*} 12 \Gamma^{d}_{a b} = \cdb{Scaled.301} \end{dmath*}
-\end{dgroup*}
-
-\vspace{20pt}
+\vspace{15pt}
 
 \begin{latex}
-   \begin{dgroup*}
-      \begin{dmath*} \Gamma^{d}_{a b} = \cdb{Gamma.301} \end{dmath*}
-   \end{dgroup*}
-
-   \begin{dgroup*}
-      \begin{dmath*} 12 \Gamma^{d}_{a b} = \cdb{Scaled.301} \end{dmath*}
-   \end{dgroup*}
+   \begin{align*}
+      D_{r}(D_{q}v_p) - D_{q}(D_{r}v_p) = \cdb{gauss}
+   \end{align*}
 \end{latex}
-
-% uncomment the following to get more detail of the computations
-
-% \begin{dgroup*}
-%    \begin{dmath*} \cdb{gam.002} \end{dmath*}
-%    \begin{dmath*} \cdb{gam.003} \end{dmath*}
-%    \begin{dmath*} \cdb{gam.004} \end{dmath*}
-%    \begin{dmath*} \cdb{gam.005} \end{dmath*}
-%    \begin{dmath*} \cdb{gam.006} \end{dmath*}
-%    \begin{dmath*} \cdb{gam.007} \end{dmath*}
-%    \begin{dmath*} \cdb{gam.008} \end{dmath*}
-%    \begin{dmath*} \cdb{gam.009} \end{dmath*}
-%    \begin{dmath*} \cdb{gam.010} \end{dmath*}
-% \end{dgroup*}
 
 \end{document}

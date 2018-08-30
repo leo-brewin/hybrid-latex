@@ -3,73 +3,72 @@
 
 \begin{document}
 
-\section*{The metric connection}
-
-This is a very standard computation that shows if
-\begin{align}
-   \Gamma^{a}_{b c} = \frac{}{2} g^{a d} (  \partial_{b}{g_{d c}}
-                                          + \partial_{c}{g_{b d}}
-                                          - \partial_{d}{g_{b c}} )
-\end{align}
-then
-\begin{align}
-   g_{ab;c} = 0.
-\end{align}
-
-This example might well be regarded as the Cadabra counterpart to the familiar \emph{Hello World} program of undergraduate programming classes.
-
-\vspace{15pt}
+\section*{The Riemann curvature tensor}
 
 \begin{cadabra}
-   {a,b,c,d,e,f,h,i,j,k,l,m,n,o,p,q,r,s,t,u#}::Indices.
 
-   g_{a b}::Metric.
-   g_{a}^{b}::KroneckerDelta.
+   {a,b,c,d,e,f,i,j,k,l,m,n,o,p,q,r,s,t,u#}::Indices(position=independent).
 
    \partial_{#}::PartialDerivative.
 
-   cderiv:=\partial_{c}{g_{a b}} - g_{a d}\Gamma^{d}_{b c}
-                                 - g_{d b}\Gamma^{d}_{a c}.             # cdb (term31,cderiv)
+   \Gamma^{a}_{b c}::Depends(\partial{#}).
+   \Gamma^{a}_{b c}::TableauSymmetry(shape={2}, indices={1,2});
 
-   Gamma:=\Gamma^{a}_{b c} -> (1/2) g^{a d} (  \partial_{b}{g_{d c}}
-                                             + \partial_{c}{g_{b d}}
-                                             - \partial_{d}{g_{b c}} ). # cdb (term32,Gamma)
+   ;::Symbol;  # Suggsted by Kasper as a way to (possibly) make use of ; legal
+               # see https://cadabra.science/qa/473/is-this-legal-syntax?show=478
+               # this code works with and without this trick
 
-   substitute          (cderiv,Gamma);     # cdb (term33,cderiv)
-   distribute          (cderiv)            # cdb (term34,cderiv)
-   eliminate_metric    (cderiv)            # cdb (term35,cderiv)
-   eliminate_kronecker (cderiv)            # cdb (term36,cderiv)
-   canonicalise        (cderiv)            # cdb (term37,cderiv)
+   # generic rule for first two covariant derivs of a downstairs-vector
+
+   deriv1 := A?_{a ; b} -> \partial_{b}{A?_{a}} - \Gamma^{c}_{a b} A?_{c}.
+   deriv2 := A?_{a ; b ; c} -> \partial_{c}{A?_{a ; b}}
+                             - \Gamma^{d}_{a c} A?_{d ; b}
+                             - \Gamma^{d}_{b c} A?_{a ; d}.
+
+   substitute (deriv2,deriv1)     # cdb (ex01, deriv2)
+
+   Mabc := M_{a ; b ; c}.         # cdb (ex02, Mabc)
+
+   substitute (Mabc,deriv2)       # cdb (ex03, Mabc)
+
+   distribute   (Mabc)            # cdb (ex04, Mabc)
+   product_rule (Mabc)            # cdb (ex05, Mabc)
+
+   Macb := M_{a ; c ; b}.         # cdb (ex06, Macb)
+
+   substitute (Macb,deriv2)       # cdb (ex07, Macb)
+
+   distribute   (Macb)            # cdb (ex08, Macb)
+   product_rule (Macb)            # cdb (ex09, Macb)
+
+   diff := @(Mabc) - @(Macb).     # cdb (ex10, diff)
+
+   sort_product   (diff)          # cdb (ex11, diff)
+   rename_dummies (diff)          # cdb (ex12, diff)
+   canonicalise   (diff)          # cdb (ex13, diff)
+   sort_sum       (diff)          # cdb (ex14, diff)
+   factor_out     (diff,$M_{a?}$) # cdb (ex15, diff)
+
 \end{cadabra}
 
-\subsection*{The metric connection}
-
-\vspace{-15pt}
-
 \begin{minipage}[t]{0.65\textwidth}
-\begin{align*}
-   &\cdb*{term31}\\
-   &\cdb*{term32}\\
-   &\cdb*{term33}\\
-   &\cdb*{term34}\\
-   &\cdb*{term35}\\
-   &\cdb*{term36}\\
-   &\cdb*{term37}
-\end{align*}
+\begin{gather*}
+   \cdb{ex01}\\
+   M_{a;bc} = \cdb{ex02} = \cdb{ex03}\\
+   M_{a;cb} = \cdb{ex06} = \cdb{ex07}\\[10pt]
+   M_{a;bc} - M_{a;cb} = \cdb{ex15}
+\end{gather*}
 \end{minipage}
-\hskip 1cm
+\hskip 0.5cm
 \lower16pt\hbox{%
 \begin{minipage}[t]{0.35\textwidth}
 \begin{latex}
-   \begin{align*}
-      &\cdb*{term31}\\
-      &\cdb*{term32}\\
-      &\cdb*{term33}\\
-      &\cdb*{term34}\\
-      &\cdb*{term35}\\
-      &\cdb*{term36}\\
-      &\cdb*{term37}
-   \end{align*}
+   \begin{gather*}
+      \cdb{ex01}\\
+      M_{a;bc} = \cdb{ex02} = \cdb{ex03}\\
+      M_{a;cb} = \cdb{ex06} = \cdb{ex07}\\[10pt]
+      M_{a;bc} - M_{a;cb} = \cdb{ex15}
+   \end{gather*}
 \end{latex}
 \end{minipage}}
 

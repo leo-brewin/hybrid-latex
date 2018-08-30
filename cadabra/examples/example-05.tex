@@ -3,72 +3,74 @@
 
 \begin{document}
 
-\section*{The metric connection}
+\section*{Symmetry of the Ricci tensor}
 
-This is a very standard computation that shows if
-\begin{align}
-   \Gamma^{a}_{b c} = \frac{}{2} g^{a d} (  \partial_{b}{g_{d c}}
-                                          + \partial_{c}{g_{b d}}
-                                          - \partial_{d}{g_{b c}} )
-\end{align}
-then
-\begin{align}
-   g_{ab;c} = 0.
-\end{align}
-
-This example might well be regarded as the Cadabra counterpart to the familiar \emph{Hello World} program of undergraduate programming classes.
+This simple example shows that, for the metric connection, the Ricci tensor is symmetric, that is $R_{ab} = R_{ba}$.
 
 \vspace{15pt}
 
 \begin{cadabra}
-   {a,b,c,d,e,f,h,i,j,k,l,m,n,o,p,q,r,s,t,u#}::Indices.
+   {a,b,c,d,e,f,i,j,k,l,m,n,o,p,q,r,s,t,u#}::Indices(position=independent).
 
-   g_{a b}::Metric.
-   g_{a}^{b}::KroneckerDelta.
+   \partial{#}::PartialDerivative;
 
-   \partial_{#}::PartialDerivative.
+   g_{a b}::Symmetric;
+   g^{a b}::Symmetric;
 
-   cderiv:=\partial_{c}{g_{a b}} - g_{a d}\Gamma^{d}_{b c}
-                                 - g_{d b}\Gamma^{d}_{a c}.             # cdb (term31,cderiv)
+   g_{a b}::Depends(\partial{#});
+   g^{a b}::Depends(\partial{#});
 
-   Gamma:=\Gamma^{a}_{b c} -> (1/2) g^{a d} (  \partial_{b}{g_{d c}}
-                                             + \partial_{c}{g_{b d}}
-                                             - \partial_{d}{g_{b c}} ). # cdb (term32,Gamma)
+   dgab := \partial_{c}{g^{a b}} -> - g^{a e} g^{b f} \partial_{c}{g_{e f}}. # cdb (dgab,dgab)
 
-   substitute          (cderiv,Gamma);     # cdb (term33,cderiv)
-   distribute          (cderiv)            # cdb (term34,cderiv)
-   eliminate_metric    (cderiv)            # cdb (term35,cderiv)
-   eliminate_kronecker (cderiv)            # cdb (term36,cderiv)
-   canonicalise        (cderiv)            # cdb (term37,cderiv)
+   Gamma := \Gamma^{a}_{b c} ->
+            (1/2) g^{a e} (   \partial_{b}{g_{e c}}
+                            + \partial_{c}{g_{b e}}
+                            - \partial_{e}{g_{b c}}).     # cdb (Chr,Gamma)
+
+   Rabcd := R^{a}_{b c d} ->
+           \partial_{c}{\Gamma^{a}_{b d}} + \Gamma^{a}_{e c} \Gamma^{e}_{b d}
+         - \partial_{d}{\Gamma^{a}_{b c}} - \Gamma^{a}_{e d} \Gamma^{e}_{b c}.
+                                                          # cdb (Rabcd,Rabcd)
+
+   Rab := R_{a b} -> R^{c}_{a c b}.                       # cdb (Rab,Rab)
+
+   eqn := 2 (R_{a b} - R_{b a}).
+
+   substitute (eqn, Rab)
+   substitute (eqn, Rabcd)
+   substitute (eqn, Gamma)
+
+   distribute   (eqn)
+   product_rule (eqn)
+   canonicalise (eqn)                                     # cdb (final1,eqn)
+
+   substitute   (eqn,dgab)
+   canonicalise (eqn)                                     # cdb (final2,eqn)
 \end{cadabra}
 
-\subsection*{The metric connection}
+\subsection*{Symmetry of the Ricci tensor}
 
-\vspace{-15pt}
-
-\begin{minipage}[t]{0.65\textwidth}
+\begin{minipage}[t]{0.60\textwidth}
 \begin{align*}
-   &\cdb*{term31}\\
-   &\cdb*{term32}\\
-   &\cdb*{term33}\\
-   &\cdb*{term34}\\
-   &\cdb*{term35}\\
-   &\cdb*{term36}\\
-   &\cdb*{term37}
+   g^{a b}{}_{,c}   &:=\cdb{dgab}\\
+   \Gamma^{a}_{bc}  &:=\cdb{Chr}\\
+   R^a{}_{bcd}      &:=\cdb{Rabcd}\\
+   R_{ab}           &:=\cdb{Rab}\\[10pt]
+   2(R_{ab}-R_{ba}) &= \cdb{final1}\\
+                    &= \cdb{final2}
 \end{align*}
 \end{minipage}
 \hskip 1cm
 \lower16pt\hbox{%
-\begin{minipage}[t]{0.35\textwidth}
+\begin{minipage}[t]{0.40\textwidth}
 \begin{latex}
    \begin{align*}
-      &\cdb*{term31}\\
-      &\cdb*{term32}\\
-      &\cdb*{term33}\\
-      &\cdb*{term34}\\
-      &\cdb*{term35}\\
-      &\cdb*{term36}\\
-      &\cdb*{term37}
+      g^{a b}{}_{,c}   &:=\cdb{dgab}\\
+      \Gamma^{a}_{bc}  &:=\cdb{Chr}\\
+      R^a{}_{bcd}      &:=\cdb{Rabcd}\\
+      R_{ab}           &:=\cdb{Rab}\\[10pt]
+      2(R_{ab}-R_{ba}) &= \cdb{final1}\\
+                       &= \cdb{final2}
    \end{align*}
 \end{latex}
 \end{minipage}}

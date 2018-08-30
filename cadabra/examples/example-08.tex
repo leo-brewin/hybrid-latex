@@ -1,0 +1,45 @@
+\documentclass[12pt]{cdblatex}
+\usepackage{examples}
+
+\begin{document}
+
+\section*{Using tagged blocks}
+
+The following Python code block contains a matched {\tt\small\verb|cdbBeg/cdbEnd|} pair, with the tag name {\tt\small info}, to capture the output from the formatted Python {\tt\small print} statements.
+
+\begin{minipage}[t]{0.75\textwidth}
+\begin{cadabra}
+   import platform, datetime
+   # cdbBeg(info)
+   print("date :      &"+'{:%a %d %b %Y %H:%M:%S}'.format(datetime.datetime.now())+"\\\\")
+   print("python :    &"+str(platform.python_version())+"\\\\")
+   print("system :    &"+str(platform.system())+"\\\\")
+   print("release :   &"+str(platform.release())+"\\\\")
+   print("machine :   &"+str(platform.machine())+"\\\\")
+   print("processor : &"+str(platform.processor())+"\\\\")
+   print("platform :  &"+str(platform.platform()))
+   # cdbEnd(info)
+\end{cadabra}
+\end{minipage}
+\hskip 1cm
+\begin{minipage}[t]{0.25\textwidth}
+\begin{latex}
+   \bgroup\tt
+   \begin{tabular}{rl}
+      \cdb{info}
+   \end{tabular}
+   \egroup
+\end{latex}
+\end{minipage}
+
+\vspace{12pt}
+
+Here is the output caught from the above block. Note that Cadabra 2.2.1 uses Python 3.7.
+
+\bgroup\tt
+\begin{tabular}{rl}
+   \cdb{info}
+\end{tabular}
+\egroup
+
+\end{document}

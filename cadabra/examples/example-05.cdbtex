@@ -1,21 +1,18 @@
-\cdbtag{term31}{%
-\partial_{c}{g_{a b}}-g_{a d} \Gamma^{d}\,_{b c}-g_{d b} \Gamma^{d}\,_{a c}%
+\cdbtag{dgab}{%
+\partial_{c}{g^{a b}} \rightarrow -g^{a e} g^{b f} \partial_{c}{g_{e f}}%
 }
-\cdbtag{term32}{%
-\Gamma^{a}\,_{b c} \rightarrow \frac{1}{2}g^{a d} \left(\partial_{b}{g_{d c}}+\partial_{c}{g_{b d}}-\partial_{d}{g_{b c}}\right)%
+\cdbtag{Chr}{%
+\Gamma^{a}\,_{b c} \rightarrow \frac{1}{2}g^{a e} \left(\partial_{b}{g_{e c}}+\partial_{c}{g_{b e}}-\partial_{e}{g_{b c}}\right)%
 }
-\cdbtag{term33}{%
-\partial_{c}{g_{a b}} - \frac{1}{2}g_{a d} g^{d e} \left(\partial_{b}{g_{e c}}+\partial_{c}{g_{b e}}-\partial_{e}{g_{b c}}\right) - \frac{1}{2}g_{d b} g^{d e} \left(\partial_{a}{g_{e c}}+\partial_{c}{g_{a e}}-\partial_{e}{g_{a c}}\right)%
+\cdbtag{Rabcd}{%
+R^{a}\,_{b c d} \rightarrow \partial_{c}{\Gamma^{a}\,_{b d}}+\Gamma^{a}\,_{e c} \Gamma^{e}\,_{b d}-\partial_{d}{\Gamma^{a}\,_{b c}}-\Gamma^{a}\,_{e d} \Gamma^{e}\,_{b c}%
 }
-\cdbtag{term34}{%
-\partial_{c}{g_{a b}} - \frac{1}{2}g_{a d} g^{d e} \partial_{b}{g_{e c}} - \frac{1}{2}g_{a d} g^{d e} \partial_{c}{g_{b e}}+\frac{1}{2}g_{a d} g^{d e} \partial_{e}{g_{b c}} - \frac{1}{2}g_{d b} g^{d e} \partial_{a}{g_{e c}} - \frac{1}{2}g_{d b} g^{d e} \partial_{c}{g_{a e}}+\frac{1}{2}g_{d b} g^{d e} \partial_{e}{g_{a c}}%
+\cdbtag{Rab}{%
+R_{a b} \rightarrow R^{c}\,_{a c b}%
 }
-\cdbtag{term35}{%
-\partial_{c}{g_{a b}} - \frac{1}{2}g_{a}\,^{e} \partial_{b}{g_{e c}} - \frac{1}{2}g_{a}\,^{e} \partial_{c}{g_{b e}}+\frac{1}{2}g_{a}\,^{e} \partial_{e}{g_{b c}} - \frac{1}{2}g_{b}\,^{e} \partial_{a}{g_{e c}} - \frac{1}{2}g_{b}\,^{e} \partial_{c}{g_{a e}}+\frac{1}{2}g_{b}\,^{e} \partial_{e}{g_{a c}}%
+\cdbtag{final1}{%
+-\partial_{b}{g^{c e}} \partial_{a}{g_{c e}}+\partial_{a}{g^{c e}} \partial_{b}{g_{c e}}%
 }
-\cdbtag{term36}{%
-\frac{1}{2}\partial_{c}{g_{a b}} - \frac{1}{2}\partial_{c}{g_{b a}}%
-}
-\cdbtag{term37}{%
+\cdbtag{final2}{%
 0%
 }

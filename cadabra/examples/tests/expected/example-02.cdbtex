@@ -1,27 +1,21 @@
-\cdbtag{gab}{%
-\left[g_{\theta \theta} = {r}^{2},~\discretionary{}{}{} g_{\varphi \varphi} = {r}^{2} {\left(\sin{\theta}\right)}^{2}\right]%
+\cdbtag{term31}{%
+\partial_{c}{g_{a b}}-g_{a d} \Gamma^{d}\,_{b c}-g_{d b} \Gamma^{d}\,_{a c}%
 }
-\cdbtag{iab}{%
-\left[g_{\theta \theta} = {r}^{2},~\discretionary{}{}{} g_{\varphi \varphi} = {r}^{2} {\left(\sin{\theta}\right)}^{2},~\discretionary{}{}{} g^{\varphi \varphi} = {\left({r}^{2} {\left(\sin{\theta}\right)}^{2}\right)}^{-1},~\discretionary{}{}{} g^{\theta \theta} = {r}^{-2}\right]%
+\cdbtag{term32}{%
+\Gamma^{a}\,_{b c} \rightarrow \frac{1}{2}g^{a d} \left(\partial_{b}{g_{d c}}+\partial_{c}{g_{b d}}-\partial_{d}{g_{b c}}\right)%
 }
-\cdbtag{Chr}{%
-\Gamma^{\alpha}\,_{\mu \nu} \rightarrow \square{}_{\mu}{}_{\nu}{}^{\alpha}\left\{\begin{aligned}\square{}_{\varphi}{}_{\theta}{}^{\varphi}= & {\left(\tan{\theta}\right)}^{-1}\\[-.5ex]%
-\square{}_{\theta}{}_{\varphi}{}^{\varphi}= & {\left(\tan{\theta}\right)}^{-1}\\[-.5ex]%
-\square{}_{\varphi}{}_{\varphi}{}^{\theta}= &  - \frac{1}{2}\sin{2\theta}\\[-.5ex]%
-\end{aligned}\right.%
+\cdbtag{term33}{%
+\partial_{c}{g_{a b}} - \frac{1}{2}g_{a d} g^{d e} \left(\partial_{b}{g_{e c}}+\partial_{c}{g_{b e}}-\partial_{e}{g_{b c}}\right) - \frac{1}{2}g_{d b} g^{d e} \left(\partial_{a}{g_{e c}}+\partial_{c}{g_{a e}}-\partial_{e}{g_{a c}}\right)%
 }
-\cdbtag{Rabcd}{%
-R^{\rho}\,_{\sigma \mu \nu} \rightarrow \square{}_{\sigma}{}_{\nu}{}^{\rho}{}_{\mu}\left\{\begin{aligned}\square{}_{\varphi}{}_{\varphi}{}^{\theta}{}_{\theta}= & \frac{1}{2}\sin{2\theta} {\left(\tan{\theta}\right)}^{-1}-\cos{2\theta}\\[-.5ex]%
-\square{}_{\theta}{}_{\varphi}{}^{\varphi}{}_{\theta}= & -1\\[-.5ex]%
-\square{}_{\varphi}{}_{\theta}{}^{\theta}{}_{\varphi}= &  - \frac{1}{2}\sin{2\theta} {\left(\tan{\theta}\right)}^{-1}+\cos{2\theta}\\[-.5ex]%
-\square{}_{\theta}{}_{\theta}{}^{\varphi}{}_{\varphi}= & 1\\[-.5ex]%
-\end{aligned}\right.%
+\cdbtag{term34}{%
+\partial_{c}{g_{a b}} - \frac{1}{2}g_{a d} g^{d e} \partial_{b}{g_{e c}} - \frac{1}{2}g_{a d} g^{d e} \partial_{c}{g_{b e}}+\frac{1}{2}g_{a d} g^{d e} \partial_{e}{g_{b c}} - \frac{1}{2}g_{d b} g^{d e} \partial_{a}{g_{e c}} - \frac{1}{2}g_{d b} g^{d e} \partial_{c}{g_{a e}}+\frac{1}{2}g_{d b} g^{d e} \partial_{e}{g_{a c}}%
 }
-\cdbtag{Rab}{%
-R_{\sigma \nu} \rightarrow \square{}_{\sigma}{}_{\nu}\left\{\begin{aligned}\square{}_{\varphi}{}_{\varphi}= & \frac{1}{2}\sin{2\theta} {\left(\tan{\theta}\right)}^{-1}-\cos{2\theta}\\[-.5ex]%
-\square{}_{\theta}{}_{\theta}= & 1\\[-.5ex]%
-\end{aligned}\right.%
+\cdbtag{term35}{%
+\partial_{c}{g_{a b}} - \frac{1}{2}g_{a}\,^{e} \partial_{b}{g_{e c}} - \frac{1}{2}g_{a}\,^{e} \partial_{c}{g_{b e}}+\frac{1}{2}g_{a}\,^{e} \partial_{e}{g_{b c}} - \frac{1}{2}g_{b}\,^{e} \partial_{a}{g_{e c}} - \frac{1}{2}g_{b}\,^{e} \partial_{c}{g_{a e}}+\frac{1}{2}g_{b}\,^{e} \partial_{e}{g_{a c}}%
 }
-\cdbtag{R}{%
-R \rightarrow 2{r}^{-2}%
+\cdbtag{term36}{%
+\frac{1}{2}\partial_{c}{g_{a b}} - \frac{1}{2}\partial_{c}{g_{b a}}%
+}
+\cdbtag{term37}{%
+0%
 }
