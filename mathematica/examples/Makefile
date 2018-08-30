@@ -38,10 +38,10 @@ gallery:
 expected:
 	@ for file in $(TARGETS); \
 	  do \
-	     mv -f $${file}.pdf pdfs/.; \
-	     mv -f tests/output/$${file}.*tex tests/expected/.; \
+	     cp -f $${file}.pdf pdfs/.; \
+	     cp -f tests/output/$${file}.*tex tests/expected/.; \
 	  done
-	@ mv -f gallery.pdf pdfs/.
+	@ cp -f gallery.pdf pdfs/.
 #-------------------------------------------------------------------------------
 tests:
 	@ tests.sh
@@ -84,3 +84,10 @@ pristine:
 	     rm -rf $${file}-fig.pdf $${file}-fig.png  $${file}-fig.pgf  $${file}-fig.jpeg; \
 		  rm -rf pdfs/*.pdf tests/output/$${file}.*tex tests/expected/$${file}.*tex; \
 	  done
+#-------------------------------------------------------------------------------
+github:
+	@ make pristine
+	@ make all
+	@ make expected
+	@ make veryclean
+	@ make rm-output

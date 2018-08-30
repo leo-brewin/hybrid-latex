@@ -58,3 +58,10 @@ pristine:
 	@ (echo "make pristine mathematica ...";  cd mathematica/examples; make pristine)
 	@ (echo "make pristine matlab ...";       cd matlab/examples;      make pristine)
 	@ (echo "make pristine python ...";       cd python/examples;      make pristine)
+#-------------------------------------------------------------------------------
+github:
+	@ (echo "make github cadabra ...";        cd cadabra/examples;     make github)
+	@ (echo "make github maple ...";          cd maple/examples;       make github)
+	@ (echo "make github mathematica ...";    cd mathematica/examples; make github)
+	@ (echo "make github matlab ...";         cd matlab/examples;      make github)
+	@ (echo "make github python ...";         cd python/examples;      make github)
