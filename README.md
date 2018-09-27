@@ -9,7 +9,7 @@ There are other collections that achieve the same result, see [PyhtonTeX][1] and
 The main advantages of this collection over PyhtonTeX and SageTeX are:
 
   * The tools are written in Python and Bash rather than LaTeX, thus allowing easy extension to other languages,
-  * The results of the active code blocks are saved to a single file that can be easily shared with colleagues, journals or included in other LaTeX documents, and
+  * The results of the active code blocks are saved to a single file that can be easily shared with colleagues, journals or included in other LaTeX documents.
 
 ## Installation
 
