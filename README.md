@@ -6,7 +6,7 @@ This is a collection of Python and Bash shell scripts that allows LaTeX document
 
 There are other collections that achieve the same result, see [PyhtonTeX][1] and [SageTeX][2] .
 
-The main advantages of this collection over PyhtonTeX and SageTeX are:
+The main differences between this package and PyhtonTeX/SageTeX are:
 
   * The tools are written in Python and Bash rather than LaTeX, thus allowing easy extension to other languages,
   * The results of the active code blocks are saved to a single file that can be easily shared with colleagues, journals or included in other LaTeX documents.
