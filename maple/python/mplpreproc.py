@@ -165,6 +165,8 @@ def pass1 (src_file_name, out_file_name, the_file_name):
          out.write (r'#  expr := RegSubs("``"               = " ",expr):'+'\n')
          out.write (r'   expr := RegSubs("([a-zA-Z0-9\\]+)/([a-zA-Z0-9\\]+)" = "\\frac {\\1}{\\2}",expr):'+'\n')
          out.write (r'   expr := RegSubs("\\\\}," = "}\\,",expr):'+'\n')
+         out.write (r'   expr := RegSubs("\\\\\\\\}" = "}\\\\\\\\",expr):'+'\n')
+         out.write (r'   expr := RegSubs("\\\\end}" = "}\\end",expr):'+'\n')
          out.write (r'   expr := RegSubs("\\\\it *\\\\_([A-Z])([0-9]+)" = "\\1_{\\2}",expr):'+'\n')
          out.write (r'   expr;'+'\n')
          out.write (r'end proc;'+'\n')
