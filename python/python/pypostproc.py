@@ -103,12 +103,15 @@ import argparse
 parser = argparse.ArgumentParser(description="Post-process Python output")
 parser.add_argument("-i", dest="input", metavar="source", help="LaTeX-Python source file (without .tex file extension)", required=True)
 parser.add_argument("-I", dest="sty", metavar="include", help="Full path to LaTeX-Python pymacros.sty file")
+parser.add_argument("-W", dest="warn", action='store_true', help="Report errors for missing output")
 
 the_file_name = parser.parse_args().input
 sty_file_name = parser.parse_args().sty
 
+report_errors = parser.parse_args().warn
+
 # ----------------------------------------------------------------------------
-# include the Python macros in the .cdbtex file?
+# include the Python macros in the .pytex file?
 
 if sty_file_name:
     include_macros_header = True
@@ -211,7 +214,7 @@ else:
          tex.write(r'% Define Python macros so that this file may be used by other LaTeX sources.'+'\n')
          tex.write(r'% To include this file in some other LaTeX source be sure to add the following'+'\n')
          tex.write(r'% lines in the LaTeX preamble.'+'\n')
-         tex.write(r'% \input{foo.mattex}% change foo to match the name of this file.'+'\n')
+         tex.write(r'% \input{foo.pytex}% change foo to match the name of this file.'+'\n')
          tex.write(r'% ---------------------------------------------------------------------'+'\n')
          tex.write(r'\makeatletter'+'\n')
          with open(sty_file_name,"r") as sty:
@@ -220,20 +223,27 @@ else:
          tex.write(r'\makeatother'+'\n')
          tex.write(r'% ====================================================================='+'\n')
 
+      tex.write(r'\chardef\thehashcode=\catcode`\#	 % save catcode of hash (probably 6)'+'\n')
+      tex.write(r'\catcode`\#=11			             % set catcode for hash to be a letter (11)'+'\n')
+
       for i in range (1,num_tag+1):
 
          tex_macro (tex, i)
 
-   # -------------------------------------------------------------------------
-   # report tags that didn't have matching Python output
+      tex.write(r'\catcode`\#=\thehashcode          % restore original catcode for hash'+'\n')
 
-   for i in range (1,num_tag+1):
-      if not tag_found [i]:
-         print ("> post-process: Failed to find output for tag: "+tag_name[i])
+   if report_errors:
 
-   # -------------------------------------------------------------------------
-   # report problems with un-matched beg/end pairs
+      # -------------------------------------------------------------------------
+      # report tags that didn't have matching Python output
 
-   for i in range (1,num_tag+1):
-      if not tag_done [i]:
-         print ("> post-process: Something is missing for tag: "+tag_name[i])
+      for i in range (1,num_tag+1):
+         if not tag_found [i]:
+            print ("> post-process: Failed to find output for tag: "+tag_name[i])
+
+      # -------------------------------------------------------------------------
+      # report problems with un-matched beg/end pairs
+
+      for i in range (1,num_tag+1):
+         if not tag_done [i]:
+            print ("> post-process: Something is missing for tag: "+tag_name[i])

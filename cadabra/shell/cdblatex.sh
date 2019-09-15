@@ -10,13 +10,14 @@ skiplatex="no"
 Timer=""
 CDB=/usr/local/bin/
 sty=""
+warn=""
 
 # -----------------------------------------------------------------------------------------
 # Parse the command-line options
 
 OPTIND=1
 
-while getopts 'i:I:P:sktTxh' option
+while getopts 'i:I:P:sktTxhW' option
 do
    case "$option" in
    "i")  file="$OPTARG"      ;;
@@ -27,8 +28,10 @@ do
    "t")  Timer="/usr/bin/time" ;;
    "T")  Timer="/usr/bin/time -l" ;;
    "x")  skiplatex="yes"     ;;
-   "h")  echo "usage : cdblatex.sh -i file [-P<path to Cadabra bin dir>] [-I<path to cdbmacros.sty>] [-s] [-k] [-x] [-h]"
-         echo "options :  -i file : source file (without .tex extension)"
+   "W")  warn="-W"           ;;
+   "h")  echo "usage : cdblatex.sh -i file [-P<path to Cadabra bin dir>]"
+         echo "                            [-I<path to cdbmacros.sty>] [-s] [-k] [-x] [-W] [-h]"
+         echo "options :  -i file : source file (with or without .tex extension)"
          echo "           -I file : full path to cdbmacros.sty file"
          echo "           -P file : path to Cadabra bin directory"
          echo "           -s : silent, don't open the pdf file"
@@ -36,6 +39,7 @@ do
          echo "           -t : report brief cpu time"
          echo "           -T : report detailed cpu time plus memory usage"
          echo "           -x : don't call latex"
+         echo "           -W : warn if errors found in the output for some tags"
          echo "           -h : this help messag"
          echo "example : cdblatex.sh -i file"
          exit                ;;
@@ -44,20 +48,24 @@ do
    esac
 done
 
-if [[ ! -e $file.tex ]]; then
-   echo "> file ""$file.tex"" not found, exit"
-   exit 1;
-fi
+# strip .tex if given
+file=$(basename -s ".tex" "$file")
+name=$file
 
 if [[ $file = "<none>" ]]; then
    echo "> no source file given, use cdblatex.sh -i file"
    exit 1;
 fi;
 
-file=$(basename -s ".tex" "$file")
-num=$(egrep -c -e'^\s*\\Input\{' "$file".tex)
-name=$file
+if [[ ! -e $file.tex ]]; then
+   echo "> file ""$file.tex"" not found, exit"
+   exit 1;
+fi
 
+# does the source contain \Input?
+num=$(egrep -c -e'^\s*\\Input\{' "$file".tex)
+
+# yes, now merge source files
 if ! [[ $num = 0 ]]; then
    merge-tex.py -i $file.tex -o .merged.tex
    name=".merged"
@@ -73,7 +81,7 @@ $Timer $CDB/cadabra2 $file.py > .tmp.txt   || exit 5
 
 iconv -c -f UTF-8 -t ASCII//translit .tmp.txt > $file.cdbtxt
 
-cdbpostproc.py -i $file $sty               || exit 7
+cdbpostproc.py $warn -i $file $sty       || exit 7
 
 if [[ $skiplatex = "no" ]]; then
    pdflatex -halt-on-error -interaction=batchmode -synctex=1 $file || exit 9

@@ -1,0 +1,11 @@
+v0.2 (4 Aug 2019)
+
+  1. Introduced optional arguments for the code block environments.
+     The arguments are passed to \lstset and allow settings to
+     be applied to just a single instance of the code block.
+  2. Improved felxibility for placement of tags in Python and Cadabra. Tags can now
+     be placed inside indented code (e.g., inside if-then-else blocks).
+
+v0.1 (22 Aug 2018)
+
+  1. Initial public release.

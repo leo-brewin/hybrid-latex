@@ -8,13 +8,14 @@ Matlab=matlab
 # Matlab="/Applications/MATLAB_R2018a.app/bin/matlab"
 MatlabOpts="-nodesktop -nosplash -noFigureWindows"
 sty=""
+warn=""
 
 # -----------------------------------------------------------------------------------------
 # Parse the comatnd-line options
 
 OPTIND=1
 
-while getopts 'i:I:P:skxh' option
+while getopts 'i:I:P:skxhW' option
 do
    case "$option" in
    "i")  file="$OPTARG"      ;;
@@ -23,35 +24,42 @@ do
    "s")  silent="yes"        ;;
    "k")  keep="yes"          ;;
    "x")  skiplatex="yes"     ;;
-   "h")  echo "usage : matlatex.sh -i file [-P<path to Matlab>] [-I<path to matmacros.sty>] [-s] [-k] [-h]"
-         echo "options :  -i file : source file (without .tex extension)"
+   "W")  warn="-W"           ;;
+   "h")  echo "usage : matlatex.sh -i file [-P<path to Matlab>]"
+         echo "                            [-I<path to matmacros.sty>] [-s] [-k] [-x] [-W] [-h]"
+         echo "options :  -i file : source file (with or without .tex extension)"
          echo "           -I file : full path to matmacros.sty file"
-         echo "           -P path : where to find the Matlab binary"
+         echo "           -P path : full path to the Matlab binary"
          echo "           -s : silent, don't open the pdf file"
          echo "           -x : don't call latex"
          echo "           -k : keep all temporary files"
+         echo "           -W : warn if errors found in the output for some tags"
          echo "           -h : this help message"
-         echo "examate : matlatex.sh -i file"
+         echo "example : matlatex.sh -i file"
          exit                ;;
    ?)    echo "matlatex.sh : Unknown option specified."
          exit                ;;
    esac
 done
 
+# strip .tex if given
+file=$(basename -s ".tex" "$file")
+name=$file
+
+if [[ $file = "<none>" ]]; then
+   echo "> no source file given, use pylatex.sh -i file"
+   exit 1;
+fi;
+
 if [[ ! -e $file.tex ]]; then
    echo "> file ""$file.tex"" not found, exit"
    exit 1;
 fi
 
-if [[ $file = "<none>" ]]; then
-   echo "> no source file given, use matlatex.sh -i file"
-   exit 1;
-fi;
-
-file=$(basename -s ".tex" "$file")
+# does the source contain \Input?
 num=$(egrep -c -e'^\s*\\Input\{' "$file".tex)
-name=$file
 
+# yes, now merge source files
 if ! [[ $num = 0 ]]; then
    merge-tex.py -i $file.tex -o .merged.tex
    name=".merged"
@@ -63,7 +71,7 @@ matpreproc.py -i $file -m $name           || exit 1
 
 $Matlab $MatlabOpts -r "try, ${file}_; catch, disp('> matlab failed'), exit(1), end, quit" > $file.mattxt || (echo "> matlab failed, check ${file}_.m"; exit 3)
 
-matpostproc.py -i $file $sty              || exit 5
+matpostproc.py $warn -i $file $sty        || exit 5
 
 if [[ $skiplatex = "no" ]]; then
    pdflatex -halt-on-error -interaction=batchmode -synctex=1 $file || exit 7

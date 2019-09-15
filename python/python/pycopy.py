@@ -61,7 +61,7 @@ def push_stack (index, stack_index):
       stack [stack_index] = index
       return stack_index
    else:
-      print ("> Depth of nested matBeg/matEnd pairs exceeded, max = "+str(max_stack_index)+", exit\n")
+      print ("> Depth of nested pyBeg/pyEnd pairs exceeded, max = "+str(max_stack_index)+", exit\n")
       sys.exit (1)
 
 def pop_stack (index, stack_index):
@@ -70,10 +70,10 @@ def pop_stack (index, stack_index):
          stack [stack_index] = 0
          return stack_index - 1
       else:
-         print ("> Error with matBeg/matEnd pairs for tag index: "+str(index)+", exit\n")
+         print ("> Error with pyBeg/pyEnd pairs for tag index: "+str(index)+", exit\n")
          sys.exit (1)
    else:
-      print ("> Error with matBeg/matEnd pairs, check for missing matBeg or matEnd, exit\n")
+      print ("> Error with pyBeg/pyEnd pairs, check for missing pyBeg or pyEnd, exit\n")
       sys.exit (1)
 
 def parse (this_line):
@@ -87,54 +87,39 @@ def parse (this_line):
 def append_text (this_line, index):
    tag_output[index].append(this_line.rstrip("\n"))
 
-def tex_macro (tex, index):
+def copy_text (out, index):
    the_lines = tag_output [index]
-   tex.write ("\mattag{"+tag_name[index]+"}{%\n")
    for i in range (0,len(the_lines)):
-      if not empty_line (the_lines[i]):
-         tex.write (the_lines[i]+"%\n")
-   tex.write("}\n")
+      out.write (the_lines[i]+"\n")
 
 # -----------------------------------------------------------------------------
 # the main code
 
 import argparse
 
-parser = argparse.ArgumentParser(description="Post-process Matlab output")
-parser.add_argument("-i", dest="input", metavar="source", help="LaTeX-Matlab source file (without .tex file extension)", required=True)
-parser.add_argument("-I", dest="sty", metavar="include", help="Full path to LaTeX-Matlab matmacros.sty file")
-parser.add_argument("-W", dest="warn", action='store_true', help="Report errors for missing output")
+parser = argparse.ArgumentParser(description="Post-process Python output")
+parser.add_argument("-i", dest="input",  metavar="source",    help="LaTeX-Python source file (without .tex file extension)", required=True)
+parser.add_argument("-o", dest="output", metavar="output",    help="Where to save the copied text, full file name.", required=True)
+parser.add_argument("-t", dest="tag",    metavar="target",    help="Target tag, copy the text of this tag.", required=True)
+parser.add_argument("-W", dest="warn",   action='store_true', help="Report errors for missing output")
 
-the_file_name = parser.parse_args().input
-sty_file_name = parser.parse_args().sty
-
-report_errors = parser.parse_args().warn
-
-# ----------------------------------------------------------------------------
-# include the Matlab macros in the .cdbtex file?
-
-if sty_file_name:
-    include_macros_header = True
-    if not os.path.isfile (sty_file_name):
-       print ("> could not find "+sty_file_name)
-       print ("> will not include Matlab macros")
-       include_macros_header = False
-else:
-    include_macros_header = False
+inp_file_name  = parser.parse_args().input
+out_file_name  = parser.parse_args().output
+the_target_tag = parser.parse_args().tag
+report_errors  = parser.parse_args().warn
 
 # ----------------------------------------------------------------------------
 # file names
 
-idx_file_name = the_file_name + ".matidx"
-tex_file_name = the_file_name + ".mattex"
-src_file_name = the_file_name + ".mattxt"
+idx_file_name = inp_file_name + ".pyidx"
+src_file_name = inp_file_name + ".pytxt"
 
 # ----------------------------------------------------------------------------
 # any tag index/name pairs to read?
 
 if not os.path.isfile (idx_file_name):
-   with open(tex_file_name,"w") as tex:
-      tex.write ("% no Matlab output")
+   with open(out_file_name,"w") as out:
+      out.write ("% no Python output")
    sys.exit (0)
 
 # ----------------------------------------------------------------------------
@@ -147,6 +132,8 @@ tag_output = [[]]     # ditto
 num_tag    = 0
 tag_index  = 0
 
+target = 1 # default is the first tag
+
 with open(idx_file_name, "r") as idx:
    for this_line in idx:
       if has_tag (this_line): # skip any non-tag text (e.g., comments)
@@ -155,28 +142,31 @@ with open(idx_file_name, "r") as idx:
          tag_done.append (False)
          tag_found.append (False)
          tag_output.append ([])
+         the_name = get_text (this_line)
+         if the_name == the_target_tag:
+            target = num_tag
 
-# note: num_tag = number of tags declared in the Matlab/LaTeX source
+# note: num_tag = number of tags declared in the Python/LaTeX source
 #       these tags are stored in locations 1,2,3 ... num_tag in the various arrays
-#       tag_output[0] will contain all non-tagged Matlab output.
+#       tag_output[0] will contain all non-tagged Python output.
 
 # ----------------------------------------------------------------------------
-# read Matlab output and create LaTeX macros for each tag
+# read Python output and create LaTeX macros for each tag
 
 if num_tag == 0:
-   with open(tex_file_name,"w") as tex:
-      tex.write ("% no Matlab output")
+   with open(out_file_name,"w") as out:
+      out.write ("% no Python output")
 else:
 
    if not os.path.isfile (src_file_name):
-      with open(tex_file_name,"w") as tex:
-         tex.write ("% no Matlab output")
+      with open(out_file_name,"w") as out:
+         out.write ("% no Python output")
       print ("> post-process: Source file " + src_file_name + " not found, exit.")
-      print ("> possible error during execution of Matlab.")
+      print ("> possible error during execution of Python.")
       sys.exit (1)
 
    # -------------------------------------------------------------------------
-   # read Matlab output
+   # read Python output
 
    with open(src_file_name,"r") as src:
       for this_line in src:
@@ -207,35 +197,14 @@ else:
    # -----------------------------------------------------------------------
    # create the latex macros, one for each tag
 
-   with open(tex_file_name,"w") as tex:
+   with open(out_file_name,"w") as out:
 
-      if include_macros_header:
-         tex.write(r'% ====================================================================='+'\n')
-         tex.write(r'% Define Matlab macros so that this file may be used by other LaTeX sources.'+'\n')
-         tex.write(r'% To include this file in some other LaTeX source be sure to add the following'+'\n')
-         tex.write(r'% lines in the LaTeX preamble.'+'\n')
-         tex.write(r'% \input{foo.mattex}% change foo to match the name of this file.'+'\n')
-         tex.write(r'% ---------------------------------------------------------------------'+'\n')
-         tex.write(r'\makeatletter'+'\n')
-         with open(sty_file_name,"r") as sty:
-            for this_line in sty:
-               tex.write (this_line)
-         tex.write(r'\makeatother'+'\n')
-         tex.write(r'% ====================================================================='+'\n')
-
-      tex.write(r'\chardef\thehashcode=\catcode`\#	 % save catcode of hash (probably 6)'+'\n')
-      tex.write(r'\catcode`\#=11			             % set catcode for hash to be a letter (11)'+'\n')
-
-      for i in range (1,num_tag+1):
-
-         tex_macro (tex, i)
-
-      tex.write(r'\catcode`\#=\thehashcode          % restore original catcode for hash'+'\n')
+      copy_text (out, target)
 
    if report_errors:
 
       # -------------------------------------------------------------------------
-      # report tags that didn't have matching Matlab output
+      # report tags that didn't have matching Python output
 
       for i in range (1,num_tag+1):
          if not tag_found [i]:

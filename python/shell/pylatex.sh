@@ -6,13 +6,14 @@ keep="no"
 skiplatex="no"
 Python="python"
 sty=""
+warn=""
 
 # -----------------------------------------------------------------------------------------
 # Parse the command-line options
 
 OPTIND=1
 
-while getopts 'i:I:P:skxh' option
+while getopts 'i:I:P:skxhW' option
 do
    case "$option" in
    "i")  file="$OPTARG"      ;;
@@ -21,35 +22,42 @@ do
    "s")  silent="yes"        ;;
    "k")  keep="yes"          ;;
    "x")  skiplatex="yes"     ;;
-   "h")  echo "usage : pylatex.sh -i file [-P<path to python>] [-I<path to pymacros.sty>] [-s] [-k] [-x] [-h]"
-         echo "options :  -i file : source file (without .tex extension)"
+   "W")  warn="-W"           ;;
+   "h")  echo "usage : pylatex.sh -i file [-P<path to python>]"
+         echo "                           [-I<path to pymacros.sty>] [-s] [-k] [-x] [-W] [-h]"
+         echo "options :  -i file : source file (with or without .tex extension)"
          echo "           -I file : full path to pymacros.sty file"
-         echo "           -P path : where to find the Python binary"
+         echo "           -P path : full path to the Python binary"
          echo "           -s : silent, don't open the pdf file"
          echo "           -k : keep all temporary files"
          echo "           -x : don't call latex"
+         echo "           -W : warn if errors found in the output for some tags"
          echo "           -h : this help message"
-         echo "example : pylatex.sh -i file -P/usr/bin/python"
+         echo "example : pylatex.sh -i file -P/usr/local/bin/python"
          exit                ;;
    ?)    echo "pylatex.sh : Unknown option specified."
          exit                ;;
    esac
 done
 
-if [[ ! -e $file.tex ]]; then
-   echo "> file ""$file.tex"" not found, exit"
-   exit 1;
-fi
+# strip .tex if given
+file=$(basename -s ".tex" "$file")
+name=$file
 
 if [[ $file = "<none>" ]]; then
    echo "> no source file given, use pylatex.sh -i file"
    exit 1;
 fi;
 
-file=$(basename -s ".tex" "$file")
-num=$(egrep -c -e'^\s*\\Input\{' "$file".tex)
-name=$file
+if [[ ! -e $file.tex ]]; then
+   echo "> file ""$file.tex"" not found, exit"
+   exit 1;
+fi
 
+# does the source contain \Input?
+num=$(egrep -c -e'^\s*\\Input\{' "$file".tex)
+
+# yes, now merge source files
 if ! [[ $num = 0 ]]; then
    merge-tex.py -i $file.tex -o .merged.tex
    name=".merged"
@@ -61,7 +69,7 @@ pypreproc.py -i $file -m $name      || exit 1
 
 $Python $file"_.py" > $file.pytxt   || exit 3
 
-pypostproc.py -i $file $sty         || exit 5
+pypostproc.py $warn -i $file $sty   || exit 5
 
 if [[ $skiplatex = "no" ]]; then
    pdflatex -halt-on-error -interaction=batchmode -synctex=1 $file || exit 7

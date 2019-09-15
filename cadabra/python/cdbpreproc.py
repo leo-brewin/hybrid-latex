@@ -14,17 +14,31 @@ re_beg_latex_document      = re.compile (r'^\s*\\begin{document}')
 re_end_latex_document      = re.compile (r'^\s*\\end{document}')
 
 re_indent          = re.compile (r'(^ *)')
+re_assignment      = re.compile (r'(^\s*)([a-zA-Z0-9]+\s*:?=)')
 re_empty_line      = re.compile (r'(^ *$)')
 re_latex_comment   = re.compile (r'(^ *%)')
 re_cadabra_comment = re.compile (r'(^ *#)')
 re_cadabra_markup  = re.compile (r'(# *(cdb\s*\(|cdbBeg\s*\(|cdbEnd))')
 re_hidden_markup   = re.compile (r'(^ *#.*#\s*(cdb\s*\(|cdbBeg\s*\(|cdbEnd))')
+re_pure_markup     = re.compile (r'(^\s*#\s*(cdb\s*\(|cdbBeg\s*\(|cdbEnd))')
 re_capture         = re.compile (r'(# *((cdbBeg|cdbEnd)\s*\(\s*([a-zA-Z0-9_.-]+)\)))')
 re_beg_capture     = re.compile (r'(# *(cdbBeg\s*\(\s*([a-zA-Z0-9_.-]+)\)))')
 re_end_capture     = re.compile (r'(# *(cdbEnd\s*(\(\s*([a-zA-Z0-9_.-]+)\))?))')
 re_cdb_tag         = re.compile (r'(# *(cdb\s*\(\s*([a-zA-Z0-9_.-]+)\s*(,\s*([a-zA-Z0-9]+)\s*)?\)))')
+                                # Allow two forms of tag, py(foo,bah) and py(bah).
+                                # In both cases bah must be a valid Cadabra expression.
 
-re_inline_comment  = re.compile (r'(.*?)( +#)')  # any text terminated by " #"
+re_algorithm       = re.compile (r'(^\s*)('
+                                +r'asym|canonicalise|collect_factors|collect_terms|combine|complete|'
+                                +r'decompose|decompose_product|distribute|drop_weight|einsteinify|'
+                                +r'eliminate_kronecker|eliminate_metric|eliminate_vielbein|epsilon_to_delta|'
+                                +r'evaluate|expand|expand_delta|expand_diracbar|expand_power|explicit_indices|'
+                                +r'factor_in|factor_out|fierz|integrate_by_parts|join_gamma|keep_weight|'
+                                +r'lower_free_indices|lr_tensor|map_sympy|product_rule|raise_free_indices|'
+                                +r'reduce_delta|rename_dummies|replace_match|rewrite_indices|simplify|'
+                                +r'sort_product|sort_spinors|sort_sum|split_gamma|split_index|substitute|'
+                                +r'take_match|unwrap|vary|young_project_product|young_project_tensor|zoom)'
+                                +r'\s*\(')
 
 def make_str (num,digits):
     return '{number:0{width}d}'.format(number=num,width=digits)
@@ -41,11 +55,20 @@ def grep (this_line, regex, the_group):
        the_end = -1
     return the_beg, the_end, found
 
+def not_empty_line (this_line):
+    return not re_empty_line.search (this_line)
+
 def not_latex_comment (this_line):
     return not re_latex_comment.search (this_line)
 
 def not_cadabra_comment (this_line):
     return not re_cadabra_comment.search (this_line)
+
+def is_assignment (this_line):
+    return re_assignment.search (this_line)
+
+def is_algorithm (this_line):
+    return re_algorithm.search (this_line)
 
 def is_beg_latex_document (this_line):
     return re_beg_latex_document.search (this_line)
@@ -80,6 +103,9 @@ def has_cadabra_markup (this_line):
 def not_hidden_markup (this_line):
     return not re_hidden_markup.search (this_line)
 
+def not_pure_cadabra_markup (this_line):
+    return not re_pure_markup.search (this_line)
+
 def filter_cadabra_markup (this_line):
     if len(this_line) == 0:
        return ""
@@ -93,24 +119,13 @@ def filter_cadabra_markup (this_line):
        else:
           return this_line.rstrip("\n")
 
-def filter_inline_comments (this_line):
-    if len(this_line) == 0:
-       return ""
-    else:
-       if not_cadabra_comment (this_line):
-          the_beg,the_end,found = grep (this_line,re_inline_comment,2)
-          if the_beg > 0 :
-             return this_line[0:the_beg].rstrip(" ")
-          else:
-             return this_line.rstrip("\n")
-       else:
-          return this_line.rstrip("\n")
-
 # -----------------------------------------------------------------------------
 # 1st pass: copy Cadabra source from source.tex to source.cdb file
 #           leave in-line comments in place, these will be removed in pass2
 
 def pass1 (src_file_name, out_file_name, the_file_name):
+
+   global num_head_lines
 
    in_latex_document = False
    in_cadabra_environ = False
@@ -158,6 +173,8 @@ def pass1 (src_file_name, out_file_name, the_file_name):
 
    # --------------------------------------------------------------------------
    # collect the Cadabra begin/end blocks and write to a single file
+   # will also shift the text to the left edge (while maintaing correct indentation)
+   # the number of spaces to shift left equals indent_num which was computed in the above block
 
    in_latex_document = False
    in_cadabra_environ = False
@@ -165,6 +182,9 @@ def pass1 (src_file_name, out_file_name, the_file_name):
 
    with open (src_file_name,"r") as src:
       with open (out_file_name,"w") as out:
+
+         num_head_lines = 10  # used later when cleaning out all markup
+                              # must match exactly the number of header lines
 
          out.write ("# ----------------------------------------------\n")
          out.write ("# auto-generated from " + src_file_name + "\n")
@@ -193,6 +213,7 @@ def pass1 (src_file_name, out_file_name, the_file_name):
                      if in_cadabra_environ:
                         if is_end_cadabra_environ (this_line):
                            in_cadabra_environ = False
+                           out.write("\n") # force blank line after every cadabra code block
                         else:
                            if not in_cadabra_verbatim:
                               if len(this_line) > 0:
@@ -244,6 +265,16 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
             return this_line [0:the_beg-1].rstrip(" ")
       else:
          return this_line.rstrip(" ")
+
+   def get_indent (this_line):
+      the_beg,the_end,found = grep (this_line,re_indent,1)
+      if found:
+         if the_beg == the_end:
+            return ""
+         else:
+            return this_line [the_beg:the_end]
+      else:
+         return ""
 
    def get_capture (this_line):
       the_beg,the_end,found = grep (this_line,re_capture,4)
@@ -343,8 +374,13 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
          with open (tmp_file_name,"r") as src:
 
             tag_index = 0
+            indent = ""
 
             for this_line in src:
+
+               if not_cadabra_comment (this_line) and not_empty_line (this_line):
+                  if is_assignment (this_line) or is_algorithm (this_line):
+                     indent = get_indent (this_line)
 
                if has_cadabra_markup (this_line) and not_hidden_markup (this_line):
 
@@ -371,29 +407,35 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
 
                      tag_index = tag_index + 1
 
-                     out.write (get_src   (this_line) + "\n")
-                     out.write (beg_tag   (tag_index) + "\n")
-                     out.write (wrt_latex (this_line) + "\n")
-                     out.write (end_tag   (tag_index) + "\n")
+                     out.write (         get_src   (this_line) + "\n")
+                     out.write (indent + beg_tag   (tag_index) + "\n")
+                     out.write (indent + wrt_latex (this_line) + "\n")
+                     out.write (indent + end_tag   (tag_index) + "\n")
 
                      idx.write ("tag"+make_str(tag_index,4) + "=")
                      idx.write ( get_tag (this_line) + "\n")
 
                   else:
 
-                     out.write (filter_inline_comments (this_line)+"\n")
+                     out.write (filter_cadabra_markup (this_line)+"\n")
 
                else:
 
-                  out.write (filter_inline_comments (this_line)+"\n")
+                  out.write (filter_cadabra_markup (this_line)+"\n")
 
    # copy the temporary file back to the source with in-line comments removed
    # note: this clean copy is just for reference, it's never used
 
+   num_line = 0 # use num_line to help skip header text added in pass 1
+                # there are exactly num_head_lines in the header text
+
    with open (tmp_file_name,"r") as tmp:
       with open (src_file_name,"w") as src:
          for this_line in tmp:
-            src.write (filter_inline_comments (this_line)+"\n")
+            num_line = num_line + 1
+            if num_line > num_head_lines:
+               if not_pure_cadabra_markup (this_line):
+                  src.write (filter_cadabra_markup (this_line)+"\n")
 
 # -----------------------------------------------------------------------------
 # the main code

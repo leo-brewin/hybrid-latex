@@ -4,11 +4,11 @@ import re
 import sys
 import os.path
 
-re_beg_mma_environ      = re.compile (r'^\s*\\begin{mathematica}')
-re_end_mma_environ      = re.compile (r'^\s*\\end{mathematica}')
+re_beg_mma_environ        = re.compile (r'^\s*\\begin{mathematica}')
+re_end_mma_environ        = re.compile (r'^\s*\\end{mathematica}')
 
-re_beg_mma_verbatim     = re.compile (r'^\s*\\MmaSetup{(.*?)action=verbatim')
-re_end_mma_verbatim     = re.compile (r'^\s*\\MmaSetup{(.*?)action=(show|hide)')
+re_beg_mma_verbatim       = re.compile (r'^\s*\\MmaSetup{(.*?)action=verbatim')
+re_end_mma_verbatim       = re.compile (r'^\s*\\MmaSetup{(.*?)action=(show|hide)')
 
 re_beg_latex_document     = re.compile (r'^\s*\\begin{document}')
 re_end_latex_document     = re.compile (r'^\s*\\end{document}')
@@ -16,9 +16,10 @@ re_end_latex_document     = re.compile (r'^\s*\\end{document}')
 re_indent         = re.compile (r'(^\s*)')
 re_empty_line     = re.compile (r'(^\s*$)')
 re_latex_comment  = re.compile (r'(^\s*%)')
-re_mma_comment  = re.compile (r'(^\s*\(\*)')
-re_mma_markup   = re.compile (r'(\(\*\s*(mma\s*\(|mmaBeg\s*\(|mmaEnd))')
+re_mma_comment    = re.compile (r'(^\s*\(\*)')
+re_mma_markup     = re.compile (r'(\(\*\s*(mma\s*\(|mmaBeg\s*\(|mmaEnd))')
 re_hidden_markup  = re.compile (r'(^\s*\(\*.*\(\*\s*(mma\s*\(|mmaBeg\s*\(|mmaEnd))')
+re_pure_markup    = re.compile (r'(^\s*#\s*(mma\s*\(|mmaBeg\s*\(|mmaEnd))')
 re_capture        = re.compile (r'(\(\*\s*((mmaBeg|mmaEnd)\s*\(\s*([a-zA-Z0-9_.]+)\)))')
 re_beg_capture    = re.compile (r'(\(\*\s*(mmaBeg\s*\(\s*([a-zA-Z0-9_.]+)\)))')
 re_end_capture    = re.compile (r'(\(\*\s*(mmaEnd\s*(\(\s*([a-zA-Z0-9_.]+)\))?))')
@@ -80,6 +81,9 @@ def has_mma_markup (this_line):
 def not_hidden_markup (this_line):
     return not re_hidden_markup.search (this_line)
 
+def not_pure_mma_markup (this_line):
+    return not re_pure_markup.search (this_line)
+
 def filter_mma_markup (this_line):
     if len(this_line) == 0:
        return ""
@@ -98,6 +102,8 @@ def filter_mma_markup (this_line):
 #           leave in-line comments in place, these will be removed in pass2
 
 def pass1 (src_file_name, out_file_name, the_file_name):
+
+   global num_head_lines
 
    in_latex_document = False
    in_mma_environ = False
@@ -153,6 +159,9 @@ def pass1 (src_file_name, out_file_name, the_file_name):
    with open (src_file_name,"r") as src:
       with open (out_file_name,"w") as out:
 
+         num_head_lines = 4  # used later when cleaning out all markup
+                             # must match exactly the number of header lines
+
          out.write ("(* ---------------------------------------------- *)\n")
          out.write ("(* auto-generated from " + src_file_name + " *)\n")
          out.write ("(* ---------------------------------------------- *)\n\n")
@@ -173,6 +182,7 @@ def pass1 (src_file_name, out_file_name, the_file_name):
                      if in_mma_environ:
                         if is_end_mma_environ (this_line):
                            in_mma_environ = False
+                           out.write("\n") # force blank line after every mathematica code block
                         else:
                            if not in_mma_verbatim:
                               if len(this_line) > 0:
@@ -370,11 +380,16 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
    # copy the temporary file back to the source with in-line comments removed
    # note: this clean copy is just for reference, it's never used
 
+   num_line = 0 # use num_line to help skip header text added in pass 1
+                # there are exactly num_head_lines in the header text
+
    with open (tmp_file_name,"r") as tmp:
       with open (src_file_name,"w") as src:
          for this_line in tmp:
-            src.write (filter_mma_markup(this_line)+"\n")  # note: could choose to retain in-line comments
-                                                           #       just drop the filter_mma_markup
+            num_line = num_line + 1
+            if num_line > num_head_lines:
+               if not_pure_mma_markup (this_line):
+                  src.write (filter_mma_markup (this_line)+"\n")
 
 # -----------------------------------------------------------------------------
 # the main code

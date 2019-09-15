@@ -13,18 +13,19 @@ re_end_maple_verbatim     = re.compile (r'^\s*\\MplSetup{(.*?)action=(show|hide)
 re_beg_latex_document     = re.compile (r'^\s*\\begin{document}')
 re_end_latex_document     = re.compile (r'^\s*\\end{document}')
 
-re_indent         = re.compile (r'(^\s*)')
-re_empty_line     = re.compile (r'(^\s*$)')
-re_latex_comment  = re.compile (r'(^\s*%)')
-re_maple_comment  = re.compile (r'(^\s*#)')
-re_maple_markup   = re.compile (r'(#\s*(mpl\s*\(|mplBeg\s*\(|mplEnd))')
-re_hidden_markup  = re.compile (r'(^\s*#.*#\s*(mpl\s*\(|mplBeg\s*\(|mplEnd))')
-re_capture        = re.compile (r'(#\s*((mplBeg|mplEnd)\s*\(\s*([a-zA-Z0-9_.]+)\)))')
-re_beg_capture    = re.compile (r'(#\s*(mplBeg\s*\(\s*([a-zA-Z0-9_.]+)\)))')
-re_end_capture    = re.compile (r'(#\s*(mplEnd\s*(\(\s*([a-zA-Z0-9_.]+)\))?))')
-re_mpl_tag        = re.compile (r'(#\s*(mpl\s*\(\s*([a-zA-Z0-9_.]+)\s*(,\s*([a-zA-Z0-9_]+)\s*)?\)))')
-                               # Allow two forms of tag, mpl(foo,bah) and mpl(bah).
-                               # In both cases bah must be a valid Maple expression.
+re_indent          = re.compile (r'(^\s*)')
+re_empty_line      = re.compile (r'(^\s*$)')
+re_latex_comment   = re.compile (r'(^\s*%)')
+re_maple_comment   = re.compile (r'(^\s*#)')
+re_maple_markup    = re.compile (r'(#\s*(mpl\s*\(|mplBeg\s*\(|mplEnd))')
+re_hidden_markup   = re.compile (r'(^\s*#.*#\s*(mpl\s*\(|mplBeg\s*\(|mplEnd))')
+re_pure_markup     = re.compile (r'(^\s*#\s*(mpl\s*\(|mplBeg\s*\(|mplEnd))')
+re_capture         = re.compile (r'(#\s*((mplBeg|mplEnd)\s*\(\s*([a-zA-Z0-9_.]+)\)))')
+re_beg_capture     = re.compile (r'(#\s*(mplBeg\s*\(\s*([a-zA-Z0-9_.]+)\)))')
+re_end_capture     = re.compile (r'(#\s*(mplEnd\s*(\(\s*([a-zA-Z0-9_.]+)\))?))')
+re_mpl_tag         = re.compile (r'(#\s*(mpl\s*\(\s*([a-zA-Z0-9_.]+)\s*(,\s*([a-zA-Z0-9_]+)\s*)?\)))')
+                                # Allow two forms of tag, mpl(foo,bah) and mpl(bah).
+                                # In both cases bah must be a valid Maple expression.
 
 def make_str (num,digits):
     return '{number:0{width}d}'.format(number=num,width=digits)
@@ -80,6 +81,9 @@ def has_maple_markup (this_line):
 def not_hidden_markup (this_line):
     return not re_hidden_markup.search (this_line)
 
+def not_pure_maple_markup (this_line):
+    return not re_pure_markup.search (this_line)
+
 def filter_maple_markup (this_line):
     if len(this_line) == 0:
        return ""
@@ -98,6 +102,8 @@ def filter_maple_markup (this_line):
 #           leave in-line comments in place, these will be removed in pass2
 
 def pass1 (src_file_name, out_file_name, the_file_name):
+
+   global num_head_lines
 
    in_latex_document = False
    in_maple_environ = False
@@ -153,6 +159,9 @@ def pass1 (src_file_name, out_file_name, the_file_name):
    with open (src_file_name,"r") as src:
       with open (out_file_name,"w") as out:
 
+         num_head_lines = 23  # used later when cleaning out all markup
+                              # must match exactly the number of header lines
+
          out.write (r"# ----------------------------------------------"+"\n")
          out.write (r"# auto-generated from " + src_file_name + "\n")
          out.write (r"# ----------------------------------------------"+"\n")
@@ -193,6 +202,7 @@ def pass1 (src_file_name, out_file_name, the_file_name):
                      if in_maple_environ:
                         if is_end_maple_environ (this_line):
                            in_maple_environ = False
+                           out.write("\n") # force blank line after every maple code block
                         else:
                            if not in_maple_verbatim:
                               if len(this_line) > 0:
@@ -273,7 +283,7 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
          return this_line.rstrip(" ")
 
    # ----------------------------------------------------------
-   #  output functions, writes to index file, temp mpl file etc.
+   #  output functions, writes to index file, temp files etc.
 
    def beg_tag (num):
       return 'Print("beg_tag'+make_str(num,4)+'"):'
@@ -390,10 +400,16 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
    # copy the temporary file back to the source with in-line comments removed
    # note: this clean copy is just for reference, it's never used
 
+   num_line = 0 # use num_line to help skip header text added in pass 1
+                # there are exactly num_head_lines in the header text
+
    with open (tmp_file_name,"r") as tmp:
       with open (src_file_name,"w") as src:
          for this_line in tmp:
-            src.write (filter_maple_markup(this_line)+"\n")
+            num_line = num_line + 1
+            if num_line > num_head_lines:
+               if not_pure_maple_markup (this_line):
+                  src.write (filter_maple_markup (this_line)+"\n")
 
 # -----------------------------------------------------------------------------
 # the main code

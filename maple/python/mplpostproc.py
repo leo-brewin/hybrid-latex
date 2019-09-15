@@ -103,12 +103,15 @@ import argparse
 parser = argparse.ArgumentParser(description="Post-process Maple output")
 parser.add_argument("-i", dest="input", metavar="source", help="LaTeX-Maple source file (without .tex file extension)", required=True)
 parser.add_argument("-I", dest="sty", metavar="include", help="Full path to LaTeX-Maple mplmacros.sty file")
+parser.add_argument("-W", dest="warn", action='store_true', help="Report errors for missing output")
 
 the_file_name = parser.parse_args().input
 sty_file_name = parser.parse_args().sty
 
+report_errors = parser.parse_args().warn
+
 # ----------------------------------------------------------------------------
-# include the Maple macros in the .cdbtex file?
+# include the Maple macros in the .mpltex file?
 
 if sty_file_name:
     include_macros_header = True
@@ -218,21 +221,29 @@ else:
             for this_line in sty:
                tex.write (this_line)
          tex.write(r'\makeatother'+'\n')
+         tex.write(r'% ====================================================================='+'\n')
+
+      tex.write(r'\chardef\thehashcode=\catcode`\#	 % save catcode of hash (probably 6)'+'\n')
+      tex.write(r'\catcode`\#=11			             % set catcode for hash to be a letter (11)'+'\n')
 
       for i in range (1,num_tag+1):
 
          tex_macro (tex, i)
 
-   # -------------------------------------------------------------------------
-   # report tags that didn't have matching Maple output
+      tex.write(r'\catcode`\#=\thehashcode          % restore original catcode for hash'+'\n')
 
-   for i in range (1,num_tag+1):
-      if not tag_found [i]:
-         print ("> post-process: Failed to find output for tag: "+tag_name[i])
+   if report_errors:
 
-   # -------------------------------------------------------------------------
-   # report problems with un-matched beg/end pairs
+      # -------------------------------------------------------------------------
+      # report tags that didn't have matching Maple output
 
-   for i in range (1,num_tag+1):
-      if not tag_done [i]:
-         print ("> post-process: Something is missing for tag: "+tag_name[i])
+      for i in range (1,num_tag+1):
+         if not tag_found [i]:
+            print ("> post-process: Failed to find output for tag: "+tag_name[i])
+
+      # -------------------------------------------------------------------------
+      # report problems with un-matched beg/end pairs
+
+      for i in range (1,num_tag+1):
+         if not tag_done [i]:
+            print ("> post-process: Something is missing for tag: "+tag_name[i])

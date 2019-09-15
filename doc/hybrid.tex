@@ -16,8 +16,8 @@ frame=single,framesep=2pt,framerule=0pt}
    {Leo Brewin}\\[5pt]
    {School of Mathematics, Monash University}\\[5pt]
    {\tts Leo.Brewin@monash.edu}\\[5pt]
-   {August 2018}\\[10pt]
-   {Version 0.1}\\[10pt]
+   {August 2019}\\[10pt]
+   {Version 0.2}\\[10pt]
    {\href{https://github.com/leo-brewin/hybrid-latex}{https://github.com/leo-brewin/hybrid-latex}}\\[20pt]
    {\bf\small Abstract}\\[10pt]
    {\small\MyPar{0.80}%
@@ -172,17 +172,14 @@ Anaconda 5.2 (Python3.6) environment.
 
 \section{Setup}
 
-There is no setup tool as you only have a few files to install. The following files
-can be found inside the {\tts Python} directory of the hybrid collection.
+There is no setup tool as you only have a few files to install.
+The {\tts Python} directory contains a number of subdirectories each of which
+contains files that should be copied as follows.
 
 \begin{tabular}{rl}
-{\tts shell/pylatex.sh}:&Copied to anywhere that is visible on your path.\\[5pt]
-{\tts python/pypostproc.py}:&Copied to anywhere that is visible on your path.\\
-{\tts python/pypreproc.py}:&Ditto\\
-{\tts python/merge-tex.py}:&Ditto\\[5pt]
-{\tts latex/pylatex.cls}:&Copied to anywhere that is visible to LaTeX.\\
-{\tts latex/pylatex.sty}:&Ditto\\
-{\tts latex/pymacros.sty}:&Ditto
+{\tts shell/*}&Copy all files to anywhere that is visible on your path.\\[5pt]
+{\tts python/*}&Copy all files to anywhere that is visible on your path.\\[5pt]
+{\tts latex/*}&Copy all files to anywhere that is visible to LaTeX.
 \end{tabular}
 
 For example, the shell and Python scripts could be copied to {\tts
@@ -221,14 +218,15 @@ Executing {\tts pylatex.sh} with the {\tts -h} flag will produce the following
 usage information.
 
 \begin{lstlisting}
-   usage : pylatex.sh -i file [-I<path to pymacros.sty>]
-                              [-P<path to python>] [-s] [-k] [-x] [-h]
-   options :  -i file : source file (without .tex extension)
+   usage : pylatex.sh -i file [-P<path to python>]
+                              [-I<path to pymacros.sty>] [-s] [-k] [-x] [-W] [-h]
+   options :  -i file : source file (with or without .tex extension)
               -I file : full path to pymacros.sty file
-              -P path : where to find the Python binary
+              -P path : full path to the Python binary
               -s : silent, don't open the pdf file
               -k : keep all temporary files
               -x : don't call latex
+              -W : warn if errors found in the output for some tags
               -h : this help message
    example : pylatex.sh -i file -P/usr/local/bin/python
 \end{lstlisting}
@@ -691,6 +689,36 @@ background to the Python code use
 
 Many other options are available, see the {\tts listings} documentation for full
 details.
+
+Note that the settings created in a call to {\tts\verb|\lstset|} will persit until
+changed in a later call to {\tts\verb|\lstset|}. To invoke settings localised to
+a single instance of a code block pass the settings via the optional argument
+to {\tts\verb|\begin{python}|}. Here is a simple example that adds lines numbers
+just for this single code block.
+
+\vspace{15pt}
+
+\PySetup{action=verbatim}
+
+\bgroup
+\bgcolour{white}
+\latexstyle
+\begin{latex}
+*  \begin{python}[numbers=left]
+\end{latex}
+\pythonstyle
+\begin{python}
+*     def foo(bah):
+*         print (bah)
+*         return "done"
+\end{python}
+\latexstyle
+\begin{latex}
+*  \end{python}
+\end{latex}
+\egroup
+
+\PySetup{action=show}
 
 \subsection{Error reporting}
 
@@ -1214,6 +1242,14 @@ This software is licensed under the MIT License (MIT). Please see the {\tts
 LICENCE.txt} file for more information.
 
 \section{Version history}
+\leftline{\bf v0.2 (2019/08/04)}% 4 Aug 2019
+\begin{itemize}
+\item Introduced optional arguments for the code block environments.
+      The arguments are passed to {\tts\verb|\lstset|} and allow settings to
+      be applied to just a single instance of the code block.
+\item Improved felxibility for placement of tags in Python and Cadabra. Tags can now
+      be placed inside indented code (e.g., inside {\tts\verb|if-then-else|} blocks).
+\end{itemize}
 \leftline{\bf v0.1 (2018/08/22)}% 22 Aug 2018
 \begin{itemize}
 \item Initial public release.

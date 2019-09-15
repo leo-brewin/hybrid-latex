@@ -14,11 +14,13 @@ re_beg_latex_document     = re.compile (r'^\s*\\begin{document}')
 re_end_latex_document     = re.compile (r'^\s*\\end{document}')
 
 re_indent         = re.compile (r'(^\s*)')
+re_assignment     = re.compile (r'(^\s*)([a-zA-Z0-9_.]+\s*=)')
 re_empty_line     = re.compile (r'(^\s*$)')
 re_latex_comment  = re.compile (r'(^\s*%)')
 re_python_comment = re.compile (r'(^\s*#)')
 re_python_markup  = re.compile (r'(#\s*(py\s*\(|pyBeg\s*\(|pyEnd))')
 re_hidden_markup  = re.compile (r'(^\s*#.*#\s*(py\s*\(|pyBeg\s*\(|pyEnd))')
+re_pure_markup    = re.compile (r'(^\s*#\s*(py\s*\(|pyBeg\s*\(|pyEnd))')
 re_capture        = re.compile (r'(#\s*((pyBeg|pyEnd)\s*\(\s*([a-zA-Z0-9_.]+)\)))')
 re_beg_capture    = re.compile (r'(#\s*(pyBeg\s*\(\s*([a-zA-Z0-9_.]+)\)))')
 re_end_capture    = re.compile (r'(#\s*(pyEnd\s*(\(\s*([a-zA-Z0-9_.]+)\))?))')
@@ -41,11 +43,17 @@ def grep (this_line, regex, the_group):
        the_end = -1
     return the_beg, the_end, found
 
+def not_empty_line (this_line):
+    return not re_empty_line.search (this_line)
+
 def not_latex_comment (this_line):
     return not re_latex_comment.search (this_line)
 
 def not_python_comment (this_line):
     return not re_python_comment.search (this_line)
+
+def is_assignment (this_line):
+    return re_assignment.search (this_line)
 
 def is_beg_latex_document (this_line):
     return re_beg_latex_document.search (this_line)
@@ -77,8 +85,14 @@ def has_python_tag (this_line):
 def has_python_markup (this_line):
     return re_python_markup.search (this_line)
 
+def not_python_markup (this_line):
+    return not re_python_markup.search (this_line)
+
 def not_hidden_markup (this_line):
     return not re_hidden_markup.search (this_line)
+
+def not_pure_python_markup (this_line):
+    return not re_pure_markup.search (this_line)
 
 def filter_python_markup (this_line):
     if len(this_line) == 0:
@@ -87,7 +101,7 @@ def filter_python_markup (this_line):
        if has_python_markup (this_line):
           the_beg,the_end,found = grep (this_line,re_python_markup,1)
           if the_beg > 0 :
-             return this_line[0:the_beg-1].rstrip(" ")
+             return this_line[0:the_beg].rstrip(" ")
           else:
              return this_line.rstrip("\n")
        else:
@@ -98,6 +112,8 @@ def filter_python_markup (this_line):
 #           leave in-line comments in place, these will be removed in pass2
 
 def pass1 (src_file_name, out_file_name, the_file_name):
+
+   global num_head_lines
 
    in_latex_document = False
    in_python_environ = False
@@ -145,6 +161,8 @@ def pass1 (src_file_name, out_file_name, the_file_name):
 
    # --------------------------------------------------------------------------
    # collect the Python begin/end blocks and write to a single file
+   # will also shift the text to the left edge (while maintaing correct indentation)
+   # the number of spaces to shift left equals indent_num which was computed in the above block
 
    in_latex_document = False
    in_python_environ = False
@@ -152,6 +170,9 @@ def pass1 (src_file_name, out_file_name, the_file_name):
 
    with open (src_file_name,"r") as src:
       with open (out_file_name,"w") as out:
+
+         num_head_lines = 10  # used later when cleaning out all markup
+                              # must match exactly the number of header lines
 
          out.write ("# ----------------------------------------------\n")
          out.write ("# auto-generated from " + src_file_name + "\n")
@@ -180,6 +201,7 @@ def pass1 (src_file_name, out_file_name, the_file_name):
                      if in_python_environ:
                         if is_end_python_environ (this_line):
                            in_python_environ = False
+                           out.write("\n") # force blank line after every python code block
                         else:
                            if not in_python_verbatim:
                               if len(this_line) > 0:
@@ -232,6 +254,16 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
       else:
          return this_line.rstrip(" ")
 
+   def get_indent (this_line):
+      the_beg,the_end,found = grep (this_line,re_indent,1)
+      if found:
+         if the_beg == the_end:
+            return ""
+         else:
+            return this_line [the_beg:the_end]
+      else:
+         return ""
+
    def get_capture (this_line):
       the_beg,the_end,found = grep (this_line,re_capture,4)
       if found:
@@ -260,7 +292,7 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
          return this_line.rstrip(" ")
 
    # ----------------------------------------------------------
-   #  output functions, writes to index file, temp py file etc.
+   #  output functions, writes to index file, temp files etc.
 
    def beg_tag (num):
       return 'print("beg_tag'+make_str(num,4)+'")'
@@ -330,8 +362,13 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
          with open (tmp_file_name,"r") as src:
 
             tag_index = 0
+            indent = ""
 
             for this_line in src:
+
+               if not_python_comment (this_line) and not_empty_line (this_line):
+                  if is_assignment (this_line):
+                     indent = get_indent (this_line)
 
                if has_python_markup (this_line) and not_hidden_markup (this_line):
 
@@ -358,10 +395,10 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
 
                      tag_index = tag_index + 1
 
-                     out.write (get_src   (this_line) + "\n")
-                     out.write (beg_tag   (tag_index) + "\n")
-                     out.write (wrt_latex (this_line) + "\n")
-                     out.write (end_tag   (tag_index) + "\n")
+                     out.write (         get_src   (this_line) + "\n")
+                     out.write (indent + beg_tag   (tag_index) + "\n")
+                     out.write (indent + wrt_latex (this_line) + "\n")
+                     out.write (indent + end_tag   (tag_index) + "\n")
 
                      idx.write ("tag"+make_str(tag_index,4) + "=")
                      idx.write ( get_tag (this_line) + "\n")
@@ -377,11 +414,16 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
    # copy the temporary file back to the source with in-line comments removed
    # note: this clean copy is just for reference, it's never used
 
+   num_line = 0 # use num_line to help skip header text added in pass 1
+                # there are exactly num_head_lines in the header text
+
    with open (tmp_file_name,"r") as tmp:
       with open (src_file_name,"w") as src:
          for this_line in tmp:
-            src.write (filter_python_markup(this_line)+"\n")  # note: could choose to retain in-line comments
-                                                              #       just drop the filter_python_markup
+            num_line = num_line + 1
+            if num_line > num_head_lines:
+               if not_pure_python_markup (this_line):
+                  src.write (filter_python_markup (this_line)+"\n")
 
 # -----------------------------------------------------------------------------
 # the main code
