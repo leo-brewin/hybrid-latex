@@ -77,7 +77,6 @@ if [[ $silent = "no" ]]; then
 fi
 
 if [[ $keep = "no" ]]; then
-   rm -rf comment.cut
    rm -rf .merged.tex .tmp.txt
    rm -rf $file.log $file.out $file.mma $file"_.mma" $file.mmaidx $file.mmatxt
 fi

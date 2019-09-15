@@ -88,10 +88,7 @@ if [[ $silent = "no" ]]; then
    # evince $file.pdf     # Linux
 fi
 
-rm -rf comment.cut .tmp.txt
-
 if [[ $keep = "no" ]]; then
-   rm -rf comment.cut
    rm -rf .merged.tex .tmp.txt
    rm -rf $file.log $file.out $file.py $file"_.cdb" $file.cdbidx $file.cdbtxt
 fi

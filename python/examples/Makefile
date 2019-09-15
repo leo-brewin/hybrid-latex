@@ -82,7 +82,6 @@ clean:
 	@ for file in $(TARGETS) summary gallery; \
 	  do \
 	     rm -rf $${file}.aux $${file}.log $${file}.out $${file}.synctex.gz; \
-		  rm -rf comment.cut; \
 	  done
 #-------------------------------------------------------------------------------
 veryclean:

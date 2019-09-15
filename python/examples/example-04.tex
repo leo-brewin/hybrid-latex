@@ -9,9 +9,14 @@
 
 \vspace{-5pt}
 
-This simple example uses {\tt\small numpy, scipy} and {\tt\small Matplotlib} to produce a plot of the first six Bessel functions. Two plots are shown, one created by {\tt\small Matplotlib} and a second created by LaTeX using the plotting package {\tt\small pgfplots} and the data exported from {\tt\small Matplotlib}.
+This simple example uses {\tt\small numpy, scipy} and {\tt\small Matplotlib} to produce a plot
+of the first six Bessel functions. Two plots are shown, one created by {\tt\small Matplotlib}
+and a second created by LaTeX using the plotting package {\tt\small pgfplots} and the data
+exported from {\tt\small Matplotlib}.
 
-If you are using macOS, you may need to use the {\tt\small -Ppythonw} option when running {\tt\small pylatex.sh}. This is a known problem with macOS and {\tt\small Matplotlib}, see\ \url{https://matplotlib.org/faq/osx_framework.html}.
+If you are using macOS, you may need to use the {\tt\small -Ppythonw} option when running
+{\tt\small pylatex.sh}. This is a known problem with macOS and {\tt\small Matplotlib}, see\
+\url{https://matplotlib.org/faq/osx_framework.html}.
 
 \vspace{-10pt}
 
@@ -47,18 +52,8 @@ If you are using macOS, you may need to use the {\tt\small -Ppythonw} option whe
                                fmt="% .10e")
 \end{python}
 \end{minipage}
-\hskip 0.25cm
-\begin{minipage}[t]{0.35\textwidth}
-\begin{latex}
-   \begin{minipage}{\textwidth}
-      \centering
-      \IfFileExists{example-04-fig.pdf}%
-      {\includegraphics[width=6.4in]
-         {example-04-fig.pdf}}{Failed to create pdf plot.}
-      \captionof{figure}{The first six Bessel functions.}
-   \end{minipage}
-\end{latex}
-\end{minipage}
+
+\clearpage
 
 \begin{minipage}{\textwidth}
    \centering
@@ -67,6 +62,17 @@ If you are using macOS, you may need to use the {\tt\small -Ppythonw} option whe
       {example-04-fig.pdf}}{Failed to create pdf plot.}
    \captionof{figure}{The first six Bessel functions.}
 \end{minipage}
+
+\vfill
+
+\begin{latex}
+   \IfFileExists{example-04-fig.pdf}%
+   {\includegraphics[width=6.4in]
+      {example-04-fig.pdf}}{Failed to create pdf plot.}
+   \captionof{figure}{The first six Bessel functions.}
+\end{latex}
+
+\vfill
 
 \clearpage
 

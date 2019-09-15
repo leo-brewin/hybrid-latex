@@ -1,55 +1,45 @@
-\def\fileversion{v.0.1}
-\def\filedate{2018/06/04}% 4 Jun 2018
+\def\fileversion{v.0.2}
+\def\filedate{2019/08/04}% 4 Aug 2019
 \ProvidesPackage{pylatex}[\filedate\space\fileversion\space Python-Latex (LCB)]
 %-------------------------------------------------------------------------------
-\usepackage{comment}
 \usepackage{listings}
 \usepackage{keyval}
 \usepackage{etoolbox}
 \usepackage{xcolor}
+\usepackage{amsmath}% defines environment {aligned}
+\usepackage{amssymb}% defines \square
+\usepackage{breqn}% handles very long lines
 %-------------------------------------------------------------------------------
 \usepackage{pymacros}
 %-------------------------------------------------------------------------------
 \def\pyverb#1{{\color{blue}\texttt{\detokenize{#1}}}}% for inline Python verbatim, fails with # in arg.
 %-------------------------------------------------------------------------------
-\def\ProcessCutFile{}% part of the comment.sty package
+\lstnewenvironment{python}[1][]{\begingroup\@pystyle\lstset{#1}}{\endgroup}
 %-------------------------------------------------------------------------------
 % define and process key/value pairs in PySetup
 %
 \define@key{mypy}{action}{\def\py@action{#1}}% hide, show, verbatim
 %
-\def\@SetLstShow{\def\@PyEnv{\let\python\undefined\let\python@\undefined\lstnewenvironment{python}{\begingroup\@pystyle}{\endgroup}}}%
+\def\@SetLstShow{\def\@pystyle{\@pystyleShow}}%
+\def\@SetLstHide{\def\@pystyle{\@pystyleHide}}%
 \def\@SetLstVerbatim{\@SetLstShow}%
-\def\@SetLstHide{\def\@PyEnv{\let\endpython\undefined\specialcomment{python}{\begingroup}{\endgroup}}}%
 %
-\providecommand{\PySetup}[1]{%
+\newcommand{\PySetup}[1]{%
 %
 \setkeys{mypy}{#1}% Set new keys
 %
-\ifdefstring{\py@action}{show}{\@SetLstShow}{\relax}
-\ifdefstring{\py@action}{hide}{\@SetLstHide}{\relax}
-\ifdefstring{\py@action}{verbatim}{\@SetLstVerbatim}{\relax}
-%
-\@PyEnv}
-%
-\PySetup{action=show}% defaults/initial setup
-%
+\ifdefstring{\py@action}{show}{\@SetLstShow}{\relax}%
+\ifdefstring{\py@action}{hide}{\@SetLstHide}{\relax}%
+\ifdefstring{\py@action}{verbatim}{\@SetLstVerbatim}{\relax}%
+\ignorespaces
+}
 %-------------------------------------------------------------------------------
 % silently read the pytex file (if it exists)
 \AfterEndPreamble{\IfFileExists{./\jobname.pytex}{\input{./\jobname.pytex}}{\relax}}
 %===============================================================================
 % Listings style for Python
 %===============================================================================
-\lstset{%
-language=python,
-showtabs=true,
-showstringspaces=false,
-tab=,
-tabsize=2,
-basicstyle=\ttfamily\small,
-basewidth={0.5em}}
-%
-\def\@pystyle{
+\def\@pystyleShow{
 \colorlet{commentcolour}{green!50!black}
 \colorlet{stringcolour}{red!60!black}
 \colorlet{keywordcolour}{magenta!90!black}
@@ -61,9 +51,17 @@ basewidth={0.5em}}
 \colorlet{builtincolour}{violet}
 \lstset{%
 language=python,
+%
+firstline=1,
+lastline=999999,
+%
+aboveskip=10pt,belowskip=0pt,
+frame=single,framesep=5pt,framerule=0pt,
+%
 stringstyle=\color{stringcolour},
 keywordstyle=\color{keywordcolour}\bfseries,
 commentstyle=\color{commentcolour}\slshape,
+%
 alsoletter={1234567890},
 morekeywords={\%, \}, \{, \&, \|},
 %
@@ -115,13 +113,31 @@ emphstyle=[6]\color{magiccolour},
 morecomment=[s]{"""}{"""},
 }}
 %-------------------------------------------------------------------------------
-% set listings defaults for Python
-%-------------------------------------------------------------------------------
-\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\def\@pystyleHide{%
 \lstset{%
 language=python,
+%
+firstline=999999,
+lastline=999999,
+%
+aboveskip=0pt,belowskip=0pt,
+frame=none,
+}}
+%===============================================================================
+% set listings defaults for Python
+%===============================================================================
+\PySetup{action=show}
+\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\lstset{%
+showtabs=true,
+showstringspaces=false,
+tab=,
+tabsize=2,
+basicstyle=\ttfamily\small,
+basewidth={0.5em},
 numberstyle=\tiny,numbersep=15pt,
 aboveskip=10pt,belowskip=0pt,
 frame=single,framesep=5pt,framerule=0pt,
 xleftmargin=5pt,xrightmargin=5pt,
-backgroundcolor=\color{grey95}}
+backgroundcolor=\color{grey95},
+}

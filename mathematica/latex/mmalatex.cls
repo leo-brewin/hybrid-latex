@@ -3,10 +3,7 @@
 %-------------------------------------------------------------------------------
 \input{mmalatex.sty}
 \usepackage[papersize={297mm,210mm},hmargin=2cm,tmargin=1.0cm,bmargin=1.5cm]{geometry}
-\usepackage{amsmath}
-\usepackage{amssymb}
 \usepackage{hyperref}
-\usepackage{breqn}
 %-------------------------------------------------------------------------------
 \thispagestyle{empty}
 %-------------------------------------------------------------------------------

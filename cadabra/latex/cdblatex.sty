@@ -1,8 +1,7 @@
-\def\fileversion{v.0.1}
-\def\filedate{2018/06/04}% 4 Jun 2018
+\def\fileversion{v.0.2}
+\def\filedate{2019/08/04}% 4 Aug 2019
 \ProvidesPackage{cdblatex}[\filedate\space\fileversion\space Cadabra-Latex (LCB)]
 %-------------------------------------------------------------------------------
-\usepackage{comment}
 \usepackage{listings}
 \usepackage{keyval}
 \usepackage{etoolbox}
@@ -15,28 +14,25 @@
 %-------------------------------------------------------------------------------
 \def\cdbverb#1{{\color{blue}\texttt{\detokenize{#1}}}}% for inline Cadabra verbatim, fails with # in arg.
 %-------------------------------------------------------------------------------
-\def\ProcessCutFile{}% part of the comment.sty package
+\lstnewenvironment{cadabra}[1][]{\begingroup\@cdbstyle\lstset{#1}}{\endgroup}
 %-------------------------------------------------------------------------------
 % define and process key/value pairs in CdbSetup
 %
 \define@key{mycdb}{action}{\def\cdb@action{#1}}% hide, show, verbatim
 %
-\def\@SetLstShow{\def\@CdbEnv{\let\cadabra\undefined\let\cadabra@\undefined\lstnewenvironment{cadabra}{\begingroup\@cdbstyle}{\endgroup}}}%
-\def\@SetLstHide{\def\@CdbEnv{\let\endcadabra\undefined\specialcomment{cadabra}{\begingroup}{\endgroup}}}%
+\def\@SetLstShow{\def\@cdbstyle{\@cdbstyleShow}}%
+\def\@SetLstHide{\def\@cdbstyle{\@cdbstyleHide}}%
 \def\@SetLstVerbatim{\@SetLstShow}%
 %
 \newcommand{\CdbSetup}[1]{%
 %
 \setkeys{mycdb}{#1}% Set new keys
 %
-\ifdefstring{\cdb@action}{show}{\@SetLstShow}{\relax}
-\ifdefstring{\cdb@action}{hide}{\@SetLstHide}{\relax}
-\ifdefstring{\cdb@action}{verbatim}{\@SetLstVerbatim}{\relax}
-%
-\@CdbEnv}
-%
-\CdbSetup{action=show}% defaults/initial setup
-%
+\ifdefstring{\cdb@action}{show}{\@SetLstShow}{\relax}%
+\ifdefstring{\cdb@action}{hide}{\@SetLstHide}{\relax}%
+\ifdefstring{\cdb@action}{verbatim}{\@SetLstVerbatim}{\relax}%
+\ignorespaces
+}
 %-------------------------------------------------------------------------------
 % silently read the cdbtex file (if it exists)
 \AfterEndPreamble{\IfFileExists{./\jobname.cdbtex}{\input{./\jobname.cdbtex}}{\relax}}
@@ -44,27 +40,19 @@
 % Listings style for Cadabra
 %===============================================================================
 \lstdefinelanguage{Cadabra}%
-% maple reserved words
-{morekeywords={and,assume,assuming,break,by,catch,description,do,done,elif,else,%
-               end do,end if,end module,end proc,error,export,finally,for,from,global,if,implies,%
-               in,intersect,local,minus,mod,module,next,not,option,options,or,proc,quit,read,%
-               return,save,stop,subset,then,to,try,union,use,while,xor},%
+% Start with basic Python keywords, from "import keyword; print(keyword.kwlist)"
+% Then add Cadabra, Python, numpy etc. keywords later in \@cdbstyleShow
+{morekeywords={and,as,assert,break,class,continue,def,del,elif,else,except,exec,%
+               finally,for,from,global,if,import,in,is,lambda,not,or,pass,print,%
+               raise,return,try,while,with,yield},%
 sensitive=true,%
 morecomment=[l]\#\ ,%
 morestring=[b]",%
 morestring=[d]"%
 }[keywords,comments,strings]%
 %
-\lstset{%
-language=cadabra,
-showtabs=true,
-showstringspaces=false,
-tab=,
-tabsize=2,
-basicstyle=\ttfamily\small,
-basewidth={0.5em}}
-%
-\def\@cdbstyle{%
+%-------------------------------------------------------------------------------
+\def\@cdbstyleShow{%
 \colorlet{commentcolour}{green!50!black}
 \colorlet{stringcolour}{red!60!black}
 \colorlet{keywordcolour}{magenta!90!black}
@@ -79,6 +67,13 @@ basewidth={0.5em}}
 \colorlet{othercolour}{green!50!black}
 \lstset{%
 language=cadabra,
+%
+firstline=1,
+lastline=999999,
+%
+aboveskip=10pt,belowskip=0pt,
+frame=single,framesep=5pt,framerule=0pt,
+%
 stringstyle=\color{stringcolour},
 keywordstyle=\color{keywordcolour}\bfseries,
 commentstyle=\color{commentcolour}\slshape,
@@ -96,15 +91,14 @@ emphstyle=[10]\color{propcolour},
 % Comments
 morecomment=[s]{"""}{"""},
 %
-% Reserved words
-emph={assert, break, continue, del, elif, else, except,%
-      exec, finally, for, global, if, lambda, pass,%
-      print, raise, return, try, while, yield,
-      yield from, as, with},%
+% Python keywords, from "import keyword; print(keyword.kwlist)"
+emph={and,as,assert,break,class,continue,def,del,elif,else,except,exec,%
+      finally,for,from,global,if,import,in,is,lambda,not,or,pass,print,%
+      raise,return,try,while,with,yield},%
 emphstyle=\color{blue}\bfseries,
 emphstyle=\color{reservedcolour}\bfseries,
 %
-% Builtins
+% Python Builtins
 emph={[2]abs, all, any, apply, basestring, bin,%
       bool, buffer, bytearray, bytes, callable, chr, classmethod,%
       cmp, coerce, compile, complex, delattr, dict, dir, divmod,%
@@ -118,11 +112,11 @@ emph={[2]abs, all, any, apply, basestring, bin,%
       unichr, unicode, vars, xrange, zip},
 emphstyle=[2]\color{builtincolour},
 %
-% Boolean constants
+% Python Boolean constants
 emph={[3]True, False, None},
 emphstyle=[3]\color{booleancolour},
 %
-% Exceptions
+% Python Exceptions
 emph={[4]Exception,NameError,FloatingPointError,IOError,EOFError,IndexError,RuntimeError,%
       SyntaxError,TypeError,ValueError,OverflowError,ZeroDivisionError},
 emphstyle=[4]\color{exceptioncolour}\bfseries,
@@ -135,13 +129,13 @@ emph={[5]ode,fsolve,sqrt,exp,sin,cos,arctan,arctan2,arccos,pi,array,norm,solve,d
       vectorize,lstsq,cla,eye,xlabel,ylabel,squeeze},
 emphstyle=[5]\color{numpycolour},
 %
-% python magic
+% Python magic
 emph={[6]__init__,__add__,__mul__,__div__,__sub__,__call__,__getitem__,__setitem__,__eq__,__ne__,
       __nonzero__,__rmul__,__radd__,__repr__,__str__,__get__,__truediv__,__pow__,__name__,__future__,__all__},
 emphstyle=[6]\color{magiccolour},
 %
-% Algorithms
-emph={[7]asym,canonicalise,collect_components,collect_factors,
+% Cadabra Algorithms
+emph={[7]Ex,asym,canonicalise,collect_components,collect_factors,
       collect_terms,combine,complete,decompose_product,
       display,distribute,drop_weight,einsteinify,
       eliminate_kronecker,eliminate_metric,epsilon_to_delta,
@@ -151,11 +145,11 @@ emph={[7]asym,canonicalise,collect_components,collect_factors,
       lr_tensor,map_sympy,order,product_rule,reduce_delta,rename_dummies,
       replace_match,rewrite_indices,sort_product,sort_spinors,
       sort_sum,split_gamma,split_index,substitute,sym,take_match,
-      unwrap,vary,young_project,young_project_product,
-      young_project_tensor},
+      unwrap,unzoom,vary,young_project,young_project_product,
+      young_project_tensor,zoom},
 emphstyle=[7]\color{algocolour},
 %
-% Properties
+% Cadabra Properties
 emph={[8]Accent,AntiCommuting,AntiSymmetric,Commuting,
       CommutingAsProduct,CommutingAsSum,Coordinate,
       DAntiSymmetric,Depends,DependsInherit,Derivative,
@@ -172,13 +166,31 @@ emph={[8]Accent,AntiCommuting,AntiSymmetric,Commuting,
 emphstyle=[8]\color{propcolour},
 }}
 %-------------------------------------------------------------------------------
-% set listings defaults for Cadabra
-%-------------------------------------------------------------------------------
-\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\def\@cdbstyleHide{%
 \lstset{%
 language=cadabra,
+%
+firstline=999999,
+lastline=999999,
+%
+aboveskip=0pt,belowskip=0pt,
+frame=none,
+}}
+%===============================================================================
+% set listings defaults for Cadabra
+%===============================================================================
+\CdbSetup{action=show}
+\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\lstset{%
+showtabs=true,
+showstringspaces=false,
+tab=,
+tabsize=2,
+basicstyle=\ttfamily\small,
+basewidth={0.5em},
 numberstyle=\tiny,numbersep=15pt,
 aboveskip=10pt,belowskip=0pt,
 frame=single,framesep=5pt,framerule=0pt,
 xleftmargin=5pt,xrightmargin=5pt,
-backgroundcolor=\color{grey95}}
+backgroundcolor=\color{grey95},
+}

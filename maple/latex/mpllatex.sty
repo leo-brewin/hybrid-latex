@@ -1,39 +1,38 @@
-\def\fileversion{v.0.1}
-\def\filedate{2018/06/04}% 4 Jun 2018
+\def\fileversion{v.0.2}
+\def\filedate{2019/08/04}% 4 Aug 2019
 \ProvidesPackage{mpllatex}[\filedate\space\fileversion\space Maple-Latex (LCB)]
 %-------------------------------------------------------------------------------
-\usepackage{comment}
 \usepackage{listings}
 \usepackage{keyval}
 \usepackage{etoolbox}
 \usepackage{xcolor}
+\usepackage{amsmath}% defines environment {aligned}
+\usepackage{amssymb}% defines \square
+\usepackage{breqn}% handles very long lines
 %-------------------------------------------------------------------------------
 \usepackage{mplmacros}
 %-------------------------------------------------------------------------------
 \def\mplverb#1{{\color{blue}\texttt{\detokenize{#1}}}}% for inline Maple verbatim, fails with # in arg.
 %-------------------------------------------------------------------------------
-\def\ProcessCutFile{}% part of the comment.sty package
+\lstnewenvironment{maple}[1][]{\begingroup\@mplstyle\lstset{#1}}{\endgroup}
 %-------------------------------------------------------------------------------
 % define and process key/value pairs in MplSetup
 %
 \define@key{mympl}{action}{\def\mpl@action{#1}}% hide, show, verbatim
 %
-\def\@SetLstShow{\def\@MplEnv{\let\maple\undefined\let\maple@\undefined\lstnewenvironment{maple}{\begingroup\@mplstyle}{\endgroup}}}%
-\def\@SetLstHide{\def\@MplEnv{\let\endmaple\undefined\specialcomment{maple}{\begingroup}{\endgroup}}}%
+\def\@SetLstShow{\def\@mplstyle{\@mplstyleShow}}%
+\def\@SetLstHide{\def\@mplstyle{\@mplstyleHide}}%
 \def\@SetLstVerbatim{\@SetLstShow}%
 %
-\providecommand{\MplSetup}[1]{%
+\newcommand{\MplSetup}[1]{%
 %
 \setkeys{mympl}{#1}% Set new keys
 %
-\ifdefstring{\mpl@action}{show}{\@SetLstShow}{\relax}
-\ifdefstring{\mpl@action}{hide}{\@SetLstHide}{\relax}
-\ifdefstring{\mpl@action}{verbatim}{\@SetLstVerbatim}{\relax}
-%
-\@MplEnv}
-%
-\MplSetup{action=show}% defaults/initial setup
-%
+\ifdefstring{\mpl@action}{show}{\@SetLstShow}{\relax}%
+\ifdefstring{\mpl@action}{hide}{\@SetLstHide}{\relax}%
+\ifdefstring{\mpl@action}{verbatim}{\@SetLstVerbatim}{\relax}%
+\ignorespaces
+}
 %-------------------------------------------------------------------------------
 % silently read the mpltex file (if it exists)
 \AfterEndPreamble{\IfFileExists{./\jobname.mpltex}{\input{./\jobname.mpltex}}{\relax}}
@@ -51,17 +50,8 @@ morecomment=[l]\#,%
 morestring=[b]",%
 morestring=[d]"%
 }[keywords,comments,strings]%
-%
-\lstset{%
-language=maple,
-showtabs=true,
-showstringspaces=false,
-tab=,
-tabsize=2,
-basicstyle=\ttfamily\small,
-basewidth={0.5em}}
-%
-\def\@mplstyle{%
+%-------------------------------------------------------------------------------
+\def\@mplstyleShow{%
 \colorlet{commentcolour}{green!50!black}
 \colorlet{stringcolour}{red!60!black}
 \colorlet{keywordcolour}{magenta!90!black}
@@ -73,6 +63,13 @@ basewidth={0.5em}}
 \colorlet{graphicscolour}{green!50!black}
 \lstset{%
 language=maple,
+%
+firstline=1,
+lastline=999999,
+%
+aboveskip=10pt,belowskip=0pt,
+frame=single,framesep=5pt,framerule=0pt,
+%
 stringstyle=\color{stringcolour},
 keywordstyle=\color{keywordcolour}\bfseries,
 commentstyle=\color{commentcolour}\slshape,
@@ -117,13 +114,31 @@ emph={[9]plot,implicitplot,plot3d,implicitplot3d,contourplot,contourplot3d,space
 emphstyle=[9]\color{graphicscolour},
 }}
 %-------------------------------------------------------------------------------
-% set listings defaults for Maple
-%-------------------------------------------------------------------------------
-\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\def\@mplstyleHide{%
 \lstset{%
 language=maple,
+%
+firstline=999999,
+lastline=999999,
+%
+aboveskip=0pt,belowskip=0pt,
+frame=none,
+}}
+%===============================================================================
+% set listings defaults for Maple
+%===============================================================================
+\MplSetup{action=show}
+\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\lstset{%
+showtabs=true,
+showstringspaces=false,
+tab=,
+tabsize=2,
+basicstyle=\ttfamily\small,
+basewidth={0.5em},
 numberstyle=\tiny,numbersep=15pt,
 aboveskip=10pt,belowskip=0pt,
 frame=single,framesep=5pt,framerule=0pt,
 xleftmargin=5pt,xrightmargin=5pt,
-backgroundcolor=\color{grey95}}
+backgroundcolor=\color{grey95},
+}

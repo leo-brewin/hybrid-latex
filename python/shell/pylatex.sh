@@ -77,7 +77,6 @@ if [[ $silent = "no" ]]; then
 fi
 
 if [[ $keep = "no" ]]; then
-   rm -rf comment.cut
    rm -rf .merged.tex .tmp.txt
    rm -rf $file.log $file.out $file.py $file"_.py" $file.pyidx $file.pytxt
 fi

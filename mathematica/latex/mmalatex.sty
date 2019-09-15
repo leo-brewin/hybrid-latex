@@ -1,39 +1,38 @@
-\def\fileversion{v.0.1}
-\def\filedate{2018/06/04}% 4 Jun 2018
+\def\fileversion{v.0.2}
+\def\filedate{2019/08/04}% 4 Aug 2019
 \ProvidesPackage{mmalatex}[\filedate\space\fileversion\space Mathematica-Latex (LCB)]
 %-------------------------------------------------------------------------------
-\usepackage{comment}
 \usepackage{listings}
 \usepackage{keyval}
 \usepackage{etoolbox}
 \usepackage{xcolor}
+\usepackage{amsmath}% defines environment {aligned}
+\usepackage{amssymb}% defines \square
+\usepackage{breqn}% handles very long lines
 %-------------------------------------------------------------------------------
 \usepackage{mmamacros}
 %-------------------------------------------------------------------------------
 \def\mmaverb#1{{\color{blue}\texttt{\detokenize{#1}}}}% for inline Mathematica verbatim, fails with # in arg.
 %-------------------------------------------------------------------------------
-\def\ProcessCutFile{}% part of the comment.sty package
+\lstnewenvironment{mathematica}[1][]{\begingroup\@mmastyle\lstset{#1}}{\endgroup}
 %-------------------------------------------------------------------------------
 % define and process key/value pairs in MmaSetup
 %
 \define@key{mymma}{action}{\def\mma@action{#1}}% hide, show, verbatim
 %
-\def\@SetLstShow{\def\@MmaEnv{\let\mathematica\undefined\let\mathematica@\undefined\lstnewenvironment{mathematica}{\begingroup\@mmastyle}{\endgroup}}}%
-\def\@SetLstHide{\def\@MmaEnv{\let\endmathematica\undefined\specialcomment{mathematica}{\begingroup}{\endgroup}}}%
+\def\@SetLstShow{\def\@mmastyle{\@mmastyleShow}}%
+\def\@SetLstHide{\def\@mmastyle{\@mmastyleHide}}%
 \def\@SetLstVerbatim{\@SetLstShow}%
 %
-\providecommand{\MmaSetup}[1]{%
+\newcommand{\MmaSetup}[1]{%
 %
 \setkeys{mymma}{#1}% Set new keys
 %
-\ifdefstring{\mma@action}{show}{\@SetLstShow}{\relax}
-\ifdefstring{\mma@action}{hide}{\@SetLstHide}{\relax}
-\ifdefstring{\mma@action}{verbatim}{\@SetLstVerbatim}{\relax}
-%
-\@MmaEnv}
-%
-\MmaSetup{action=show}% defaults/initial setup
-%
+\ifdefstring{\mma@action}{show}{\@SetLstShow}{\relax}%
+\ifdefstring{\mma@action}{hide}{\@SetLstHide}{\relax}%
+\ifdefstring{\mma@action}{verbatim}{\@SetLstVerbatim}{\relax}%
+\ignorespaces
+}
 %-------------------------------------------------------------------------------
 % silently read the mmatex file (if it exists)
 \AfterEndPreamble{\IfFileExists{./\jobname.mmatex}{\input{./\jobname.mmatex}}{\relax}}
@@ -51,17 +50,8 @@ morecomment=[l]\#,%
 morestring=[b]",%
 morestring=[d]"%
 }[keywords,comments,strings]%
-%
-\lstset{%
-language=mathematica,
-showtabs=true,
-showstringspaces=false,
-tab=,
-tabsize=2,
-basicstyle=\ttfamily\small,
-basewidth={0.5em}}
-%
-\def\@mmastyle{%
+%-------------------------------------------------------------------------------
+\def\@mmastyleShow{%
 \colorlet{commentcolour}{green!50!black}
 \colorlet{stringcolour}{red!60!black}
 \colorlet{keywordcolour}{magenta!90!black}
@@ -73,6 +63,13 @@ basewidth={0.5em}}
 \colorlet{graphicscolour}{green!50!black}
 \lstset{%
 language=mathematica,
+%
+firstline=1,
+lastline=999999,
+%
+aboveskip=10pt,belowskip=0pt,
+frame=single,framesep=5pt,framerule=0pt,
+%
 stringstyle=\color{stringcolour},
 keywordstyle=\color{keywordcolour}\bfseries,
 commentstyle=\color{commentcolour}\slshape,
@@ -117,13 +114,31 @@ emph={[9]plot,immaicitplot,plot3d,immaicitplot3d,contourplot,contourplot3d,space
 emphstyle=[9]\color{graphicscolour},
 }}
 %-------------------------------------------------------------------------------
-% set listings defaults for Mathematica
-%-------------------------------------------------------------------------------
-\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\def\@mmastyleHide{%
 \lstset{%
 language=mathematica,
+%
+firstline=999999,
+lastline=999999,
+%
+aboveskip=0pt,belowskip=0pt,
+frame=none,
+}}
+%===============================================================================
+% set listings defaults for Mathematica
+%===============================================================================
+\MmaSetup{action=show}
+\definecolor{grey95}{rgb}{0.95,0.95,0.95}
+\lstset{%
+showtabs=true,
+showstringspaces=false,
+tab=,
+tabsize=2,
+basicstyle=\ttfamily\small,
+basewidth={0.5em},
 numberstyle=\tiny,numbersep=15pt,
 aboveskip=10pt,belowskip=0pt,
 frame=single,framesep=5pt,framerule=0pt,
 xleftmargin=5pt,xrightmargin=5pt,
-backgroundcolor=\color{grey95}}
+backgroundcolor=\color{grey95},
+}
