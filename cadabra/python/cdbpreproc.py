@@ -28,6 +28,8 @@ re_cdb_tag         = re.compile (r'(# *(cdb\s*\(\s*([a-zA-Z0-9_.-]+)\s*(,\s*([a-
                                 # Allow two forms of tag, py(foo,bah) and py(bah).
                                 # In both cases bah must be a valid Cadabra expression.
 
+re_inline_comment  = re.compile (r'(.*?)( +#)')  # any text followed by " #"
+
 re_algorithm       = re.compile (r'(^\s*)('
                                 +r'asym|canonicalise|collect_factors|collect_terms|combine|complete|'
                                 +r'decompose|decompose_product|distribute|drop_weight|einsteinify|'
@@ -105,6 +107,16 @@ def not_hidden_markup (this_line):
 
 def not_pure_cadabra_markup (this_line):
     return not re_pure_markup.search (this_line)
+
+def filter_inline_comment (this_line):
+    if len(this_line) == 0:
+       return ""
+    else:
+       the_beg,the_end,found = grep (this_line,re_inline_comment,2)
+       if the_beg > 0 :
+          return this_line[0:the_beg].rstrip(" ")
+       else:
+          return this_line.rstrip("\n")
 
 def filter_cadabra_markup (this_line):
     if len(this_line) == 0:
@@ -417,11 +429,11 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
 
                   else:
 
-                     out.write (filter_cadabra_markup (this_line)+"\n")
+                     out.write (filter_inline_comment (this_line)+"\n")
 
                else:
 
-                  out.write (filter_cadabra_markup (this_line)+"\n")
+                  out.write (filter_inline_comment (this_line)+"\n")
 
    # copy the temporary file back to the source with in-line comments removed
    # note: this clean copy is just for reference, it's never used
@@ -435,7 +447,7 @@ def pass2 (src_file_name, out_file_name, idx_file_name):
             num_line = num_line + 1
             if num_line > num_head_lines:
                if not_pure_cadabra_markup (this_line):
-                  src.write (filter_cadabra_markup (this_line)+"\n")
+                  src.write (filter_inline_comment (this_line)+"\n")
 
 # -----------------------------------------------------------------------------
 # the main code
