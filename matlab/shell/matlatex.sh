@@ -8,14 +8,14 @@ Matlab=matlab
 # Matlab="/Applications/MATLAB_R2018a.app/bin/matlab"
 MatlabOpts="-nodesktop -nosplash -noFigureWindows"
 sty=""
-warn=""
+nowarn=""
 
 # -----------------------------------------------------------------------------------------
 # Parse the comatnd-line options
 
 OPTIND=1
 
-while getopts 'i:I:P:skxhW' option
+while getopts 'i:I:P:skxhN' option
 do
    case "$option" in
    "i")  file="$OPTARG"      ;;
@@ -24,16 +24,16 @@ do
    "s")  silent="yes"        ;;
    "k")  keep="yes"          ;;
    "x")  skiplatex="yes"     ;;
-   "W")  warn="-W"           ;;
+   "N")  nowarn="-N"         ;;
    "h")  echo "usage : matlatex.sh -i file [-P<path to Matlab>]"
-         echo "                            [-I<path to matmacros.sty>] [-s] [-k] [-x] [-W] [-h]"
+         echo "                            [-I<path to matmacros.sty>] [-s] [-k] [-x] [-N] [-h]"
          echo "options :  -i file : source file (with or without .tex extension)"
          echo "           -I file : full path to matmacros.sty file"
          echo "           -P path : full path to the Matlab binary"
          echo "           -s : silent, don't open the pdf file"
-         echo "           -x : don't call latex"
          echo "           -k : keep all temporary files"
-         echo "           -W : warn if errors found in the output for some tags"
+         echo "           -x : don't call latex"
+         echo "           -N : don't warn if errors found in the output for some tags"
          echo "           -h : this help message"
          echo "example : matlatex.sh -i file"
          exit                ;;
@@ -71,7 +71,7 @@ matpreproc.py -i $file -m $name           || exit 1
 
 $Matlab $MatlabOpts -r "try, ${file}_; catch, disp('> matlab failed'), exit(1), end, quit" > $file.mattxt || (echo "> matlab failed, check ${file}_.m"; exit 3)
 
-matpostproc.py $warn -i $file $sty        || exit 5
+matpostproc.py $nowarn -i $file $sty      || exit 5
 
 if [[ $skiplatex = "no" ]]; then
    pdflatex -halt-on-error -interaction=batchmode -synctex=1 $file || exit 7

@@ -10,27 +10,27 @@ skiplatex="no"
 Timer=""
 CDB=/usr/local/bin/
 sty=""
-warn=""
+nowarn=""
 
 # -----------------------------------------------------------------------------------------
 # Parse the command-line options
 
 OPTIND=1
 
-while getopts 'i:I:P:sktTxhW' option
+while getopts 'i:I:P:sktTxhN' option
 do
    case "$option" in
-   "i")  file="$OPTARG"      ;;
-   "I")  sty="-I$OPTARG"     ;;
-   "P")  CDB="$OPTARG"       ;;
-   "s")  silent="yes"        ;;
-   "k")  keep="yes"          ;;
-   "t")  Timer="/usr/bin/time" ;;
+   "i")  file="$OPTARG"           ;;
+   "I")  sty="-I$OPTARG"          ;;
+   "P")  CDB="$OPTARG"            ;;
+   "s")  silent="yes"             ;;
+   "k")  keep="yes"               ;;
+   "t")  Timer="/usr/bin/time"    ;;
    "T")  Timer="/usr/bin/time -l" ;;
-   "x")  skiplatex="yes"     ;;
-   "W")  warn="-W"           ;;
+   "x")  skiplatex="yes"          ;;
+   "N")  nowarn="-N"              ;;
    "h")  echo "usage : cdblatex.sh -i file [-P<path to Cadabra bin dir>]"
-         echo "                            [-I<path to cdbmacros.sty>] [-s] [-k] [-x] [-W] [-h]"
+         echo "                            [-I<path to cdbmacros.sty>] [-s] [-k] [-x] [-N] [-h]"
          echo "options :  -i file : source file (with or without .tex extension)"
          echo "           -I file : full path to cdbmacros.sty file"
          echo "           -P file : path to Cadabra bin directory"
@@ -39,7 +39,7 @@ do
          echo "           -t : report brief cpu time"
          echo "           -T : report detailed cpu time plus memory usage"
          echo "           -x : don't call latex"
-         echo "           -W : warn if errors found in the output for some tags"
+         echo "           -N : don't warn if errors found in the output for some tags"
          echo "           -h : this help messag"
          echo "example : cdblatex.sh -i file"
          exit                ;;
@@ -81,7 +81,7 @@ $Timer $CDB/cadabra2 $file.py > .tmp.txt   || exit 5
 
 iconv -c -f UTF-8 -t ASCII//translit .tmp.txt > $file.cdbtxt
 
-cdbpostproc.py $warn -i $file $sty       || exit 7
+cdbpostproc.py $nowarn -i $file $sty       || exit 7
 
 if [[ $skiplatex = "no" ]]; then
    pdflatex -halt-on-error -interaction=batchmode -synctex=1 $file || exit 9

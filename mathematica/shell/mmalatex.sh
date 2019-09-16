@@ -8,14 +8,14 @@ MMA=mathematica
 # MMA="/Applications/Mathematica.app/Contents/MacOS/wolframscript"
 MMAOpts="-noprompt"
 sty=""
-warn=""
+nowarn=""
 
 # -----------------------------------------------------------------------------------------
 # Parse the command-line options
 
 OPTIND=1
 
-while getopts 'i:I:P:skxhW' option
+while getopts 'i:I:P:skxhN' option
 do
    case "$option" in
    "i")  file="$OPTARG"      ;;
@@ -24,16 +24,16 @@ do
    "s")  silent="yes"        ;;
    "k")  keep="yes"          ;;
    "x")  skiplatex="yes"     ;;
-   "W")  warn="-W"           ;;
+   "N")  nowarn="-N"         ;;
    "h")  echo "usage : mmalatex.sh -i file [-P<path to Mathematica>]"
-         echo "                            [-I<path to mmamacros.sty>] [-s] [-k] [-x] [-W] [-h]"
+         echo "                            [-I<path to mmamacros.sty>] [-s] [-k] [-x] [-N] [-h]"
          echo "options :  -i file : source file (with or without .tex extension)"
          echo "           -I file : full path to mmamacros.sty file"
          echo "           -P path : full path to the Mathematica binary"
          echo "           -s : silent, don't open the pdf file"
-         echo "           -x : don't call latex"
          echo "           -k : keep all temporary files"
-         echo "           -W : warn if errors found in the output for some tags"
+         echo "           -x : don't call latex"
+         echo "           -N : don't warn if errors found in the output for some tags"
          echo "           -h : this help message"
          echo "exammae : mmalatex.sh -i file"
          exit                ;;
@@ -71,7 +71,7 @@ mmapreproc.py -i $file -m $name              || exit 1
 
 $MMA $MMAOpts < $file"_.mma" > $file.mmatxt  || exit 3
 
-mmapostproc.py $warn -i $file $sty           || exit 5
+mmapostproc.py $nowarn -i $file $sty         || exit 5
 
 if [[ $skiplatex = "no" ]]; then
    pdflatex -halt-on-error -interaction=batchmode -synctex=1 $file || exit 7
