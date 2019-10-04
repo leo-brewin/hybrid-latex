@@ -1,0 +1,16 @@
+latex
+-----
+
+   Copy these files to a location that is visible to LaTeX.
+   i.e., visible on your TEXINPUTS environment variable.
+
+scripts
+-------
+
+   Copy these files to a location that is visible on your PATH environment
+   variable.
+
+   If necessary, make these scripts executable using
+
+      chmod ug+x *.sh
+      chmod ug+x *.py
