@@ -1,5 +1,6 @@
 .DS_Store
 .tm_properties
+*.lb
 *.log
 *.toc
 *.out
@@ -15,3 +16,5 @@
 private
 sync.sh
 diff.sh
+TO-DO.txt
+__pycache__

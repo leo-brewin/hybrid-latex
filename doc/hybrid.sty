@@ -50,28 +50,38 @@
 
 \def\bgcolour#1{\lstset{backgroundcolor=\color{#1}}}
 
-\def\pythonstyle{\lstset{%
+\def\mypythonstyle{\lstset{%
 language=python,
 gobble=2,
 basicstyle={\tts},basewidth={0.50em},
 numbers=none,numberstyle=\tiny,numbersep=10pt,
 aboveskip=0pt,belowskip=0pt,
 frame=none,framesep=0pt,framerule=0pt,
+escapechar=|,
 }}
 
-\def\latexstyle{\lstset{%
+\def\mylatexstyle{\lstset{%
 language={[LaTeX]TeX},
 gobble=2,
 basicstyle={\tts},basewidth={0.50em},
 numbers=none,numberstyle=\tiny,numbersep=10pt,
-aboveskip=0pt,belowskip=0pt,
+aboveskip=0pt,belowskip=-5pt,
 frame=none,framesep=0pt,framerule=0pt,
 texcsstyle=*\bfseries\color{blue},
 stringstyle=\color{green},
 commentstyle=\color{blue}\slshape,
+escapechar=|,
 }}
 
 \def\lstlatex#1{\def\latexmore{\lstset{#1}}}
 \lstlatex{}
 
-\lstnewenvironment{latex}{\begingroup\latexstyle\latexmore}{\endgroup}
+\lstnewenvironment{latex}{\begingroup\mylatexstyle\latexmore}{\endgroup}
+%-------------------------------------------------------------------------------
+\def\goodbreak{%
+\vskip 0pt plus 0.1\vsize\penalty-250\vskip 0pt plus-0.1\vsize%
+\nobreak}
+\def\Goodbreak{%
+\vskip 0pt plus 0.1\vsize\penalty-500\vskip 0pt plus-0.1\vsize%
+\nobreak}
+\def\Break{\hfill\break}
