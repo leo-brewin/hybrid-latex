@@ -7,7 +7,7 @@ file="<none>"
 
 OPTIND=1
 
-while getopts 'i:' option
+while getopts 'hi:' option
 do
    case "$option" in
    "i")  file="$OPTARG"      ;;
@@ -30,4 +30,4 @@ if [[ $file = "<none>" ]]; then
 fi;
 
 rm -rf .merged.tex .tmp.txt
-rm -rf $file.log $file.out $file.mpl $file"_.mpl" $file.mplidx $file.mpltxt
+rm -rf $file.log $file.out $file.mpl $file"_.mpl" $file.mplidx $file.mpltxt $file.mplout

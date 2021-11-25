@@ -13,6 +13,7 @@ The following Python code block contains a matched {\tt\small\verb|cdbBeg/cdbEnd
    # cdbBeg(info)
    print("date :      &"+'{:%a %d %b %Y %H:%M:%S}'.format(datetime.datetime.now())+"\\\\")
    print("python :    &"+str(platform.python_version())+"\\\\")
+   print("sympy :     &"+str(sympy.__version__)+"\\\\")
    print("system :    &"+str(platform.system())+"\\\\")
    print("release :   &"+str(platform.release())+"\\\\")
    print("machine :   &"+str(platform.machine())+"\\\\")
@@ -34,7 +35,7 @@ The following Python code block contains a matched {\tt\small\verb|cdbBeg/cdbEnd
 
 \vspace{12pt}
 
-Here is the output caught from the above block. Note that Cadabra 2.2.1 uses Python 3.7.
+Here is the output caught from the above block.
 
 \bgroup\tt
 \begin{tabular}{rl}

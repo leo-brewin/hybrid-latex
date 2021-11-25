@@ -4,6 +4,7 @@ file="<none>"
 silent="no"
 keep="no"
 skiplatex="no"
+Timer=""
 MMA=mathematica
 # MMA="/Applications/Mathematica.app/Contents/MacOS/wolframscript"
 MMAOpts="-noprompt"
@@ -15,7 +16,7 @@ nowarn=""
 
 OPTIND=1
 
-while getopts 'i:I:P:skxhN' option
+while getopts 'i:I:P:sktTxhN' option
 do
    case "$option" in
    "i")  file="$OPTARG"      ;;
@@ -23,6 +24,8 @@ do
    "P")  MMA="$OPTARG"       ;;
    "s")  silent="yes"        ;;
    "k")  keep="yes"          ;;
+   "t")  Timer="/usr/bin/time"    ;;
+   "T")  Timer="/usr/bin/time -l" ;;
    "x")  skiplatex="yes"     ;;
    "N")  nowarn="-N"         ;;
    "h")  echo "usage : mmalatex.sh -i file [-P<path to Mathematica>]"
@@ -32,6 +35,8 @@ do
          echo "           -P path : full path to the Mathematica binary"
          echo "           -s : silent, don't open the pdf file"
          echo "           -k : keep all temporary files"
+         echo "           -t : report brief cpu time"
+         echo "           -T : report detailed cpu time plus memory usage"
          echo "           -x : don't call latex"
          echo "           -N : don't warn if errors found in the output for some tags"
          echo "           -h : this help message"
@@ -57,11 +62,11 @@ if [[ ! -e $file.tex ]]; then
 fi
 
 # does the source contain \Input?
-num=$(egrep -c -e'^\s*\\Input\{' "$file".tex)
+num=$(egrep -c -e'^\s*(\\|\@|\$)Input\{' "$file".tex)
 
 # yes, now merge source files
 if ! [[ $num = 0 ]]; then
-   merge-tex.py -i $file.tex -o .merged.tex
+   merge-src.py -i $file.tex -o .merged.tex
    name=".merged"
 fi
 
@@ -69,7 +74,7 @@ touch $file.mmatxt
 
 mmapreproc.py -i $file -m $name              || exit 1
 
-$MMA $MMAOpts < $file"_.mma" > $file.mmatxt  || exit 3
+$Timer $MMA $MMAOpts < $file"_.mma" > $file.mmatxt  || exit 3
 
 mmapostproc.py $nowarn -i $file $sty         || exit 5
 

@@ -4,8 +4,9 @@ file="<none>"
 silent="no"
 keep="no"
 skiplatex="no"
+Timer=""
 Matlab=matlab
-# Matlab="/Applications/MATLAB_R2018a.app/bin/matlab"
+# Matlab="/Applications/MATLAB_R2021b.app/bin/matlab"
 MatlabOpts="-nodesktop -nosplash -noFigureWindows"
 sty=""
 nowarn=""
@@ -15,7 +16,7 @@ nowarn=""
 
 OPTIND=1
 
-while getopts 'i:I:P:skxhN' option
+while getopts 'i:I:P:sktTxhN' option
 do
    case "$option" in
    "i")  file="$OPTARG"      ;;
@@ -23,6 +24,8 @@ do
    "P")  Matlab="$OPTARG"    ;;
    "s")  silent="yes"        ;;
    "k")  keep="yes"          ;;
+   "t")  Timer="/usr/bin/time"    ;;
+   "T")  Timer="/usr/bin/time -l" ;;
    "x")  skiplatex="yes"     ;;
    "N")  nowarn="-N"         ;;
    "h")  echo "usage : matlatex.sh -i file [-P<path to Matlab>]"
@@ -32,6 +35,8 @@ do
          echo "           -P path : full path to the Matlab binary"
          echo "           -s : silent, don't open the pdf file"
          echo "           -k : keep all temporary files"
+         echo "           -t : report brief cpu time"
+         echo "           -T : report detailed cpu time plus memory usage"
          echo "           -x : don't call latex"
          echo "           -N : don't warn if errors found in the output for some tags"
          echo "           -h : this help message"
@@ -57,11 +62,11 @@ if [[ ! -e $file.tex ]]; then
 fi
 
 # does the source contain \Input?
-num=$(egrep -c -e'^\s*\\Input\{' "$file".tex)
+num=$(egrep -c -e'^\s*(\\|\@|\$)Input\{' "$file".tex)
 
 # yes, now merge source files
 if ! [[ $num = 0 ]]; then
-   merge-tex.py -i $file.tex -o .merged.tex
+   merge-src.py -i $file.tex -o .merged.tex
    name=".merged"
 fi
 
@@ -69,7 +74,7 @@ touch $file.mattxt
 
 matpreproc.py -i $file -m $name           || exit 1
 
-$Matlab $MatlabOpts -r "try, ${file}_; catch, disp('> matlab failed'), exit(1), end, quit" > $file.mattxt || (echo "> matlab failed, check ${file}_.m"; exit 3)
+$Timer $Matlab $MatlabOpts -r "try, ${file}_; catch, disp('> matlab failed'), exit(1), end, quit" > $file.mattxt || (echo "> matlab failed, check ${file}_.m"; exit 3)
 
 matpostproc.py $nowarn -i $file $sty      || exit 5
 

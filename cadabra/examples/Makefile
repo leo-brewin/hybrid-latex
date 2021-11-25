@@ -5,7 +5,7 @@ SHELL = /bin/bash
 TARGETS = $(patsubst %.tex,%,$(wildcard example-[0-9][0-9]*.tex))
 #-------------------------------------------------------------------------------
 all:
-	@ mkdir -p pdfs tests/output tests/expected
+	@ mkdir -p pdf lib tests/output tests/expected
 	@ for file in $(TARGETS); do make .$${file}; done;
 	@ make gallery
 #-------------------------------------------------------------------------------
@@ -14,6 +14,7 @@ gallery:
 .gallery: *.pdf
 	@ echo "pdflatex gallery ..."
 	@ pdflatex -halt-on-error -interaction=batchmode gallery &> gallery.log
+	@ cp -f gallery.pdf pdf/.
 	@ touch .gallery
 #-------------------------------------------------------------------------------
 %:
@@ -21,16 +22,16 @@ gallery:
 .%:	%.tex
 	@ echo "cdblatex.sh $* ..."
 	@ cdblatex.sh -s -i $* &> $*.cdblog
+	@ cp -f $*.pdf pdf/.
+	@ cp -f $*.cdbtex lib/.
 	@ cp -f $*.cdbtex tests/output/.
 	@ touch .$*
 #-------------------------------------------------------------------------------
 expected:
 	@ for file in $(TARGETS); \
 	  do \
-	     cp -f $${file}.pdf pdfs/.; \
 	     cp -f tests/output/$${file}.*tex tests/expected/.; \
 	  done
-	@ mv -f gallery.pdf pdfs/.
 #-------------------------------------------------------------------------------
 tests:
 	@ tests.sh
@@ -46,6 +47,12 @@ rm-output:
 	@ for file in $(TARGETS); \
 	  do \
 	     rm -rf tests/output/$${file}.*tex; \
+	  done
+#-------------------------------------------------------------------------------
+rm-expected:
+	@ for file in $(TARGETS); \
+	  do \
+	     rm -rf tests/expected/$${file}.*tex; \
 	  done
 #-------------------------------------------------------------------------------
 clean:
@@ -64,19 +71,30 @@ veryclean:
 #-------------------------------------------------------------------------------
 pristine:
 	@ make rm-dot
+	@ make rm-output
+	@ make rm-expected
 	@ make veryclean
-	@ for file in $(TARGETS) gallery; \
+	@ rm -rf pdf/*.pdf lib/*.*tex
+	@ for file in $(TARGETS) summary gallery; \
 	  do \
 	     rm -rf $${file}.pdf $${file}.txt; \
-		  rm -rf $${file}.json $${file}.c; \
 		  rm -rf $${file}.pytex $${file}.cdbtex; \
-	     rm -rf $${file}-fig.pdf $${file}-fig.png $${file}-fig.pgf $${file}-fig.jpeg; \
-		  rm -rf pdfs/*.pdf tests/output/$${file}.*tex tests/expected/$${file}.*tex; \
+	     rm -rf $${file}-fig*.pdf $${file}-fig*.png  $${file}-fig*.pgf  $${file}-fig*.jpeg; \
+	  done
+#-------------------------------------------------------------------------------
+github-clean:
+	@ make rm-dot
+	@ make rm-output
+	@ make veryclean
+	@ for file in $(TARGETS) summary gallery; \
+	  do \
+	     rm -rf $${file}.pdf $${file}.txt; \
+		  rm -rf $${file}.pytex $${file}.cdbtex; \
+	     rm -rf $${file}-fig*.pdf $${file}-fig*.png  $${file}-fig*.pgf  $${file}-fig*.jpeg; \
 	  done
 #-------------------------------------------------------------------------------
 github:
 	@ make pristine
 	@ make all
 	@ make expected
-	@ make veryclean
-	@ make rm-output
+	@ make github-clean

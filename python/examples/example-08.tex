@@ -42,7 +42,16 @@ This is the first of two-part example. In this first part the Python code and ta
 \section*{Visible Python code output}
 
 Here is the output from the above Python code. This line of text is here for no other reason than to fill out the line so that we have two lines of text before the Python output. This makes it easier to compare the vertical spacing between this and the next example.
-%
+% ----------------------------------------------------------------------------------
+% Note
+% ----------------------------------------------------------------------------------
+% For perfect alignment of the py(ans.101) and py(ans.201) tags in the pdf file, the
+% following \begin{align*} and \begin{python} environments must be in vertical mode.
+% The easiest way to ensure this is to precede each environment by a blank line.
+% ----------------------------------------------------------------------------------
+
+\vspace{-10pt}
+
 \begin{align*}
    &\py*{ans.101}\\
    &\py*{ans.102}\\
@@ -64,7 +73,7 @@ Here is the output from the above Python code. This line of text is here for no 
 \PySetup{action=hide}
 
 In this example the Python code is hidden and consumes no vertical space on the page. Compare the gap between this pair of lines and the following output text against that seen on the previous page.
-%
+
 \begin{python}
    from sympy import *
 
@@ -87,7 +96,9 @@ In this example the Python code is hidden and consumes no vertical space on the 
    my_int = Integral(cos(x),(x,0,2))                # py(ans.210,my_int)
    my_ans = my_int.doit()                           # py(ans.211,my_ans)
 \end{python}
-%
+
+\vspace{-10pt}
+
 \begin{align*}
    &\py*{ans.201}\\
    &\py*{ans.202}\\
@@ -106,7 +117,7 @@ In this example the Python code is hidden and consumes no vertical space on the 
 
 \section*{Visible Python markup}
 
-There is nothing special in this particular example. Its purpose is to provide a constart with the following example where the tags have been hidden from view.
+There is nothing special in this particular example. Its purpose is to provide a contrast with the following example where the tags have been hidden from view.
 
 \vspace{5pt}
 

@@ -180,7 +180,7 @@ def pass1 (src_file_name, out_file_name, the_file_name):
 
          out.write ("def Print (obj):\n")
          out.write ("    try:\n")
-         out.write ("        print(latex(obj))\n")
+         out.write ("        print(latex(obj,long_frac_ratio=1))\n")
          out.write ("    except:\n")
          out.write ("        print(obj)\n")
          out.write ("# ----------------------------------------------\n\n")

@@ -1,3 +1,5 @@
+\chardef\thehashcode=\catcode`\#	 % save catcode of hash (probably 6)
+\catcode`\#=11			             % set catcode for hash to be a letter (11)
 \mpltag{ans.101}{%
 {\frac {{\rm d}^{2}}{{\rm d}{x}^{2}}}y \left( x \right) +2\,{\frac {\rm d}{{\rm d}x}}y \left( x \right) +10\,y \left( x \right) =0%
 }
@@ -13,3 +15,4 @@ y \left( x \right) ={C_{1}}\,{{\rm e}^{-x}}\sin \left( 3\,x \right) +{C_{2}}\,{{
 \mpltag{ans.105}{%
 -10\,{{\rm e}^{-x}}\sin \left( 3\,x \right) %
 }
+\catcode`\#=\thehashcode          % restore original catcode for hash

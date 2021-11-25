@@ -50,3 +50,4 @@ github:
 	@ make pristine
 	@ make all
 	@ make veryclean
+	@ make rm-dot

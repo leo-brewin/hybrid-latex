@@ -1,6 +1,8 @@
-macOS 10.13.3 High Sierra
+macOS 11.6 Big Sur
 
-python:     3.6.5 (Ananconda3)
-python:     2.7   (Apple)
+python:     3.6.13 (Ananconda3)
+python:     3.9.7 (Apple)
+python:     2.7.16 (Apple)
 latex:      TeXLive2018
-cadabra:    Cadabra 2.2.1 (build 1837.0e9441dac1 dated 2018-08-11)
+sympy:      1.8
+cadabra:    Cadabra 2.3.7 (build 2778.b0ba2dbb80 dated 2021-09-27)

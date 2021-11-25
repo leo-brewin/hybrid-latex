@@ -1,0 +1,6 @@
+function Export {
+   export $1="$2"
+}
+
+if ! [[ "${OLDTEXINPUTS}"  = "" ]]; then Export TEXINPUTS  "${OLDTEXINPUTS}";  OLDTEXINPUTS="";  fi
+if ! [[ "${OLDPATH}"       = "" ]]; then Export PATH       "${OLDPATH}";       OLDPATH="";       fi

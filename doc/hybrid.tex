@@ -361,34 +361,34 @@ own. Bug reports are always welcome (working on the time proven axiom that no co
 is ever bug free).
 
 % --------------------------------------------------------------------------------------------
-\subsection{The merge-tex.py script}
+\subsection{The merge-src.py script}
 
 A common practice when writing LaTeX documents is to use a driver file to pull in
 other smaller LaTeX documents (e.g., a driver for a book could pull in the
 chapters as separate documents). Each of the chapters could contain some active
 Python code -- so how can such code be made visible to the Python preprocessor
-{\tts pypreproc.py}? That is the job of the {\tts merge-tex.py} script. It will
+{\tts pypreproc.py}? That is the job of the {\tts merge-src.py} script. It will
 read each file and copy the contents to a single merged file (named {\tts
 .merged.tex}). This file is then read by {\tts pypreproc.py}. Not all included
-files will contain active Python code so {\tts merge-tex.py} only looks for lines
+files will contain active Python code so {\tts merge-src.py} only looks for lines
 like {\tts\verb|\Input{foo.tex}|}. Other files included using {\tts\verb|\input|}
-or {\tts\verb|\include|} are ignored by {\tts merge-tex.py}. Thus the {\tts
+or {\tts\verb|\include|} are ignored by {\tts merge-src.py}. Thus the {\tts
 .merged.tex} need not be a faithful copy of the original source -- but that is not
 a problem since {\tts .merged.tex} exists solely for {\tts pypreproc.py} to
 harvest the active code after which it is no longer used.
 
-The {\tts merge-tex.py} script is language agnostic -- all it does is read its
+The {\tts merge-src.py} script is language agnostic -- all it does is read its
 input and respond to any {\tts \verb|\Input|} lines. If the input file is {\tts
 foo.tex} then a merged file {\tts bah.tex} can be created using
 
 \begin{lstlisting}
-   merge-tex.py -i foo.tex -o bah.tex
+   merge-src.py -i foo.tex -o bah.tex
 \end{lstlisting}
 
 Note that the {\tts .tex} file extensions \emph{are} required (unlike {\tts
 pypreproc.py} and {\tts pypostproc.py}).
 
-Note also that {\tts merge-tex.py} will follow nested files up to 10 deep. See
+Note also that {\tts merge-src.py} will follow nested files up to 10 deep. See
 \hyperlink{sec:ex10}{Example 10} in the later examples section for a trivial
 example using {\tts\verb|\Input|}.
 
@@ -776,40 +776,40 @@ The following table provides a very brief summary of each example (with hyperlin
 to the corresponding pdf's in {\tts ../python/examples/}).
 
 \newbox\exa
-\setbox\exa=\hbox{\href{../python/examples/example-01.pdf}{Example 1}}
+\setbox\exa=\hbox{\href{../python/examples/pdf/example-01.pdf}{Example 1}}
 
 \newbox\exb
-\setbox\exb=\hbox{\href{../python/examples/example-02.pdf}{Example 2}}
+\setbox\exb=\hbox{\href{../python/examples/pdf/example-02.pdf}{Example 2}}
 
 \newbox\exc
-\setbox\exc=\hbox{\href{../python/examples/example-03.pdf}{Example 3}}
+\setbox\exc=\hbox{\href{../python/examples/pdf/example-03.pdf}{Example 3}}
 
 \newbox\exd
-\setbox\exd=\hbox{\href{../python/examples/example-04.pdf}{Example 4}}
+\setbox\exd=\hbox{\href{../python/examples/pdf/example-04.pdf}{Example 4}}
 
 \newbox\exe
-\setbox\exe=\hbox{\href{../python/examples/example-05.pdf}{Example 5}}
+\setbox\exe=\hbox{\href{../python/examples/pdf/example-05.pdf}{Example 5}}
 
 \newbox\exf
-\setbox\exf=\hbox{\href{../python/examples/example-06.pdf}{Example 6}}
+\setbox\exf=\hbox{\href{../python/examples/pdf/example-06.pdf}{Example 6}}
 
 \newbox\exg
-\setbox\exg=\hbox{\href{../python/examples/example-07.pdf}{Example 7}}
+\setbox\exg=\hbox{\href{../python/examples/pdf/example-07.pdf}{Example 7}}
 
 \newbox\exh
-\setbox\exh=\hbox{\href{../python/examples/example-08.pdf}{Example 8}}
+\setbox\exh=\hbox{\href{../python/examples/pdf/example-08.pdf}{Example 8}}
 
 \newbox\exi
-\setbox\exi=\hbox{\href{../python/examples/example-09.pdf}{Example 9}}
+\setbox\exi=\hbox{\href{../python/examples/pdf/example-09.pdf}{Example 9}}
 
 \newbox\exj
-\setbox\exj=\hbox{\href{../python/examples/example-10.pdf}{Example 10}}
+\setbox\exj=\hbox{\href{../python/examples/pdf/example-10.pdf}{Example 10}}
 
 \newbox\exy
-\setbox\exy=\hbox{\href{../python/examples/mixed.pdf}{Mixed}}
+\setbox\exy=\hbox{\href{../python/examples/pdf/mixed.pdf}{Mixed}}
 
 \newbox\exz
-\setbox\exz=\hbox{\href{../python/examples/summary.pdf}{Summary}}
+\setbox\exz=\hbox{\href{../python/examples/pdf/summary.pdf}{Summary}}
 
 \begin{longtable}{rl}
    \box\exa:&\MyPar{0.80}%
@@ -1206,6 +1206,62 @@ the tag and left hand end of the equation text. Note also that this example uses
 the starred version of {\tts dgroup} and {\tts\verb|\Dmath*|}. This is to ensure
 that {\tts breqn} plays no part in forming the tag (as that is handled by
 {\tts\verb|\Py*|}).
+
+There is another (less then ideal) way to avoid clashes in the displayed output.
+Consider this case.
+\begin{dgroup*}
+   \Dmath*{ \py {fun}  = \Py*{ans.103} }
+   \Dmath*{         {} = \Py*{ans.104} }
+\end{dgroup*}
+A better format would be to place the maths on one line and the tag on another
+line. This is not too hard to do -- just create an extra equation in which
+only the tag is visible. Here is a sample that does the job.
+
+\vskip 12pt
+
+\bgroup
+\bgcolour{white}
+\begin{latex}
+   \begin{dgroup*}
+      \Dmath*{ \py {fun}  = \Py* {ans.103} }
+      \Dmath*{         {} = \py  {ans.104} }
+      \Dmath*{ \color{white}{} = \color{black}\hfill\ttTag{(ans.104)} }
+   \end{dgroup*}
+\end{latex}
+\egroup
+\begin{dgroup*}
+   \Dmath*{ \py {fun}  = \Py* {ans.103} }
+   \Dmath*{         {} = \py  {ans.104} }
+   \Dmath*{ \color{white}{} = \color{black}\hfill\ttTag{(ans.104)} }
+\end{dgroup*}
+
+Though this solution is simple it does have the slight drawback that it introduces
+extra vertical spacing between the original equation and the blank equation that
+carries the tag. For cases like the above this is probably not a major concern.
+But other examples, such as the following, do create an uncomfortable gap (though
+others might disagree).
+
+\vskip 12pt
+
+\bgroup
+\bgcolour{white}
+\begin{latex}
+   \begin{dgroup*}
+      \Dmath*{ \py {fun}  = \Py* {ans.103} }
+      \Dmath*{         {} = \py  {ans.104} }
+      \Dmath*{ \color{white}{} = \color{black}\hfill\ttTag{(ans.104)} }
+      \Dmath*{         {} = \py  {ans.204} }
+      \Dmath*{ \color{white}{} = \color{black}\hfill\ttTag{(ans.204)} }
+   \end{dgroup*}
+\end{latex}
+\egroup
+\begin{dgroup*}
+   \Dmath*{ \py {fun}  = \Py* {ans.103} }
+   \Dmath*{         {} = \py  {ans.104} }
+   \Dmath*{ \color{white}{} = \color{black}\hfill\ttTag{(ans.104)} }
+   \Dmath*{         {} = \py  {ans.204} }
+   \Dmath*{ \color{white}{} = \color{black}\hfill\ttTag{(ans.204)} }
+\end{dgroup*}
 
 The \pyLaTeX\ package defines both {\tts\verb|\Py|} and {\tts\verb|\Py*|}. The
 {\tts\verb|\Py|} macro is intended for use only in the starred maths environments

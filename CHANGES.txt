@@ -1,0 +1,32 @@
+-- 21 nov 2021
+
+1. Non-trivial refactoring of the build/install scripts.
+   This was both to tidy the file structure as well as to simplify the installation
+   process. The default install is now as simple as "source SETPATHS; make install".
+   Almost all install/build/test/clean actions are now controlled by Makefiles.
+
+2. Updated cdbpreproc.py.
+   The Cadabra preprocessor will strip any in-line comments (such as cdb tags) from
+   what it thinks are short lines. This failed for some of the examples (some in line
+   comments were not deleted). This was fixed by changing how long a short line should be,
+   from 100 to 200. If the line is longer thn 200 characters it is deemed to be a long line
+   even if the comment begins well before the 200 character limit.
+
+3. Replaced merge-tex.py with merge-src.py.
+   3.1 The new code preserves the indentation level for each included file.
+       This is essential for Python and Cadabra sources.
+   3.2 Expanded the syntax for Input statements.
+       Can now include a file using any of
+          \Input{file}
+          $Input{file}
+          @Input{file}
+
+4. Added the date to the footline of each example.
+
+5. Fixed an alignment issue in python/examples/example-08.
+   In the section "Visible Python code" the text on two consecutive
+   pages should have exactly the same vertical alignment.
+   But there was small jump. This was traced to an errant % comment.
+   The upshot is that the LaTeX environments in that section need
+   to be in vertical mode for the alignments to be correct.
+   See the commented note in the example-08.tex source.

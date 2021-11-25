@@ -1,0 +1,19 @@
+The examples were tested using the Anaconda Python distribution.
+
+conda 4.10.3
+python 3.6.13
+
+The examples use the following Python modules (though note that these are not required for the
+main hybrid latex codes, these Python modules are only required for the Python examples).
+
+matplotlib 3.3.4
+mpmath 1.2.1
+sympy 1.8
+scipy 1.5.2
+
+These can be installed via conda using:
+
+conda install matplotlib
+conda install mpmath
+conda install sympy
+conda install scipy

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a collection of Python and Bash shell scripts that allows LaTeX documents to contain active blocks of code including Python, Maple, Mathematica, Matlab and Cadabra. The active code blocks are processed ahead of LaTeX and their results are accessible within the same LaTeX document. Thus a calculation that might otherwise be done using in two documents, one using Mathematica to do the maths, and a separate LaTeX document to record the results can be consolidated into a single source.
+This is a collection of Python and Bash shell scripts that allows LaTeX documents to contain active blocks of code including Python, Maple, Mathematica, Matlab and Cadabra. The active code blocks are processed ahead of LaTeX and their results are accessible within the same LaTeX document. Thus a calculation that might otherwise be done using two documents, one using Mathematica to do the maths, and a separate LaTeX document to record the results can be consolidated into a single source.
 
 There are other collections that achieve the same result, see [PyhtonTeX][1] and [SageTeX][2] .
 
@@ -13,9 +13,31 @@ The main differences between this package and PyhtonTeX/SageTeX are:
 
 ## Installation
 
-There are a handful of files to install (by hand) for each language. These include Bash shell scripts, Python scripts and LaTeX style files. Each file can be copied to wherever their respective program expects to find them. For example, the Bash and Python scripts could be sudo copied to `/usr/local/bin` (for access by all users) or to `~/bin` (for your personal access). The LaTeX style files can be copied to wherever they will be visible to LaTeX (see [this discussion][3] on tex.stackexchange for useful suggestions). If you place the files in non-standard locations you may need to adjust your `PATH` and `TEXINPUT` environment variables accordingly. If all else fails, you can copy all of the Bash, Python and LaTeX files into the same directory as your LaTeX document (though this is a very bad solution).
+The simplest way to install the hybrid latex files is to run the command
+
+    $ source SETPATHS; make install
+
+from the top directory. This will copy the files to newly created directories while also adjusting the various paths to make these files visible to LaTeX, Maple, Mathematic etc. The files, the new directories and their associated paths are as given in the following table.
+
+|  Directory  | Content | Path variable |
+|:------------:|:--------|:-------------|
+| `$HOME/local/hybrid-latex/bin/` | Python and Shell scripts | `$PATH` |
+| `$HOME/local/hybrid-latex/lib/` | Python libraries | `$PYTHONPATH` |
+| `$HOME/local/hybrid-latex/tex/` | LaTeX files | `$TEXINPUTS` |
+
+The command `source SETPATHS` will __prepend__ the directories to the appropriate paths while the command `make install` copies the files to their destinations. If you need to recover the original paths, just run `source OLDPATHS`.
+
+If you prefer to install the hybrid latex files in some other directory then you can run the command
+
+    $ source SETPATHS /full/path/to/dir/; make install
+
+where /full/path/to/dir/ is the full path to your prefered directory. The `bin`, `lib` and `tex` directories will be ceated underneath this directory.
 
 More details on the installation can be found in the main documentation, `doc/hybrid.pdf`.
+
+## Uninstall
+
+The hybrid latex tools can be uninstalled by deleting the directory `$HOME/local/hybrid-latex/` (or the approrpriate directory if you chose a non-default installation).
 
 ## Maple, Mathematica and Matlab
 
@@ -46,13 +68,32 @@ Each language directory also contains an `examples/tests/` directory with copies
 
 The only output from the `tests.sh` command should be for `example-07`. The differences reported will be the dates and times of the job and can be safely ignored.
 
-The pdfs of the expected results can be found in `examples/pdfs`.
+The pdfs of the expected results can be found in `examples/pdf`.
+
+## Dependencies
+
+The bare minimum is an up to date versions of LaTeX and Python3. This will allow you to work through all of the Python examples. But if you wish to play with the [Maple][3], [Mathematica][4], [Matlab][5] and [Cadabra][6] examples you will also need to install their respective applications.
+
+The examples in the Python directory do use some Python modules. See the file `python/REQUIRES.txt` for a list of modules and the version numbers that were used in developing these examples. Note that these Python modules are only used by these examples and are not required for the main hybrid latex codes.
+
+### LaTeX
+
+If by some small chance you do not have LaTeX already installed then you should pop over to the [TeX Live website][7].
+
+### Python
+
+The codes have been tested with both Python2 and Python3. Since Python2 is deprecated it would be wise to use Python3. A popular distribution of Python3 can be found at the [Anaconda website][8].
 
 ## License
 
-All files in this collection are distributed under the [MIT][4] license. See the file LICENSE.txt for the full details.
+All files in this collection are distributed under the [MIT][9] license. See the file LICENSE.txt for the full details.
 
   [1]: https://github.com/gpoore/pythontex
   [2]: https://github.com/sagemath/sagetex
-  [3]: https://tex.stackexchange.com/questions/1137/where-do-i-place-my-own-sty-or-cls-files-to-make-them-available-to-all-my-te
-  [4]: https://opensource.org/licenses/MIT
+  [3]: https://www.maplesoft.com
+  [4]: https://www.wolfram.com/mathematica
+  [5]: https://www.mathworks.com/
+  [6]: https://github.com/kpeeters/cadabra2
+  [7]: https://www.tug.org/texlive/
+  [8]: https://www.anaconda.com/products/individual
+  [9]: https://opensource.org/licenses/MIT

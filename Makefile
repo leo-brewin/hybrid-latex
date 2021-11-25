@@ -11,6 +11,9 @@ all:
 	@ (echo "make all python ...";            cd python/examples;      make all)
 	@ (echo "make all doc ...";               cd doc;                  make all)
 #-------------------------------------------------------------------------------
+install:
+	@ (echo "make install ..."; INSTALL.sh)
+#-------------------------------------------------------------------------------
 expected:
 	@ (echo "make expected cadabra ...";      cd cadabra/examples;     make expected)
 	@ (echo "make expected maple ...";        cd maple/examples;       make expected)

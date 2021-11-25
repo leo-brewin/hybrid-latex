@@ -227,8 +227,8 @@
    ode = diff(y,x,x) + 5*diff(y,x) - 6*y(x) == 0;
    sol = dsolve(ode)                               % mat (ans.604,sol)
 
-   syms C10 C11
-   sol = subs(subs(sol,C10,2),C11,3)                % mat (ans.605,sol)
+   syms C1 C2
+   sol = subs(subs(sol,C1,2),C2,3)                 % mat (ans.605,sol)
 \end{matlab}
 \end{minipage}
 \hskip 1cm

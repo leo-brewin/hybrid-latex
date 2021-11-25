@@ -1,3 +1,5 @@
+\chardef\thehashcode=\catcode`\#	 % save catcode of hash (probably 6)
+\catcode`\#=11			             % set catcode for hash to be a letter (11)
 \mattag{ans.101}{%
 \frac{\partial ^2}{\partial x^2} y\left(x\right)+2\,\frac{\partial }{\partial x} y\left(x\right)+10\,y\left(x\right)=0%
 }
@@ -8,8 +10,9 @@ C_{1}\,\cos\left(3\,x\right)\,{\mathrm{e}}^{-x}-C_{2}\,\sin\left(3\,x\right)\,{\
 \left(\begin{array}{c} \overline{y\left(0\right)=3}\\ \overline{\left(\left.\left(\frac{\partial }{\partial x} y\left(x\right)\right)\right|_{x=0}\right)=0} \end{array}\right)%
 }
 \mattag{ans.104}{%
-3\,\cos\left(3\,x\right)\,{\mathrm{e}}^{-x}+\sin\left(3\,x\right)\,{\mathrm{e}}^{-x}%
+{\mathrm{e}}^{-x}\,\left(3\,\cos\left(3\,x\right)+\sin\left(3\,x\right)\right)%
 }
 \mattag{ans.105}{%
--10\,\sin\left(3\,x\right)\,{\mathrm{e}}^{-x}%
+{\mathrm{e}}^{-x}\,\left(3\,\cos\left(3\,x\right)-9\,\sin\left(3\,x\right)\right)-{\mathrm{e}}^{-x}\,\left(3\,\cos\left(3\,x\right)+\sin\left(3\,x\right)\right)%
 }
+\catcode`\#=\thehashcode          % restore original catcode for hash

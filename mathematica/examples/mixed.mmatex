@@ -1,9 +1,0 @@
-\mmatag{ans.101}{%
-c_1 e^{-x} \sin (3 x)+c_2 e^{-x} \cos (3 x)%
-}
-\mmatag{ans.102}{%
-e^{-x} (\sin (3 x)+3 \cos (3 x))%
-}
-\mmatag{ans.103}{%
--10 e^{-x} \sin (3 x)%
-}
