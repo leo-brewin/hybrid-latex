@@ -119,12 +119,12 @@ This Python code does the job of plotting the Bessel functions (it is based on t
    plt.ylabel('${J}_n(x)$')
    plt.grid(True)
 
-   plt.tight_layout(0.5)
+   plt.tight_layout()
 
    plt.savefig('example-09-fig.pdf')
 
-   width_cm  = round (width  * 2.54, 2)   # py (width,width_cm)
-   height_cm = round (height * 2.54, 2)   # py (height,height_cm)
+   width_cm  = round (float(width)  * 2.54, 2)   # py (width,width_cm)
+   height_cm = round (float(height) * 2.54, 2)   # py (height,height_cm)
 \end{python}
 
 The following figure should have dimensions: (width, height) = (\py{width} cm, \py{height} cm).
