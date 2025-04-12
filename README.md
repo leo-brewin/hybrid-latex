@@ -15,7 +15,10 @@ The main differences between this package and PyhtonTeX/SageTeX are:
 
 The simplest way to install the hybrid latex files is to run the command
 
-    $ source SETPATHS; make install
+````sh
+$ source SETPATHS
+$ make install
+````
 
 from the top directory. This will copy the files to newly created directories while also adjusting the various paths to make these files visible to LaTeX, Maple, Mathematic etc. The files, the new directories and their associated paths are as given in the following table.
 
@@ -29,7 +32,10 @@ The command `source SETPATHS` will __prepend__ the directories to the appropriat
 
 If you prefer to install the hybrid latex files in some other directory then you can run the command
 
-    $ source SETPATHS /full/path/to/dir/; make install
+````sh
+$ source SETPATHS /full/path/to/dir/
+$ make install
+````
 
 where /full/path/to/dir/ is the full path to your prefered directory. The `bin`, `lib` and `tex` directories will be ceated underneath this directory.
 
@@ -43,12 +49,16 @@ The hybrid latex tools can be uninstalled by deleting the directory `$HOME/local
 
 These programs are normally run from within a GUI. But the Bash scripts provided here will run each each of these from the command line. The scripts currently look for executables named "maple", "mathematica" and "matlab" (without the double-quotes). You may need to adjust your `PATH` variable to include these executables or create appropriate soft-links from say `~/bin` to point to the actual executables. As a final option you can add the `-P<path>` command line option when invoking the shell script. For example, on macOS, a Matlab-LaTeX source could be compiled using
 
-    $ matlatex.sh -i foo -P/Applications/MATLAB_R2018a.app/bin/matlab
+````sh
+$ matlatex.sh -i foo -P/Applications/MATLAB_R2018a.app/bin/matlab
+````
 
 The corresponding commands for Mathematica and Maple (on macOS) are:
 
-    $ mmalatex.sh -i foo -P/Applications/Mathematica.app/Contents/MacOS/wolframscript
-    $ mpllatex.sh -i foo -P/Library/Frameworks/Maple.framework/Versions/Current/bin/maple
+````sh
+$ mmalatex.sh -i foo -P/Applications/Mathematica.app/Contents/MacOS/wolframscript
+$ mpllatex.sh -i foo -P/Library/Frameworks/Maple.framework/Versions/Current/bin/maple
+````
 
 Note that the shell scripts (`matlatex.sh`, `mpllatex.sh` etc.) can be edited so that the default value for `-P` is the full path to the correct executable.
 
@@ -62,9 +72,11 @@ There is also a set of examples in each of the language directories. See, for ex
 
 Each language directory also contains an `examples/tests/` directory with copies of the expected output (in `examples/tests/expected/`). To run the tests for Mathematica, for example, open a command line window and run
 
-    $ cd mathematica/examples
-    $ make
-    $ tests.sh
+````sh
+$ cd mathematica/examples
+$ make
+$ tests.sh
+````
 
 The only output from the `tests.sh` command should be for `example-07`. The differences reported will be the dates and times of the job and can be safely ignored.
 
@@ -82,7 +94,7 @@ If by some small chance you do not have LaTeX already installed then you should 
 
 ### Python
 
-The codes have been tested with both Python2 and Python3. Since Python2 is deprecated it would be wise to use Python3. A popular distribution of Python3 can be found at the [Anaconda website][8].
+A popular distribution of Python3 can be found at the [Anaconda website][8].
 
 ## License
 

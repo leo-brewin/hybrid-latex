@@ -1,6 +1,6 @@
 \chardef\thehashcode=\catcode`\#	 % save catcode of hash (probably 6)
 \catcode`\#=11			             % set catcode for hash to be a letter (11)
 \cdbtag{gauss}{%
-h^{a}{}_{p} h^{b}{}_{q} h^{c}{}_{r} \left(\nabla_{c}\left(\nabla_{b}{v_{a}}\right)-\nabla_{b}\left(\nabla_{c}{v_{a}}\right)\right)+v_{a} \left(K_{p r} K_{q}{}^{a}-K_{p q} K_{r}{}^{a}\right)%
+h^{a}\!{}_{p} h^{b}\!{}_{q} h^{c}\!{}_{r} \left(\nabla_{c}\!\left(\nabla_{b}\!{v_{a}}\right){}-\,\nabla_{b}\!\left(\nabla_{c}\!{v_{a}}\right)\right){}+v_{a} \left(K_{p r} K_{q}\!{}^{a}{}-\,K_{p q} K_{r}\!{}^{a}\right)%
 }
 \catcode`\#=\thehashcode          % restore original catcode for hash

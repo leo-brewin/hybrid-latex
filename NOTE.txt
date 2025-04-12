@@ -1,0 +1,16 @@
+-- 11 Apr 2025
+
+I no longer have a valid licence for Maple, Mathematic or Matlab.
+Thus all codes that use those programs have been frozen in time.
+All results for Maple, Mathematica and Matlab are from when I
+last had a licence, that would be around Nov 2021.
+
+If you attempt to run any of the hybrid-latex scripts for any
+of the above programs, you will most likely wipe out the 'frozen'
+results. That's probably not a good idea. Either make a secure
+copy befor playing such games or get a licence :).
+
+The good news is that none of the example have been updated since
+I lost my licences so nothing is really lost. But should you want
+to make your own changes to the examples you will need a valid licence
+to run the scripts.

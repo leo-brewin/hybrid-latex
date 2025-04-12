@@ -1,30 +1,30 @@
 \chardef\thehashcode=\catcode`\#	 % save catcode of hash (probably 6)
 \catcode`\#=11			             % set catcode for hash to be a letter (11)
 \cdbtag{gab}{%
-\left[g_{\theta \theta} = {r}^{2},~\discretionary{}{}{} g_{\varphi \varphi} = {r}^{2} {\left(\sin{\theta}\right)}^{2}\right]%
+\left[g_{\theta \theta} = {r}^{2\,}, {}g_{\varphi \varphi} = {r}^{2\,} {\left(\sin{\theta}\right)}^{2\,}\right]%
 }
 \cdbtag{iab}{%
-\left[g_{\theta \theta} = {r}^{2},~\discretionary{}{}{} g_{\varphi \varphi} = {r}^{2} {\left(\sin{\theta}\right)}^{2},~\discretionary{}{}{} g^{\varphi \varphi} = {\left({r}^{2} {\left(\sin{\theta}\right)}^{2}\right)}^{-1},~\discretionary{}{}{} g^{\theta \theta} = {r}^{-2}\right]%
+\left[g_{\theta \theta} = {r}^{2\,}, {}g_{\varphi \varphi} = {r}^{2\,} {\left(\sin{\theta}\right)}^{2\,}, {}g^{\varphi \varphi} = {\left({r}^{2\,} {\left(\sin{\theta}\right)}^{2\,}\right)}^{-\,1}, {}g^{\theta \theta} = {r}^{-2\,}\right]%
 }
 \cdbtag{Chr}{%
-\Gamma^{\alpha}{}_{\mu \nu} \rightarrow \square{}_{\mu}{}_{\nu}{}^{\alpha}\left\{\begin{aligned}\square{}_{\varphi}{}_{\theta}{}^{\varphi}& = {\left(\tan{\theta}\right)}^{-1}\\[-.5ex]%
-\square{}_{\theta}{}_{\varphi}{}^{\varphi}& = {\left(\tan{\theta}\right)}^{-1}\\[-.5ex]%
-\square{}_{\varphi}{}_{\varphi}{}^{\theta}& =  - \frac{1}{2}\sin\left(2\theta\right)\\[-.5ex]%
+\Gamma^{\alpha}\!{}_{\mu \nu} \rightarrow \square{}_{\mu}{}_{\nu}{}^{\alpha}\left\{\begin{aligned}\square{}_{\varphi}{}_{\theta}{}^{\varphi}& = {\left(\tan{\theta}\right)}^{-\,1}\\[-.5ex]%
+\square{}_{\theta}{}_{\varphi}{}^{\varphi}& = {\left(\tan{\theta}\right)}^{-\,1}\\[-.5ex]%
+\square{}_{\varphi}{}_{\varphi}{}^{\theta}& =  - \frac{1}{2}\,\sin\left(2\,\theta\right)\\[-.5ex]%
 \end{aligned}\right.%
 }
 \cdbtag{Rabcd}{%
-R^{\rho}{}_{\sigma \mu \nu} \rightarrow \square{}_{\sigma}{}_{\nu}{}^{\rho}{}_{\mu}\left\{\begin{aligned}\square{}_{\varphi}{}_{\varphi}{}^{\theta}{}_{\theta}& = \frac{1}{2}\sin\left(2\theta\right) {\left(\tan{\theta}\right)}^{-1}-\cos\left(2\theta\right)\\[-.5ex]%
-\square{}_{\theta}{}_{\varphi}{}^{\varphi}{}_{\theta}& = -1\\[-.5ex]%
-\square{}_{\varphi}{}_{\theta}{}^{\theta}{}_{\varphi}& =  - \frac{1}{2}\sin\left(2\theta\right) {\left(\tan{\theta}\right)}^{-1}+\cos\left(2\theta\right)\\[-.5ex]%
+R^{\rho}\!{}_{\sigma \mu \nu} \rightarrow \square{}_{\sigma}{}_{\nu}{}^{\rho}{}_{\mu}\left\{\begin{aligned}\square{}_{\varphi}{}_{\varphi}{}^{\theta}{}_{\theta}& = \frac{1}{2}\,\sin\left(2\,\theta\right) {\left(\tan{\theta}\right)}^{-\,1}{}-\,\cos\left(2\,\theta\right)\\[-.5ex]%
+\square{}_{\theta}{}_{\varphi}{}^{\varphi}{}_{\theta}& = -\,1\\[-.5ex]%
+\square{}_{\varphi}{}_{\theta}{}^{\theta}{}_{\varphi}& =  - \frac{1}{2}\,\sin\left(2\,\theta\right) {\left(\tan{\theta}\right)}^{-\,1}{}+\cos\left(2\,\theta\right)\\[-.5ex]%
 \square{}_{\theta}{}_{\theta}{}^{\varphi}{}_{\varphi}& = 1\\[-.5ex]%
 \end{aligned}\right.%
 }
 \cdbtag{Rab}{%
-R_{\sigma \nu} \rightarrow \square{}_{\sigma}{}_{\nu}\left\{\begin{aligned}\square{}_{\varphi}{}_{\varphi}& = \frac{1}{2}\sin\left(2\theta\right) {\left(\tan{\theta}\right)}^{-1}-\cos\left(2\theta\right)\\[-.5ex]%
+R_{\sigma \nu} \rightarrow \square{}_{\sigma}{}_{\nu}\left\{\begin{aligned}\square{}_{\varphi}{}_{\varphi}& = \frac{1}{2}\,\sin\left(2\,\theta\right) {\left(\tan{\theta}\right)}^{-\,1}{}-\,\cos\left(2\,\theta\right)\\[-.5ex]%
 \square{}_{\theta}{}_{\theta}& = 1\\[-.5ex]%
 \end{aligned}\right.%
 }
 \cdbtag{R}{%
-R \rightarrow 2{r}^{-2}%
+R \rightarrow 2\,{r}^{-2\,}%
 }
 \catcode`\#=\thehashcode          % restore original catcode for hash

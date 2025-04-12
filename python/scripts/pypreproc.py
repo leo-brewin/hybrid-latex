@@ -171,7 +171,7 @@ def pass1 (src_file_name, out_file_name, the_file_name):
    with open (src_file_name,"r") as src:
       with open (out_file_name,"w") as out:
 
-         num_head_lines = 10  # used later when cleaning out all markup
+         num_head_lines = 11  # used later when cleaning out all markup
                               # must match exactly the number of header lines
 
          out.write ("# ----------------------------------------------\n")
@@ -179,9 +179,16 @@ def pass1 (src_file_name, out_file_name, the_file_name):
          out.write ("# ----------------------------------------------\n")
 
          out.write ("def Print (obj):\n")
+         out.write ("    import sympy as sp\n")
          out.write ("    try:\n")
-         out.write ("        print(latex(obj,long_frac_ratio=1))\n")
+         # following convoluted construction is to avoid an exception when
+         # using sympy/symengine objects
+         if mixed:
+            out.write ("        print(sp.latex(sp.sympify(str(obj)),long_frac_ratio=1))\n")
+         else:
+            out.write ("        print(sp.latex(obj,long_frac_ratio=1))\n")
          out.write ("    except:\n")
+         # print a raw string version of obj when an exception occured above
          out.write ("        print(obj)\n")
          out.write ("# ----------------------------------------------\n\n")
 
@@ -433,9 +440,12 @@ import argparse
 parser = argparse.ArgumentParser(description="Pre-process LaTeX-Python source")
 parser.add_argument("-i", dest="input", metavar="input", help="LaTeX-Python source file (without .tex file extension)", required=True)
 parser.add_argument("-m", dest="name", metavar="name", help="Merged LaTeX-Python source file (without .tex file extension)")
+parser.add_argument("-M", dest="mixed", help="LaTeX-Python source contains mixed sympy/symengine code",   action='store_true')
 
 src_file_name = parser.parse_args().input
 mrg_file_name = parser.parse_args().name
+
+mixed = parser.parse_args().mixed
 
 if not mrg_file_name:
 

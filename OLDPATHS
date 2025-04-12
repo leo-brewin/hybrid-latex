@@ -3,4 +3,5 @@ function Export {
 }
 
 if ! [[ "${OLDTEXINPUTS}"  = "" ]]; then Export TEXINPUTS  "${OLDTEXINPUTS}";  OLDTEXINPUTS="";  fi
+if ! [[ "${OLDPYTHONPATH}" = "" ]]; then Export PYTHONPATH "${OLDPYTHONPATH}"; OLDPYTHONPATH=""; fi
 if ! [[ "${OLDPATH}"       = "" ]]; then Export PATH       "${OLDPATH}";       OLDPATH="";       fi

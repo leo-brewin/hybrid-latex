@@ -87,12 +87,18 @@ def parse (this_line):
 def append_text (this_line, index):
    tag_output[index].append(this_line.rstrip("\n"))
 
+re_cdot = re.compile (r'\\cdot')
+
 def tex_macro (tex, index):
    the_lines = tag_output [index]
    tex.write ("\pytag{"+tag_name[index]+"}{%\n")
    for i in range (0,len(the_lines)):
       if not empty_line (the_lines[i]):
-         tex.write (the_lines[i]+"%\n")
+         # On odd occassions we get a redundant \cdot
+         # I don't like that -- so this will replace it with {}
+         tmp0 = the_lines[i]
+         tmp1 = re_cdot.sub ("{}",tmp0)
+         tex.write (tmp1+"%\n")
    tex.write("}\n")
 
 # -----------------------------------------------------------------------------

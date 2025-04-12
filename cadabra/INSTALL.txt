@@ -4,6 +4,12 @@ latex
    Copy these files to a location that is visible to LaTeX.
    i.e., visible on your TEXINPUTS environment variable.
 
+python
+------
+
+   Copy these files to a location that is visible on your PYTHONPATH environment
+   variable.
+
 scripts
 -------
 
@@ -12,5 +18,5 @@ scripts
 
    If necessary, make these scripts executable using
 
-      chmod ug+x *.sh
-      chmod ug+x *.py
+      chmod ugo+x *.sh
+      chmod ugo+x *.py

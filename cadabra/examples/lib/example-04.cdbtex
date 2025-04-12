@@ -1,48 +1,48 @@
 \chardef\thehashcode=\catcode`\#	 % save catcode of hash (probably 6)
 \catcode`\#=11			             % set catcode for hash to be a letter (11)
 \cdbtag{ex01}{%
-A?_{a ; b ; c} \rightarrow \partial_{c}\left(\partial_{b}\left(A?_{a}\right)-\Gamma^{d}{}_{a b} A?_{d}\right)-\Gamma^{d}{}_{a c} \left(\partial_{b}\left(A?_{d}\right)-\Gamma^{e}{}_{d b} A?_{e}\right)-\Gamma^{d}{}_{b c} \left(\partial_{d}\left(A?_{a}\right)-\Gamma^{e}{}_{a d} A?_{e}\right)%
+A?_{a ; b ; c} \rightarrow \partial_{c}\!\left(\partial_{b}\!\left(A?_{a}\right){}-\,\Gamma^{d}\!{}_{a b} A?_{d}\right){}-\,\Gamma^{d}\!{}_{a c} \left(\partial_{b}\!\left(A?_{d}\right){}-\,\Gamma^{e}\!{}_{d b} A?_{e}\right){}-\,\Gamma^{d}\!{}_{b c} \left(\partial_{d}\!\left(A?_{a}\right){}-\,\Gamma^{e}\!{}_{a d} A?_{e}\right)%
 }
 \cdbtag{ex02}{%
 M_{a ; b ; c}%
 }
 \cdbtag{ex03}{%
-\partial_{c}\left(\partial_{b}{M_{a}}-\Gamma^{d}{}_{a b} M_{d}\right)-\Gamma^{d}{}_{a c} \left(\partial_{b}{M_{d}}-\Gamma^{e}{}_{d b} M_{e}\right)-\Gamma^{d}{}_{b c} \left(\partial_{d}{M_{a}}-\Gamma^{e}{}_{a d} M_{e}\right)%
+\partial_{c}\!\left(\partial_{b}\!{M_{a}}{}-\,\Gamma^{d}\!{}_{a b} M_{d}\right){}-\,\Gamma^{d}\!{}_{a c} \left(\partial_{b}\!{M_{d}}{}-\,\Gamma^{e}\!{}_{d b} M_{e}\right){}-\,\Gamma^{d}\!{}_{b c} \left(\partial_{d}\!{M_{a}}{}-\,\Gamma^{e}\!{}_{a d} M_{e}\right)%
 }
 \cdbtag{ex04}{%
-\partial_{c b}{M_{a}}-\partial_{c}\left(\Gamma^{d}{}_{a b} M_{d}\right)-\Gamma^{d}{}_{a c} \partial_{b}{M_{d}}+\Gamma^{d}{}_{a c} \Gamma^{e}{}_{d b} M_{e}-\Gamma^{d}{}_{b c} \partial_{d}{M_{a}}+\Gamma^{d}{}_{b c} \Gamma^{e}{}_{a d} M_{e}%
+\partial_{c b}\!{M_{a}}{}-\,\partial_{c}\!\left(\Gamma^{d}\!{}_{a b} M_{d}\right){}-\,\Gamma^{d}\!{}_{a c} \partial_{b}\!{M_{d}}{}+\Gamma^{d}\!{}_{a c} \Gamma^{e}\!{}_{d b} M_{e}{}-\,\Gamma^{d}\!{}_{b c} \partial_{d}\!{M_{a}}{}+\Gamma^{d}\!{}_{b c} \Gamma^{e}\!{}_{a d} M_{e}%
 }
 \cdbtag{ex05}{%
-\partial_{c b}{M_{a}}-\partial_{c}{\Gamma^{d}{}_{a b}} M_{d}-\Gamma^{d}{}_{a b} \partial_{c}{M_{d}}-\Gamma^{d}{}_{a c} \partial_{b}{M_{d}}+\Gamma^{d}{}_{a c} \Gamma^{e}{}_{d b} M_{e}-\Gamma^{d}{}_{b c} \partial_{d}{M_{a}}+\Gamma^{d}{}_{b c} \Gamma^{e}{}_{a d} M_{e}%
+\partial_{c b}\!{M_{a}}{}-\,\partial_{c}\!{\Gamma^{d}\!{}_{a b}} M_{d}{}-\,\Gamma^{d}\!{}_{a b} \partial_{c}\!{M_{d}}{}-\,\Gamma^{d}\!{}_{a c} \partial_{b}\!{M_{d}}{}+\Gamma^{d}\!{}_{a c} \Gamma^{e}\!{}_{d b} M_{e}{}-\,\Gamma^{d}\!{}_{b c} \partial_{d}\!{M_{a}}{}+\Gamma^{d}\!{}_{b c} \Gamma^{e}\!{}_{a d} M_{e}%
 }
 \cdbtag{ex06}{%
 M_{a ; c ; b}%
 }
 \cdbtag{ex07}{%
-\partial_{b}\left(\partial_{c}{M_{a}}-\Gamma^{d}{}_{a c} M_{d}\right)-\Gamma^{d}{}_{a b} \left(\partial_{c}{M_{d}}-\Gamma^{e}{}_{d c} M_{e}\right)-\Gamma^{d}{}_{c b} \left(\partial_{d}{M_{a}}-\Gamma^{e}{}_{a d} M_{e}\right)%
+\partial_{b}\!\left(\partial_{c}\!{M_{a}}{}-\,\Gamma^{d}\!{}_{a c} M_{d}\right){}-\,\Gamma^{d}\!{}_{a b} \left(\partial_{c}\!{M_{d}}{}-\,\Gamma^{e}\!{}_{d c} M_{e}\right){}-\,\Gamma^{d}\!{}_{c b} \left(\partial_{d}\!{M_{a}}{}-\,\Gamma^{e}\!{}_{a d} M_{e}\right)%
 }
 \cdbtag{ex08}{%
-\partial_{b c}{M_{a}}-\partial_{b}\left(\Gamma^{d}{}_{a c} M_{d}\right)-\Gamma^{d}{}_{a b} \partial_{c}{M_{d}}+\Gamma^{d}{}_{a b} \Gamma^{e}{}_{d c} M_{e}-\Gamma^{d}{}_{c b} \partial_{d}{M_{a}}+\Gamma^{d}{}_{c b} \Gamma^{e}{}_{a d} M_{e}%
+\partial_{b c}\!{M_{a}}{}-\,\partial_{b}\!\left(\Gamma^{d}\!{}_{a c} M_{d}\right){}-\,\Gamma^{d}\!{}_{a b} \partial_{c}\!{M_{d}}{}+\Gamma^{d}\!{}_{a b} \Gamma^{e}\!{}_{d c} M_{e}{}-\,\Gamma^{d}\!{}_{c b} \partial_{d}\!{M_{a}}{}+\Gamma^{d}\!{}_{c b} \Gamma^{e}\!{}_{a d} M_{e}%
 }
 \cdbtag{ex09}{%
-\partial_{b c}{M_{a}}-\partial_{b}{\Gamma^{d}{}_{a c}} M_{d}-\Gamma^{d}{}_{a c} \partial_{b}{M_{d}}-\Gamma^{d}{}_{a b} \partial_{c}{M_{d}}+\Gamma^{d}{}_{a b} \Gamma^{e}{}_{d c} M_{e}-\Gamma^{d}{}_{c b} \partial_{d}{M_{a}}+\Gamma^{d}{}_{c b} \Gamma^{e}{}_{a d} M_{e}%
+\partial_{b c}\!{M_{a}}{}-\,\partial_{b}\!{\Gamma^{d}\!{}_{a c}} M_{d}{}-\,\Gamma^{d}\!{}_{a c} \partial_{b}\!{M_{d}}{}-\,\Gamma^{d}\!{}_{a b} \partial_{c}\!{M_{d}}{}+\Gamma^{d}\!{}_{a b} \Gamma^{e}\!{}_{d c} M_{e}{}-\,\Gamma^{d}\!{}_{c b} \partial_{d}\!{M_{a}}{}+\Gamma^{d}\!{}_{c b} \Gamma^{e}\!{}_{a d} M_{e}%
 }
 \cdbtag{ex10}{%
-\partial_{c b}{M_{a}}-\partial_{c}{\Gamma^{d}{}_{a b}} M_{d}+\Gamma^{d}{}_{a c} \Gamma^{e}{}_{d b} M_{e}-\Gamma^{d}{}_{b c} \partial_{d}{M_{a}}+\Gamma^{d}{}_{b c} \Gamma^{e}{}_{a d} M_{e}-\partial_{b c}{M_{a}}+\partial_{b}{\Gamma^{d}{}_{a c}} M_{d}-\Gamma^{d}{}_{a b} \Gamma^{e}{}_{d c} M_{e}+\Gamma^{d}{}_{c b} \partial_{d}{M_{a}}-\Gamma^{d}{}_{c b} \Gamma^{e}{}_{a d} M_{e}%
+\partial_{c b}\!{M_{a}}{}-\,\partial_{c}\!{\Gamma^{d}\!{}_{a b}} M_{d}{}+\Gamma^{d}\!{}_{a c} \Gamma^{e}\!{}_{d b} M_{e}{}-\,\Gamma^{d}\!{}_{b c} \partial_{d}\!{M_{a}}{}+\Gamma^{d}\!{}_{b c} \Gamma^{e}\!{}_{a d} M_{e}{}-\,\partial_{b c}\!{M_{a}}{}+\partial_{b}\!{\Gamma^{d}\!{}_{a c}} M_{d}{}-\,\Gamma^{d}\!{}_{a b} \Gamma^{e}\!{}_{d c} M_{e}{}+\Gamma^{d}\!{}_{c b} \partial_{d}\!{M_{a}}{}-\,\Gamma^{d}\!{}_{c b} \Gamma^{e}\!{}_{a d} M_{e}%
 }
 \cdbtag{ex11}{%
-\partial_{c b}{M_{a}}-M_{d} \partial_{c}{\Gamma^{d}{}_{a b}}+M_{e} \Gamma^{d}{}_{a c} \Gamma^{e}{}_{d b}-\Gamma^{d}{}_{b c} \partial_{d}{M_{a}}+M_{e} \Gamma^{d}{}_{b c} \Gamma^{e}{}_{a d}-\partial_{b c}{M_{a}}+M_{d} \partial_{b}{\Gamma^{d}{}_{a c}}-M_{e} \Gamma^{d}{}_{a b} \Gamma^{e}{}_{d c}+\Gamma^{d}{}_{c b} \partial_{d}{M_{a}}-M_{e} \Gamma^{d}{}_{c b} \Gamma^{e}{}_{a d}%
+\partial_{c b}\!{M_{a}}{}-\,M_{d} \partial_{c}\!{\Gamma^{d}\!{}_{a b}}{}+M_{e} \Gamma^{d}\!{}_{a c} \Gamma^{e}\!{}_{d b}{}-\,\Gamma^{d}\!{}_{b c} \partial_{d}\!{M_{a}}{}+M_{e} \Gamma^{d}\!{}_{b c} \Gamma^{e}\!{}_{a d}{}-\,\partial_{b c}\!{M_{a}}{}+M_{d} \partial_{b}\!{\Gamma^{d}\!{}_{a c}}{}-\,M_{e} \Gamma^{d}\!{}_{a b} \Gamma^{e}\!{}_{d c}{}+\Gamma^{d}\!{}_{c b} \partial_{d}\!{M_{a}}{}-\,M_{e} \Gamma^{d}\!{}_{c b} \Gamma^{e}\!{}_{a d}%
 }
 \cdbtag{ex12}{%
-\partial_{c b}{M_{a}}-M_{d} \partial_{c}{\Gamma^{d}{}_{a b}}+M_{d} \Gamma^{e}{}_{a c} \Gamma^{d}{}_{e b}-\Gamma^{d}{}_{b c} \partial_{d}{M_{a}}+M_{d} \Gamma^{e}{}_{b c} \Gamma^{d}{}_{a e}-\partial_{b c}{M_{a}}+M_{d} \partial_{b}{\Gamma^{d}{}_{a c}}-M_{d} \Gamma^{e}{}_{a b} \Gamma^{d}{}_{e c}+\Gamma^{d}{}_{c b} \partial_{d}{M_{a}}-M_{d} \Gamma^{e}{}_{c b} \Gamma^{d}{}_{a e}%
+\partial_{c b}\!{M_{a}}{}-\,M_{d} \partial_{c}\!{\Gamma^{d}\!{}_{a b}}{}+M_{d} \Gamma^{e}\!{}_{a c} \Gamma^{d}\!{}_{e b}{}-\,\Gamma^{d}\!{}_{b c} \partial_{d}\!{M_{a}}{}+M_{d} \Gamma^{e}\!{}_{b c} \Gamma^{d}\!{}_{a e}{}-\,\partial_{b c}\!{M_{a}}{}+M_{d} \partial_{b}\!{\Gamma^{d}\!{}_{a c}}{}-\,M_{d} \Gamma^{e}\!{}_{a b} \Gamma^{d}\!{}_{e c}{}+\Gamma^{d}\!{}_{c b} \partial_{d}\!{M_{a}}{}-\,M_{d} \Gamma^{e}\!{}_{c b} \Gamma^{d}\!{}_{a e}%
 }
 \cdbtag{ex13}{%
--M_{d} \partial_{c}{\Gamma^{d}{}_{a b}}+M_{d} \Gamma^{e}{}_{a c} \Gamma^{d}{}_{b e}+M_{d} \partial_{b}{\Gamma^{d}{}_{a c}}-M_{d} \Gamma^{e}{}_{a b} \Gamma^{d}{}_{c e}%
+-\,M_{d} \partial_{c}\!{\Gamma^{d}\!{}_{a b}}{}+M_{d} \Gamma^{e}\!{}_{a c} \Gamma^{d}\!{}_{b e}{}+M_{d} \partial_{b}\!{\Gamma^{d}\!{}_{a c}}{}-\,M_{d} \Gamma^{e}\!{}_{a b} \Gamma^{d}\!{}_{c e}%
 }
 \cdbtag{ex14}{%
--M_{d} \partial_{c}{\Gamma^{d}{}_{a b}}+M_{d} \partial_{b}{\Gamma^{d}{}_{a c}}-M_{d} \Gamma^{e}{}_{a b} \Gamma^{d}{}_{c e}+M_{d} \Gamma^{e}{}_{a c} \Gamma^{d}{}_{b e}%
+-\,M_{d} \partial_{c}\!{\Gamma^{d}\!{}_{a b}}{}+M_{d} \partial_{b}\!{\Gamma^{d}\!{}_{a c}}{}-\,M_{d} \Gamma^{e}\!{}_{a b} \Gamma^{d}\!{}_{c e}{}+M_{d} \Gamma^{e}\!{}_{a c} \Gamma^{d}\!{}_{b e}%
 }
 \cdbtag{ex15}{%
-M_{d} \left(-\partial_{c}{\Gamma^{d}{}_{a b}}+\partial_{b}{\Gamma^{d}{}_{a c}}-\Gamma^{e}{}_{a b} \Gamma^{d}{}_{c e}+\Gamma^{e}{}_{a c} \Gamma^{d}{}_{b e}\right)%
+M_{d} \left(-\,\partial_{c}\!{\Gamma^{d}\!{}_{a b}}{}+\partial_{b}\!{\Gamma^{d}\!{}_{a c}}{}-\,\Gamma^{e}\!{}_{a b} \Gamma^{d}\!{}_{c e}{}+\Gamma^{e}\!{}_{a c} \Gamma^{d}\!{}_{b e}\right)%
 }
 \catcode`\#=\thehashcode          % restore original catcode for hash

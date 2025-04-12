@@ -1,12 +1,12 @@
 \chardef\thehashcode=\catcode`\#	 % save catcode of hash (probably 6)
 \catcode`\#=11			             % set catcode for hash to be a letter (11)
 \pytag{info}{%
-date :      &Wed 17 Nov 2021 13:58:45\\%
-python :    &3.6.13\\%
+date :      &Sat 12 Apr 2025 10:41:45\\%
+python :    &3.9.19\\%
 system :    &Darwin\\%
-release :   &20.6.0\\%
-machine :   &x86_64\\%
-processor : &i386\\%
-platform :  &Darwin-20.6.0-x86_64-i386-64bit%
+release :   &24.3.0\\%
+machine :   &arm64\\%
+processor : &arm\\%
+platform :  &macOS-15.3.2-arm64-arm-64bit%
 }
 \catcode`\#=\thehashcode          % restore original catcode for hash

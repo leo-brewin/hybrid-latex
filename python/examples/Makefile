@@ -2,7 +2,8 @@
 SHELL = /bin/bash
 #-------------------------------------------------------------------------------
 .PHONY: all tests
-TARGETS = $(patsubst %.tex,%,$(wildcard example-[0-9][0-9]*.tex)) mixed
+TARGETS = $(patsubst %.tex,%,$(wildcard example-[0-9][0-9]*.tex))
+# exclude the 'mixed' example becuase my Maple licence has expired
 #-------------------------------------------------------------------------------
 all:
 	@ mkdir -p pdf lib tests/output tests/expected
@@ -11,17 +12,17 @@ all:
 	@ make gallery
 #-------------------------------------------------------------------------------
 mixed:
-	@ make .mixed
+	@ # make .mixed
 .mixed: mixed.tex
-	@ echo "mpllatex.sh -x mixed ..."
-	@ mpllatex.sh -x -i mixed &> mixed.mpllog
-	@ cp -f mixed.mpltex tests/output/.
-	@ echo "pylatex.sh -i mixed ..."
-	@ pylatex.sh -s -i mixed &> mixed.pylog
-	@ cp -f mixed.pdf pdf/.
-	@ cp -f mixed.pytex lib/.
-	@ cp -f mixed.pytex tests/output/.
-	@ touch .mixed
+	@ # echo "mpllatex.sh -x mixed ..."
+	@ # mpllatex.sh -x -i mixed &> mixed.mpllog
+	@ # cp -f mixed.mpltex tests/output/.
+	@ # echo "pylatex.sh -i mixed ..."
+	@ # pylatex.sh -s -i mixed &> mixed.pylog
+	@ # cp -f mixed.pdf pdf/.
+	@ # cp -f mixed.pytex lib/.
+	@ # cp -f mixed.pytex tests/output/.
+	@ # touch .mixed
 #-------------------------------------------------------------------------------
 summary:
 	@ make .summary
@@ -108,9 +109,9 @@ pristine:
 	@ make rm-output
 	@ make rm-expected
 	@ make veryclean
-	@ rm -rf pdf/*.pdf lib/*.*tex
 	@ for file in $(TARGETS) summary gallery; \
 	  do \
+	     rm -rf pdf/$${file}.pdf lib/$${file}.*tex; \
 	     rm -rf $${file}.pdf $${file}.txt; \
 		  rm -rf $${file}.pytex $${file}.mpltex; \
 	     rm -rf $${file}-fig*.pdf $${file}-fig*.png  $${file}-fig*.pgf  $${file}-fig*.jpeg; \
